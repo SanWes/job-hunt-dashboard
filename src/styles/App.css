@@ -1,0 +1,173 @@
+.App {
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f4f4f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #333;
+}
+
+form {
+display: flex;
+flex-direction: column;
+gap: 10px;
+margin-bottom: 20px;
+}
+
+input, select, button {
+padding: 10px;
+border: 1px solid #ddd;
+border-radius: 4px;
+font-size: 1rem;
+}
+
+button {
+background-color: #4caf50;
+color: white;
+cursor: pointer;
+transition: background-color 0.3s ease;
+}
+
+button:hover {
+background-color: #45a049;
+}
+
+ul {
+list-style: none;
+padding-left: 0;
+}
+
+li {
+display: flex;
+justify-content: space-between;
+align-items: center;
+background-color: #ffffff;
+padding: 10px;
+margin-bottom: 10px;
+border-radius: 4px;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+li button {
+background-color: #ff6347;
+border: none;
+color: white;
+padding: 5px 10px;
+cursor: pointer;
+font-size: 0.9rem;
+border-radius: 4px;
+}
+
+li button:hover {
+background-color: #e5533b;
+}
+
+/* Add spacing around the form */
+form {
+    max-width: 600px;
+    margin: 20px auto; /* Center the form and give space from the top */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+/* Style the input fields and select dropdown */
+input,
+select {
+width: 100%;
+padding: 10px;
+margin: 10px 0;
+border: 1px solid #ccc;
+border-radius: 4px;
+font-size: 16px;
+}
+
+/* Style the submit button */
+button {
+width: 100%;
+padding: 12px;
+background-color: #007bff;
+color: white;
+border: none;
+border-radius: 4px;
+font-size: 16px;
+cursor: pointer;
+}
+
+button:hover {
+background-color: #0056b3;
+}
+/* Style the delete button */
+button.delete {
+    padding: 8px 16px; /* Smaller padding for a more compact button */
+    background-color: #ff4d4d; /* Red color for delete button */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px; /* Smaller font size */
+    cursor: pointer;
+    width: auto; /* Remove the full width */
+    margin-top: 8px; /* Add margin to separate from other content */
+}
+
+button.delete:hover {
+background-color: #e60000; /* Darker red on hover */
+}
+
+
+
+/* Style the error message */
+.error {
+color: red;
+margin-bottom: 15px;
+font-size: 14px;
+font-weight: bold;
+}
+
+/* Add some spacing between form elements */
+form > * {
+margin-bottom: 15px;
+}
+
+.filter-container {
+    margin: 1rem auto;
+    text-align: center;
+    font-weight: bold;
+}
+
+.button-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    }
+
+.filter-button {
+    width: auto;
+    padding: 0.5rem 1rem;
+    border: none;
+    background-color: #6c757d;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.filter-button:hover {
+    background-color: #5a6268;
+}
+
+.filter-button.active {
+    background-color: #17a2b8;
+    color: white;
+}
