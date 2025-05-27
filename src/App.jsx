@@ -83,28 +83,51 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <JobForm onAddJob={addJob} />
+      <section id="home" style={{ padding: "40px 20px", maxWidth: "900px", margin: "0 auto" }}>
 
-      <div className="filter-container">
-        <span>Filter by Status:</span>
-        <div className="button-row">
-          {["All", "Applied", "Interviewing", "Offer", "Rejected"].map(
-            (status) => (
-              <button
-                key={status}
-                onClick={() => setStatusFilter(status)}
-                className={`filter-button ${
-                  statusFilter === status ? "active" : ""
-                }`}
-              >
-                {status}
-              </button>
-            )
-          )}
+      </section>
+
+      <section id="about" className="about-section">
+          <h2>About Job Hunter</h2>
+          <p>
+            Job Hunter is your personal job tracking tool, designed to help you
+            organize and manage your job applications efficiently. Add, update,
+            filter, and keep notes all in one place.
+          </p>
+          <p>
+            Built with React and Firebase, this app aims to simplify your job
+            search process so you can focus on landing your dream role.
+          </p>
+      </section>
+
+      <section id="newjob" style={{ padding: "40px 20px", maxWidth: "900px", margin: "0 auto" }}>
+        <JobForm onAddJob={addJob} />
+      </section>
+
+      <section id="joblist" style={{ padding: "40px 20px", maxWidth: "900px", margin: "0 auto" }}>
+      
+        <div className="filter-container">
+          <span>Filter by Status:</span>
+          <div className="button-row">
+            {["All", "Applied", "Interviewing", "Offer", "Rejected"].map(
+              (status) => (
+                <button
+                  key={status}
+                  onClick={() => setStatusFilter(status)}
+                  className={`filter-button ${
+                    statusFilter === status ? "active" : ""
+                  }`}
+                >
+                  {status}
+                </button>
+              )
+            )}
+          </div>
         </div>
-      </div>
+          
 
-      <JobList jobs={filteredJobs} onDelete={deleteJob} onEdit={editJob} />
+        <JobList jobs={filteredJobs} onDelete={deleteJob} onEdit={editJob} />
+      </section>
       <Footer />
     </div>
   );

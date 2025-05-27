@@ -23,14 +23,23 @@
 .header .logo img {
   width: 40px; /* Adjust size of logo */
   height: auto;
+  object-fit: contain;
 }
 
 .header .logo h1 {
-  font-size: 24px;
-  font-weight: bold;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+  font-size: 28px;
+  font-weight: 800;
   margin: 0;
+  line-height: 1;
+  color: #fff;
+  letter-spacing: -0.5px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.header .logo h1:hover {
+  transform: scale(1.05);
 }
 
 /* Navigation links styling */
@@ -41,18 +50,17 @@
 
 .header nav a {
   text-decoration: none;
-  color: white;
-  font-size: 16px;
+  color: #ffffffcc; 
+  font-size: 15px;
   font-weight: 500;
-  padding: 8px 16px; /* Spacing around the link */
+  padding: 6px 12px;
   border-radius: 4px;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: color 0.3s ease, font-weight 0.3s ease;
 }
 
-/* Link hover effect */
 .header nav a:hover {
-  background-color: #e74c3c; /* Red background on hover */
-  color: white;
+  color: #ffffff; 
+  font-weight: 600;
 }
 
 /* Button styling */
@@ -70,4 +78,24 @@
 
 .header .cta-btn:hover {
   background-color: #c0392b; /* Darker red on hover */
+}
+
+/* Responsive: stack nav links and adjust padding on small screens */
+@media (max-width: 600px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px 20px;
+  }
+  .header nav {
+    margin-top: 12px;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+  }
+  .header nav a {
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+  }
 }

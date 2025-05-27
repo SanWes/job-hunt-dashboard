@@ -8,9 +8,11 @@ const Header = () => {
         <img src="/favicon.ico" alt="Logo" className="logo-img" />
         <h1>Job Hunter</h1>
       </div>
-      <nav className="nav-links">
+      <nav className="nav-links" aria-label="Primary navigation">
         <a href="#home">Home</a>
         <a href="#about">About</a>
+        <a href="#newjob">Add Job</a>
+        <a href="#joblist">Jobs</a>
       </nav>
       {/* <button className="cta-btn">Sign Up</button> Optional CTA button */}
     </header>

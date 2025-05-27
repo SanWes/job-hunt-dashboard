@@ -1,133 +1,97 @@
-/* JobForm container styling */
-form {
+.job-form {
+    max-width: 500px;
+    margin: 40px auto;
+    background-color: #ffffff;
+    padding: 25px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    max-width: 380px;
-    margin: 20px auto;
-    padding: 30px 20px;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    gap: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Label styling */
-form label {
-    display: block;
-    margin-bottom: 6px;
+.job-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.job-form-wrapper {
+    max-width: 540px;
+    margin: 50px auto;
+    padding: 0 15px;
+}
+
+.form-header {
+    background: linear-gradient(to right, #4facfe, #00f2fe);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.form-title {
+    font-size: 28px;
+    color: #fff;
+    font-weight: 700;
+    margin: 0;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    letter-spacing: 1px;
+}
+
+.job-form label {
     font-weight: 600;
     font-size: 14px;
     color: #333;
 }
 
-.form-group {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.job-form input,
+.job-form select,
+.job-form textarea {
     width: 100%;
-}
-
-.form-group label {
-    width: 100%;
-    text-align: left;
-}
-
-
-input,
-select {
-    padding: 8px 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    width: 85%; 
-    margin: 0 auto 10px auto; 
-    margin-bottom: 10px; 
-}
-
-input:focus,
-select:focus {
-    outline: none;
-    border-color: #4caf50; /* Green focus color */
-}
-
-/* Submit button */
-button {
-    padding: 12px 20px;
-    background-color: #4caf50;
-    border: none;
-    color: white;
     font-size: 15px;
-    font-weight: bold;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: 95%; /* slightly wider */
-    margin: 10px auto 0 auto; 
-}
-
-button:hover {
-    background-color: #45a049;
-}
-
-
-button.delete {
-    background-color: #e74c3c;
-    padding: 6px 12px;
-    font-size: 13px;
-    border-radius: 5px;
-    width: auto; 
-}
-
-button.delete:hover {
-background-color: #c0392b;
-}
-
-/* Status dropdown special styling */
-select.status {
-padding: 10px 14px;
-background-color: #ffffff;
-border: 1px solid #ccc;
-border-radius: 5px;
-font-size: 15px;
-cursor: pointer;
-width: auto; 
-}
-
-select.status:hover {
-border-color: #4caf50;
-}
-
-select.status:focus {
-border-color: #4caf50;
-}
-
-/* Error message styling */
-.error-message {
-color: red;
-font-size: 14px;
-margin-bottom: 10px;
-text-align: center;
-}
-
-/* Job item card (for later JobList styling) */
-.job-item {
-margin: 20px 0;
-padding: 20px;
-border-radius: 8px;
-background-color: #fff;
-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.1);
-}
-
-.job-item button {
-font-size: 13px;
-padding: 6px 12px;
-margin-top: 10px;
-}
-
-textarea {
-    width: 100%;
-    padding: 10px;
+    padding: 10px 12px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 6px;
+    font-family: inherit;
+    background-color: #f9f9f9;
+    transition: border 0.2s ease-in-out;
+}
+
+.job-form input:focus,
+.job-form select:focus,
+.job-form textarea:focus {
+    outline: none;
+    border-color: #4cafad;
+    background-color: #fff;
+}
+
+.job-form textarea {
+    resize: vertical;
+    min-height: 70px;
+}
+
+.submit-btn {
+    padding: 12px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
     font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.25s ease-in-out;
+}
+
+.submit-btn:hover {
+    background-color: #43a047;
+}
+
+.error-message {
+    color: #f44336;
+    font-weight: 600;
+    font-size: 14px;
+    margin-top: -10px;
 }

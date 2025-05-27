@@ -43,7 +43,7 @@ const JobCard = ({ job, onDelete, onEdit }) => {
     };
 
     return (
-        <div className="job-card">
+        <div className={`job-card${isEditing ? " editing" : ""}`}>
         <h3>
             <span className="job-position">
             {isEditing ? (

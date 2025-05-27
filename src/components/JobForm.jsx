@@ -47,6 +47,13 @@ const JobForm = ({ onAddJob }) => {
   };
 
   return (
+
+  <div className="job-form-wrapper">
+  
+    <div className="form-header">
+      <h2 className="form-title">📋 Apply & Conquer 🏆</h2>
+    </div>
+
     <form onSubmit={handleSubmit} className="job-form">
       {error && <p className="error-message">{error}</p>}
 
@@ -113,7 +120,9 @@ const JobForm = ({ onAddJob }) => {
         Add Job
       </button>
     </form>
-  );
+  </div>
+);
+
 };
 
 export default JobForm;
