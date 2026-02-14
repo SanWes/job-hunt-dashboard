@@ -1,9 +1,12 @@
-/* --- HEADER BASE (Sticky Fixed) --- */
+/* --- HEADER BASE (Fixed & Centered) --- */
 .header-master {
-  position: sticky;
+  position: fixed; 
   top: 10px;
-  z-index: 2000;
-  max-width: 95%; 
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3000; 
+  width: 95%; 
+  max-width: 1400px; 
   margin: 0 auto;
   border-radius: 12px;
   background: rgba(45, 30, 26, 0.98); 
@@ -14,15 +17,13 @@
 }
 
 .header-container {
-  max-width: 1400px;
-  margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 24px;
 }
 
-/* --- LOGO FIX: Fit & Zoom --- */
+/* --- LOGO & BRAND --- */
 .logo-wrapper {
   width: 40px;
   height: 40px;
@@ -32,15 +33,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden; /* Clips the oversized image */
+  overflow: hidden; 
   box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 
 .logo-wrapper img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Fills the square */
-  transform: scale(1.3); /* Efficient zoom to see detail */
+  object-fit: cover; 
+  transform: scale(1.4); 
   display: block;
 }
 
@@ -48,41 +49,62 @@
   font-family: 'Inter', sans-serif;
   font-size: 1.3rem;
   font-weight: 900;
-  letter-spacing: 6px; /* Tightened slightly for better fit */
+  letter-spacing: 6px;
   color: #ffffff; 
   -webkit-text-stroke: 1px #f39c12; 
   text-transform: uppercase;
+  margin: 0;
 }
 
-/* --- NAV & BURGER TOGGLE --- */
+/* --- NAV & BURGER CONTROLS --- */
 .nav-toggle { display: none; }
 
 .burger-label {
-  display: none; /* Desktop hidden */
+  display: none; /* Hidden on Desktop */
   cursor: pointer;
   padding: 10px;
-  z-index: 3000;
+  z-index: 4000;
+  position: relative;
+  height: 24px;
+  width: 24px;
 }
 
-.burger-label span, .burger-label span::before, .burger-label span::after {
+/* Burger Line Styling */
+.burger-label span, 
+.burger-label span::before, 
+.burger-label span::after {
   display: block;
   background: #f39c12;
   height: 2px;
   width: 22px;
-  position: relative;
-  transition: 0.3s;
+  position: absolute;
+  transition: all 0.3s ease-in-out;
 }
 
-.burger-label span::before { content: ""; top: 7px; position: absolute; width: 100%; background: #f39c12; height: 2px; }
-.burger-label span::after { content: ""; bottom: 7px; position: absolute; width: 100%; background: #f39c12; height: 2px; }
+.burger-label span { top: 50%; transform: translateY(-50%); }
+.burger-label span::before { content: ""; top: -8px; width: 100%; }
+.burger-label span::after { content: ""; bottom: -8px; width: 100%; }
 
+/* Animate X */
+.nav-toggle:checked ~ .burger-label span { background: transparent; }
+.nav-toggle:checked ~ .burger-label span::before { transform: rotate(45deg); top: 0; }
+.nav-toggle:checked ~ .burger-label span::after { transform: rotate(-45deg); bottom: 0; }
+
+/* --- DESKTOP NAVIGATION (Visible) --- */
 .nav-and-actions {
   display: flex;
   align-items: center;
   gap: 25px;
+  /* Ensuring these are visible and positioned correctly for desktop */
+  position: relative;
+  right: 0;
+  visibility: visible;
 }
 
-.header-nav { display: flex; gap: 20px; }
+.header-nav { 
+  display: flex; 
+  gap: 20px; 
+}
 
 .nav-link {
   text-decoration: none;
@@ -102,6 +124,12 @@
   background: rgba(243, 156, 18, 0.08);
 }
 
+.action-divider {
+  width: 1px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
 .logout-ghost-btn {
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -114,26 +142,36 @@
   cursor: pointer;
 }
 
-/* --- MOBILE RESPONSIVE (Burger Trigger) --- */
+/* --- MOBILE RESPONSIVE --- */
 @media (max-width: 950px) {
-  .header-master { top: 0; max-width: 100%; border-radius: 0; }
+  .header-master { 
+    top: 0; 
+    left: 0;
+    transform: none; 
+    width: 100%; 
+    max-width: 100%; 
+    border-radius: 0; 
+  }
+
   .burger-label { display: block; }
 
   .nav-and-actions {
     position: fixed;
     top: 0;
-    right: -100%; /* Hidden */
+    right: -100%; /* Hide on mobile by default */
     height: 100vh;
-    width: 260px;
+    width: 280px;
     background: #2d1e1a;
     flex-direction: column;
     justify-content: center;
     padding: 40px;
-    transition: 0.4s cubic-bezier(0.1, 0, 0.3, 1);
+    transition: right 0.4s cubic-bezier(0.1, 0, 0.3, 1);
     box-shadow: -10px 0 30px rgba(0,0,0,0.5);
     visibility: hidden;
+    z-index: 2500;
   }
 
+  /* Show only when toggled on mobile */
   .nav-toggle:checked ~ .nav-and-actions {
     right: 0;
     visibility: visible;
@@ -142,8 +180,8 @@
   .header-nav { flex-direction: column; align-items: center; gap: 30px; }
   .action-divider { display: none; }
 
-  /* Burger Animate to X */
-  .nav-toggle:checked ~ .burger-label span { background: transparent; }
-  .nav-toggle:checked ~ .burger-label span::before { transform: rotate(45deg); top: 0; }
-  .nav-toggle:checked ~ .burger-label span::after { transform: rotate(-45deg); bottom: 0; }
+  .ledger-title {
+    font-size: 1.1rem;
+    letter-spacing: 3px;
+  }
 }
