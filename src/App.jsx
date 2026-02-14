@@ -75,6 +75,13 @@ function App() {
     return <AuthPage onLogin={() => setUser(auth.currentUser)} />;
   }
 
+  const scrollToForm = () => {
+      const formElement = document.getElementById("newjob");
+      if (formElement) {
+        formElement.scrollIntoView({ behavior: "smooth" });
+      }
+    };
+
   return (
     <div className="App">
       <Header />
@@ -84,19 +91,7 @@ function App() {
           <h2>The Workflow</h2>
           <div className="about-grid">
 
-{/*           
-            <div className="about-item">
-              <span className="about-icon">🎯</span>
-              <p><strong>Track</strong> applications in one unified workspace.</p>
-            </div>
-            <div className="about-item">
-              <span className="about-icon">📝</span>
-              <p><strong>Organize</strong> interview notes and salary details.</p>
-            </div>
-            <div className="about-item">
-              <span className="about-icon">📊</span>
-              <p><strong>Visualize</strong> progress with color-coded cards.</p>
-            </div> */}
+
 
             <div className="about-item">
         <span className="about-icon">📁</span>
@@ -139,8 +134,30 @@ function App() {
             ))}
           </div>
         </div>
-        <JobList jobs={filteredJobs} onDelete={deleteJob} onEdit={editJob} />
-      </section>
+        
+        
+{filteredJobs.length > 0 ? (
+  <JobList jobs={filteredJobs} onDelete={deleteJob} onEdit={editJob} />
+) : (
+  <div className="empty-ledger-state">
+    <div className="empty-icon">🖋️</div>
+    <h3>The Ledger is Empty</h3>
+    <p>Every great career move begins with a single entry.</p>
+    
+    {statusFilter === "All" ? (
+      <button onClick={scrollToForm} className="reset-filter-btn">
+        Initialize First Entry
+      </button>
+    ) : (
+      <button onClick={() => setStatusFilter("All")} className="reset-filter-btn">
+        Back to Full Ledger
+      </button>
+    )}
+  </div>
+)}
+</section>
+
+
       <Footer />
     </div>
   );

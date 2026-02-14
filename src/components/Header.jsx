@@ -18,7 +18,7 @@ const Header = () => {
     <header className="header">
       <div className="logo">
         <img src="/favicon.ico" alt="Logo" className="logo-img" />
-        <h1>APPLIED</h1>
+        <h1>THE LEDGER</h1>
       </div>
       
       <nav className="nav-links" aria-label="Primary navigation">
