@@ -3,6 +3,9 @@ import "../styles/Header.css";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/firebase";
 
+import LogoIMG from "/assets/LedgerLogo.png";
+import OneLogo from "/assets/OneLogo.png";
+
 const Header = () => {
   const handleLogout = async () => {
     try {
@@ -18,11 +21,16 @@ const Header = () => {
         {/* LOGO & BRAND */}
         <div className="brand-group">
           <div className="logo-wrapper">
-            {/* When you have the image, replace this span with <img src="/logo.png" /> */}
-            <span className="quill-icon">🖋️</span>
+            <img src={OneLogo} alt="Logo" className="header-logo" />
           </div>
           <h1 className="ledger-title">THE LEDGER</h1>
         </div>
+
+        {/* BURGER TOGGLE (Checkbox method for efficiency) */}
+        <input type="checkbox" id="nav-toggle" className="nav-toggle" />
+        <label htmlFor="nav-toggle" className="burger-label">
+          <span></span>
+        </label>
         
         {/* NAV & ACTIONS */}
         <div className="nav-and-actions">

@@ -7,6 +7,13 @@
   --glass-white: rgba(255, 255, 255, 0.95);
 }
 
+html, body {
+  max-width: 100%;
+  overflow-x: hidden; /* This stops the horizontal scroll bar */
+  margin: 0;
+  padding: 0;
+}
+
 body {
   margin: 0;
   background: radial-gradient(circle, #eaddca 0%, #d2b48c 100%);
