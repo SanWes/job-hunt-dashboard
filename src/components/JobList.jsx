@@ -5,7 +5,6 @@ import "../styles/JobList.css";
 const JobList = ({ jobs, onDelete, onEdit }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Filter jobs based on company or position
   const filteredJobs = jobs.filter((job) =>
     job.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
     job.position.toLowerCase().includes(searchTerm.toLowerCase())
@@ -13,25 +12,30 @@ const JobList = ({ jobs, onDelete, onEdit }) => {
 
   return (
     <div className="job-list-container">
-      <input
-        type="text"
-        placeholder="Search by company or position..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="search-input"
-      />
+      <div className="search-bar-wrapper">
+        <span className="search-icon">🔍</span>
+        <input
+          type="text"
+          placeholder="Search by company or position..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="search-input"
+        />
+      </div>
 
       {filteredJobs.length === 0 ? (
         <p className="no-jobs">No jobs found matching the search.</p>
       ) : (
-        filteredJobs.map((job) => (
-          <JobCard
-            key={job.id}
-            job={job}
-            onDelete={onDelete}
-            onEdit={onEdit}
-          />
-        ))
+        <div className="job-grid">
+          {filteredJobs.map((job) => (
+            <JobCard
+              key={job.id}
+              job={job}
+              onDelete={onDelete}
+              onEdit={onEdit}
+            />
+          ))}
+        </div>
       )}
     </div>
   );
