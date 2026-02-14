@@ -132,3 +132,57 @@ li:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 15px rgba(0,0,0,0.05);
 }
+
+/* ISOLATED ABOUT STYLING - ADD THIS TO YOUR CSS */
+.about-section {
+  padding: 40px;
+  background: var(--glass-white);
+  border-radius: 24px;
+  margin: 40px auto;
+  max-width: 800px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  text-align: center;
+  border-top: 6px solid var(--primary-orange);
+}
+
+.about-grid {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 25px;
+  flex-wrap: wrap;
+}
+
+.about-item {
+  flex: 1;
+  min-width: 180px;
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  border-bottom: 4px solid var(--primary-green);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+
+.about-icon {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.about-item p {
+  font-size: 0.9rem;
+  color: #636e72;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.about-item strong {
+  color: var(--cork-dark);
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* Responsive fix */
+@media (max-width: 600px) {
+  .about-grid { flex-direction: column; }
+}

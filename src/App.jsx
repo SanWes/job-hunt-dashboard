@@ -4,8 +4,15 @@ import JobForm from "./components/JobForm";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import AuthPage from "./components/AuthPage";
-import { getJobs, addJob as addJobToFirestore, deleteJob as deleteJobFromFirestore, updateJob as updateJobInFirestore } from "./firebase/firebaseHelpers";
-import { onAuthStateChanged } from "firebase/auth";
+
+import {
+  getJobs,
+  addJob as addJobToFirestore,
+  deleteJob as deleteJobFromFirestore,
+  updateJob as updateJobInFirestore,
+} from "./firebase/firebaseHelpers";
+
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "./firebase/firebase";
 
 function App() {
@@ -55,7 +62,7 @@ function App() {
     const updatedJob = { position: updatedPosition, company: updatedCompany, status: updatedStatus, jobLink: updatedJobLink, notes: updatedNotes };
     try {
       await updateJobInFirestore(id, updatedJob);
-      setJobs((prevJobs) => prevJobs.map((job) => job.id === id ? { ...job, ...updatedJob } : job));
+      setJobs((prevJobs) => prevJobs.map((job) => (job.id === id ? { ...job, ...updatedJob } : job)));
     } catch (error) {
       console.error("Error updating job:", error);
     }
@@ -70,47 +77,47 @@ function App() {
   return (
     <div className="App">
       <Header />
-      
-      <main className="content-container">
-        {/* About Section Styled as a Pinned Memo */}
-        <section id="about" className="about-section">
-          <div className="memo-pin">📌</div>
+
+      {/* REFINED ABOUT SECTION */}
+      <section id="about" className="about-section">
           <h2>About Job Hunter</h2>
-          <div className="about-content">
-            <p>
-              Job Hunter is your personal career command center. We've designed this space to help you 
-              organize your journey, track applications, and maintain focus in one unified place.
-            </p>
-            <p>
-              Built with <strong>React</strong> and <strong>Firebase</strong>, this tool turns the chaos of 
-              job hunting into a structured path toward your dream role.
-            </p>
-          </div>
-        </section>
-
-        <section id="newjob" className="section-card">
-          <JobForm onAddJob={addJob} />
-        </section>
-
-        <section id="joblist" className="section-card">
-          <div className="filter-container">
-            <h3 className="filter-title">Filter by Status</h3>
-            <div className="button-row">
-              {["All", "Applied", "Interviewing", "Offer", "Rejected"].map((status) => (
-                <button
-                  key={status}
-                  onClick={() => setStatusFilter(status)}
-                  className={`filter-button ${statusFilter === status ? "active" : ""}`}
-                >
-                  {status}
-                </button>
-              ))}
+          <div className="about-grid">
+            <div className="about-item">
+              <span className="about-icon">🎯</span>
+              <p><strong>Track</strong> applications in one unified workspace.</p>
+            </div>
+            <div className="about-item">
+              <span className="about-icon">📝</span>
+              <p><strong>Organize</strong> interview notes and salary details.</p>
+            </div>
+            <div className="about-item">
+              <span className="about-icon">📊</span>
+              <p><strong>Visualize</strong> progress with color-coded cards.</p>
             </div>
           </div>
-          <JobList jobs={filteredJobs} onDelete={deleteJob} onEdit={editJob} />
-        </section>
-      </main>
+      </section>
 
+      <section id="newjob" style={{ padding: "40px 20px", maxWidth: "900px", margin: "0 auto" }}>
+        <JobForm onAddJob={addJob} />
+      </section>
+
+      <section id="joblist" style={{ padding: "40px 20px", maxWidth: "900px", margin: "0 auto" }}>
+        <div className="filter-container">
+          <span>Filter by Status:</span>
+          <div className="button-row">
+            {["All", "Applied", "Interviewing", "Offer", "Rejected"].map((status) => (
+              <button
+                key={status}
+                onClick={() => setStatusFilter(status)}
+                className={`filter-button ${statusFilter === status ? "active" : ""}`}
+              >
+                {status}
+              </button>
+            ))}
+          </div>
+        </div>
+        <JobList jobs={filteredJobs} onDelete={deleteJob} onEdit={editJob} />
+      </section>
       <Footer />
     </div>
   );
