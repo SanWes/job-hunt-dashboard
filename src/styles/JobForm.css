@@ -67,7 +67,7 @@
 .job-form select:focus,
 .job-form textarea:focus {
     outline: none;
-    border-color: #2ecc71; /* Job Hunter Green */
+    border-color: #2ecc71; /* APPLIED Green */
     background-color: #fff;
     box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.1);
 }

@@ -35,7 +35,7 @@ const WelcomePage = ({ onLogin }) => {
 return (
     <div className="board-container">
     <main className="cork-board">
-        <h1>Job Hunter</h1>
+        <h1>APPLIED</h1>
         <p>Organize your applications, track progress, and land your dream job.</p>
 
         <div className="sticky-buttons">

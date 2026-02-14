@@ -2,8 +2,9 @@
   --primary-green: #2ecc71;
   --primary-orange: #f39c12;
   --cork-dark: #3e2723;
-  --glass-white: rgba(255, 255, 255, 0.9);
-  --off-white: #fefefe;
+  --glass-white: rgba(255, 255, 255, 0.95);
+  --text-main: #2d3436;
+  --text-muted: #636e72;
 }
 
 body {
@@ -11,178 +12,113 @@ body {
   background: radial-gradient(circle, #eaddca 0%, #d2b48c 100%);
   background-attachment: fixed;
   font-family: 'Inter', -apple-system, sans-serif;
-  color: #2d3436;
+  color: var(--text-main);
+  -webkit-font-smoothing: antialiased; /* Makes text crisper */
 }
 
-/* Container for all sections */
 .App {
-  max-width: 900px;
+  max-width: 1000px; 
   margin: 0 auto;
+  padding: 0 20px;
 }
 
-.content-container {
-  padding: 40px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 40px; /* Space between sections */
-}
-
-/* About Section: The Memo Look */
-.about-section {
-  background: var(--off-white);
-  padding: 40px;
-  border-radius: 4px; /* Sharper edges for a "paper" feel */
-  position: relative;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-  border-top: 6px solid var(--primary-orange); /* Top accent bar */
-  text-align: center;
-}
-
-.memo-pin {
-  position: absolute;
-  top: -15px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 2rem;
-  filter: drop-shadow(0 4px 4px rgba(0,0,0,0.1));
-}
-
-.about-section h2 {
-  font-size: 2rem;
-  color: var(--cork-dark);
-  margin-bottom: 20px;
-  font-weight: 800;
-}
-
-.about-content {
-  max-width: 650px;
-  margin: 0 auto;
-  line-height: 1.8;
-  color: #636e72;
-  font-size: 1.1rem;
-}
-
-/* General Section Cards (Form & List) */
-.section-card {
+/* Unified Section Styling */
+.about-section, .section-card {
   background: var(--glass-white);
-  backdrop-filter: blur(10px);
-  padding: 40px;
-  border-radius: 20px;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-}
-
-/* Filter Styling */
-.filter-container {
-  margin-bottom: 30px;
-  text-align: center;
-}
-
-.filter-title {
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: #b2bec3;
-  margin-bottom: 15px;
-}
-
-.button-row {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.filter-button {
-  padding: 10px 18px;
-  border: 1.5px solid #dfe6e9;
-  background: white;
-  border-radius: 30px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  color: #636e72;
-}
-
-.filter-button:hover {
-  border-color: var(--primary-green);
-  color: var(--primary-green);
-}
-
-.filter-button.active {
-  background: var(--primary-green);
-  color: white;
-  border-color: var(--primary-green);
-  box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
-}
-
-/* List Item Tuning */
-li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: white;
-  padding: 18px 24px;
-  margin-bottom: 12px;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-  transition: transform 0.2s ease;
-}
-
-li:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 15px rgba(0,0,0,0.05);
-}
-
-/* ISOLATED ABOUT STYLING - ADD THIS TO YOUR CSS */
-.about-section {
-  padding: 40px;
-  background: var(--glass-white);
+  padding: 50px 40px;
   border-radius: 24px;
   margin: 40px auto;
-  max-width: 800px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-  text-align: center;
-  border-top: 6px solid var(--primary-orange);
 }
 
+.about-section { text-align: center; }
+
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--cork-dark);
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  margin-bottom: 40px;
+}
+
+/* Workflow Grid */
 .about-grid {
   display: flex;
   gap: 20px;
   justify-content: center;
-  margin-top: 25px;
   flex-wrap: wrap;
 }
 
 .about-item {
   flex: 1;
-  min-width: 180px;
+  min-width: 240px; 
   background: white;
-  padding: 20px;
-  border-radius: 15px;
+  padding: 30px 20px;
+  border-radius: 16px;
   border-bottom: 4px solid var(--primary-green);
-  box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  transition: transform 0.2s ease;
 }
 
+.about-item:hover { transform: translateY(-5px); }
+
 .about-icon {
-  font-size: 2rem;
+  font-size: 1.8rem;
+  margin-bottom: 15px;
   display: block;
-  margin-bottom: 10px;
+}
+
+.about-item strong {
+  color: var(--text-main);
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  display: block;
+  margin-bottom: 8px;
 }
 
 .about-item p {
   font-size: 0.9rem;
-  color: #636e72;
+  color: var(--text-muted);
+  line-height: 1.6;
   margin: 0;
-  line-height: 1.4;
 }
 
-.about-item strong {
-  color: var(--cork-dark);
-  display: block;
-  margin-bottom: 4px;
+/* Filters */
+.filter-container {
+  margin-bottom: 30px;
+  text-align: center;
 }
 
-/* Responsive fix */
+.button-row {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.filter-button {
+  padding: 8px 20px;
+  border: 1px solid #dfe6e9;
+  background: white;
+  border-radius: 12px; /* Smoothed out to match cards */
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--text-muted);
+}
+
+.filter-button.active {
+  background: var(--cork-dark);
+  color: white;
+  border-color: var(--cork-dark);
+}
+
 @media (max-width: 600px) {
   .about-grid { flex-direction: column; }
+  .section-card { padding: 30px 20px; }
 }

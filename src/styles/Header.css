@@ -1,6 +1,6 @@
 /* Header.css */
 .header {
-  background-color: #3e2723; /* Deep wood/espresso tone */
+  background-color: #3e2723;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -8,13 +8,11 @@
   position: sticky;
   top: 0;
   z-index: 1000;
-  /* Dark shadow to give it elevation above the board */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  /* This orange bottom border acts like a "shelf" accent */
-  border-bottom: 4px solid #f39c12; 
+  /* Accent bar remains as a subtle "shelf" */
+  border-bottom: 3px solid #f39c12; 
 }
 
-/* Logo Section */
 .header .logo {
   display: flex;
   align-items: center;
@@ -22,72 +20,65 @@
 }
 
 .header .logo-img {
-  width: 35px;
-  height: 35px;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+  width: 30px;
+  height: 30px;
+  /* filter: grayscale(1) brightness(2); Makes the favicon look like a clean white icon */
+  opacity: 0.9;
 }
 
 .header .logo h1 {
-  font-size: 1.6rem;
-  font-weight: 800;
+  font-size: 1.4rem;
+  font-weight: 900;
   color: #fff;
-  letter-spacing: -0.5px;
+  letter-spacing: 4px; /* Minimalist brand spacing */
   margin: 0;
   font-family: 'Inter', sans-serif;
 }
 
-/* Navigation Links */
 .nav-links {
   display: flex;
-  gap: 30px; /* Generous spacing for a modern feel */
+  gap: 40px;
   align-items: center;
 }
 
 .nav-links a {
   text-decoration: none;
-  color: #d7ccc8; /* Muted tan color */
-  font-size: 0.95rem;
-  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.8rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 1.5px;
   transition: all 0.3s ease;
-  position: relative;
-  padding: 5px 0;
 }
 
-/* Hover effect: A small "underline" that grows */
 .nav-links a:hover {
   color: #ffffff;
 }
 
-.nav-links a::after {
-  content: '';
-  position: absolute;
-  width: 0;
-  height: 2px;
-  bottom: 0;
-  left: 0;
-  background-color: #2ecc71; /* Green accent on hover */
-  transition: width 0.3s ease;
+/* Minimalist Logout Ghost Button */
+.logout-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.9);
+  padding: 8px 18px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.nav-links a:hover::after {
-  width: 100%;
+.logout-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #ffffff;
+  color: #ffffff;
+  transform: translateY(-1px);
 }
 
-/* Mobile Responsiveness */
 @media (max-width: 768px) {
-  .header {
-    padding: 15px 20px;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .nav-links {
-    gap: 15px;
-  }
-
-  .nav-links a {
-    font-size: 0.85rem;
-  }
+  .header { padding: 15px 20px; }
+  .nav-links { gap: 20px; }
+  .header .logo h1 { font-size: 1.1rem; letter-spacing: 2px; }
 }
