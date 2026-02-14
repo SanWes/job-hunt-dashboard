@@ -1,14 +1,38 @@
-.job-form {
-    max-width: 500px;
+/* Optimized JobForm.css */
+.job-form-wrapper {
+    max-width: 540px;
     margin: 40px auto;
+    padding: 0 15px;
+}
+
+/* Updated: Replaced blue gradient with Brand Wood/Cork theme */
+.form-header {
+    background-color: #3e2723; /* Deep wood brown */
+    padding: 20px;
+    border-radius: 12px 12px 0 0; /* Rounded top only to connect with form */
+    text-align: center;
+    border-bottom: 4px solid #f39c12; /* Brand orange accent */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.form-title {
+    font-size: 24px;
+    color: #ffffff;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: 1px;
+}
+
+.job-form {
     background-color: #ffffff;
-    padding: 25px 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 30px;
+    border-radius: 0 0 12px 12px; /* Connects to header */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     gap: 20px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-left: 1px solid #eee;
+    border-right: 1px solid #eee;
 }
 
 .job-form .form-group {
@@ -17,34 +41,12 @@
     gap: 8px;
 }
 
-.job-form-wrapper {
-    max-width: 540px;
-    margin: 50px auto;
-    padding: 0 15px;
-}
-
-.form-header {
-    background: linear-gradient(to right, #4facfe, #00f2fe);
-    padding: 20px;
-    border-radius: 12px;
-    margin-bottom: 25px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
-.form-title {
-    font-size: 28px;
-    color: #fff;
-    font-weight: 700;
-    margin: 0;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    letter-spacing: 1px;
-}
-
 .job-form label {
-    font-weight: 600;
-    font-size: 14px;
-    color: #333;
+    font-weight: 700;
+    font-size: 13px;
+    color: #4e342e; /* Cork dark brown */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .job-form input,
@@ -52,46 +54,54 @@
 .job-form textarea {
     width: 100%;
     font-size: 15px;
-    padding: 10px 12px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
+    padding: 12px;
+    border: 2px solid #edf2f7;
+    border-radius: 8px;
     font-family: inherit;
-    background-color: #f9f9f9;
-    transition: border 0.2s ease-in-out;
+    background-color: #f8fafc;
+    transition: all 0.2s ease-in-out;
 }
 
+/* Brand Focus State */
 .job-form input:focus,
 .job-form select:focus,
 .job-form textarea:focus {
     outline: none;
-    border-color: #4cafad;
+    border-color: #2ecc71; /* Job Hunter Green */
     background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.1);
 }
 
 .job-form textarea {
     resize: vertical;
-    min-height: 70px;
+    min-height: 80px;
 }
 
 .submit-btn {
-    padding: 12px;
-    background-color: #4caf50;
+    padding: 14px;
+    background-color: #2ecc71; /* Brand Green */
     color: white;
     border: none;
-    border-radius: 6px;
-    font-weight: 600;
+    border-radius: 8px;
+    font-weight: 700;
     font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.25s ease-in-out;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 6px rgba(46, 204, 113, 0.2);
 }
 
 .submit-btn:hover {
-    background-color: #43a047;
+    background-color: #27ae60;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 12px rgba(46, 204, 113, 0.3);
 }
 
 .error-message {
-    color: #f44336;
+    color: #e74c3c;
+    background: #fdf2f2;
+    padding: 10px;
+    border-radius: 6px;
+    border-left: 4px solid #e74c3c;
     font-weight: 600;
     font-size: 14px;
-    margin-top: -10px;
 }
