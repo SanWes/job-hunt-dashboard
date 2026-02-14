@@ -102,7 +102,7 @@ const JobForm = ({ onAddJob }) => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="notes">Notes & Intelligence</label>
+            <label htmlFor="notes">Strategic Context</label>
             <textarea
               id="notes"
               name="notes"
