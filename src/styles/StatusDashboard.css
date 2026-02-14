@@ -1,0 +1,74 @@
+.status-dashboard-wrapper {
+    max-width: 900px;
+    margin: 40px auto 30px auto; /* Reduced bottom margin */
+    padding: 0 20px;
+    position: relative;
+}
+
+.dashboard-label {
+    font-family: 'Inter', -apple-system, sans-serif; /* Keep it consistent with your body font */
+    font-size: 0.85rem;
+    color: #8c7b6c;
+    text-transform: uppercase;
+    letter-spacing: 3px; /* Slightly increased for a premium look */
+    margin-bottom: 20px;
+    opacity: 0.7;
+    display: block; /* Changed from inline-block to allow centering */
+    text-align: center; /* This is the key change */
+    width: 100%;
+    font-weight: 700;
+}
+
+.status-dashboard {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    background: #ffffff;
+    padding: 12px 15px;
+    border-radius: 10px;
+    flex: 1;
+    min-width: 130px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border-bottom: 4px solid #ddd;
+    cursor: pointer; /* Indicates it is clickable */
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.stat-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.stat-item:active {
+    transform: translateY(-1px);
+}
+
+.stat-count {
+    display: block;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #2d3436;
+}
+
+.stat-name {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #a0aec0;
+}
+
+/* Status Colors */
+.stat-item.total { border-bottom-color: #3e2723; }
+.stat-item.applied { border-bottom-color: #3498db; }
+.stat-item.interviewing { border-bottom-color: #f1c40f; }
+.stat-item.offer { border-bottom-color: #2ecc71; }
+.stat-item.rejected { border-bottom-color: #e74c3c; }
+
+@media (max-width: 600px) {
+    .stat-item { min-width: 45%; }
+}

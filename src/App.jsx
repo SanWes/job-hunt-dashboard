@@ -4,6 +4,7 @@ import JobForm from "./components/JobForm";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import AuthPage from "./components/AuthPage";
+import StatusDashboard from "./components/StatusDashboard";
 
 import {
   getJobs,
@@ -12,7 +13,7 @@ import {
   updateJob as updateJobInFirestore,
 } from "./firebase/firebaseHelpers";
 
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase/firebase";
 
 function App() {
@@ -96,6 +97,8 @@ function App() {
             </div>
           </div>
       </section>
+
+      <StatusDashboard jobs={jobs} setStatusFilter={setStatusFilter} />
 
       <section id="newjob" style={{ padding: "40px 20px", maxWidth: "900px", margin: "0 auto" }}>
         <JobForm onAddJob={addJob} />
