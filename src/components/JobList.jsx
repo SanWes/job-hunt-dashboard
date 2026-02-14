@@ -12,11 +12,12 @@ const JobList = ({ jobs, onDelete, onEdit }) => {
 
   return (
     <div className="job-list-container">
+      {/* SEARCH CONSOLE */}
       <div className="search-bar-wrapper">
         <span className="search-icon">🔍</span>
         <input
           type="text"
-          placeholder="Search by company or position..."
+          placeholder="SEARCH THE LEDGER BY COMPANY OR ROLE..." 
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="search-input"
@@ -24,7 +25,9 @@ const JobList = ({ jobs, onDelete, onEdit }) => {
       </div>
 
       {filteredJobs.length === 0 ? (
-        <p className="no-jobs">No jobs found matching the search.</p>
+        <div className="no-jobs">
+            <p>No records match your query.</p>
+        </div>
       ) : (
         <div className="job-grid">
           {filteredJobs.map((job) => (

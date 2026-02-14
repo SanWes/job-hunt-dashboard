@@ -1,48 +1,72 @@
 .job-list-container {
-    padding: 20px;
+    padding: 20px 0; /* Let the container breathe */
 }
 
 .search-bar-wrapper {
     position: relative;
-    max-width: 500px;
-    margin: 0 auto 40px auto;
+    max-width: 600px;
+    margin: 0 auto 50px auto;
 }
 
 .search-icon {
     position: absolute;
-    left: 15px;
+    left: 20px;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 18px;
+    font-size: 16px;
     pointer-events: none;
+    opacity: 0.4;
+    filter: grayscale(1);
+    transition: opacity 0.3s ease;
 }
 
 .search-input {
     width: 100%;
-    padding: 12px 15px 12px 45px;
-    border: 2px solid #edf2f7;
-    border-radius: 30px;
-    font-size: 16px;
-    background: white;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    transition: all 0.2s ease;
+    padding: 16px 20px 16px 55px; /* Extra room for the icon */
+    border: 1px solid rgba(62, 39, 35, 0.1);
+    border-radius: 12px; /* Matches JobCard radius */
+    font-size: 0.95rem;
+    background: var(--glass-white);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    color: var(--espresso);
+    letter-spacing: 0.5px;
 }
 
+/* Focused State: Subtle & Professional */
 .search-input:focus {
     outline: none;
-    border-color: #2ecc71;
-    box-shadow: 0 4px 12px rgba(46, 204, 113, 0.2);
+    border-color: var(--sage-green);
+    box-shadow: 0 8px 25px rgba(109, 140, 125, 0.15);
+    transform: translateY(-2px);
+    background: white;
+}
+
+/* Light up the icon when typing */
+.search-bar-wrapper:focus-within .search-icon {
+    opacity: 0.8;
+}
+
+.search-input::placeholder {
+    color: #94a3b8;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
 .job-grid {
     display: flex;
     flex-direction: column;
-    gap: 25px;
+    gap: 30px;
 }
 
 .no-jobs {
     text-align: center;
-    color: #7f8c8d;
-    font-style: italic;
-    margin-top: 40px;
+    color: var(--espresso);
+    opacity: 0.6;
+    padding: 60px 0;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }

@@ -1,84 +1,159 @@
-/* Header.css */
-.header {
-  background-color: #3e2723;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 50px;
+.header-master {
   position: sticky;
-  top: 0;
-  z-index: 1000;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  /* Accent bar remains as a subtle "shelf" */
-  border-bottom: 3px solid #f39c12; 
-}
+  top: 5px;
+  z-index: 2000;
 
-.header .logo {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
+  /* Create a "floating" capsule look */
+  max-width: 95%; 
+  margin: 0 auto;
+  border-radius: 12px; /* Matches your JobCard and Search Bar */
 
-.header .logo-img {
-  width: 30px;
-  height: 30px;
-  /* filter: grayscale(1) brightness(2); Makes the favicon look like a clean white icon */
-  opacity: 0.9;
-}
-
-.header .logo h1 {
-  font-size: 1.4rem;
-  font-weight: 900;
-  color: #fff;
-  letter-spacing: 4px; /* Minimalist brand spacing */
-  margin: 0;
-  font-family: 'Inter', sans-serif;
-}
-
-.nav-links {
-  display: flex;
-  gap: 40px;
-  align-items: center;
-}
-
-.nav-links a {
-  text-decoration: none;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 0.8rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
+  background: rgba(45, 30, 26, 0.98); /* Deep Espresso */
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid rgba(243, 156, 18, 0.3); /* Thin Gold Line */
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+    0 10px 20px -5px rgba(0, 0, 0, 0.3);
+    
   transition: all 0.3s ease;
 }
 
-.nav-links a:hover {
-  color: #ffffff;
+.header-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 30px;
 }
 
-/* Minimalist Logout Ghost Button */
-.logout-btn {
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: rgba(255, 255, 255, 0.9);
-  padding: 8px 18px;
-  border-radius: 4px;
+/* BRANDING SECTION */
+.brand-group {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.logo-wrapper {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(145deg, #3e2723, #2d1e1a);
+  border: 1px solid rgba(243, 156, 18, 0.4);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.quill-icon {
+  font-size: 1.2rem;
+  filter: sepia(1) saturate(2) hue-rotate(10deg); /* Gives the emoji a golden tint */
+}
+
+.nav-link {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.5); /* Muted at rest */
   font-size: 0.7rem;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  letter-spacing: 2px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  /* Transparent border prevents layout shifting on hover */
+  border: 1px solid transparent; 
+  transition: all 0.25s ease-in-out;
 }
 
-.logout-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: #ffffff;
+/* THE GOLD HOVER SELECTION */
+.nav-link:hover {
+  color: #ffffff; /* Brightens text */
+  border: 1px solid #f39c12; /* Sharp Gold Outline */
+  background: rgba(243, 156, 18, 0.08); /* Very subtle gold tint */
+  box-shadow: 0 0 12px rgba(243, 156, 18, 0.2); /* Soft gold aura */
+  transform: translateY(-1px); /* Slight lift for "success" feel */
+}
+
+
+.ledger-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 900;
+  letter-spacing: 10px;
+  margin: 0;
+  
+  /* Solid Bright White Fill */
+  color: #ffffff; 
+  
+  /* The Gold Outline */
+  -webkit-text-stroke: 1px #f39c12; 
+  
+  /* Drop shadow to ensure the white/gold pops off the dark background */
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
+  
+  text-transform: uppercase;
+  /* Helps centered alignment with high letter-spacing */
+  text-indent: 10px; 
+}
+
+/* NAVIGATION & ACTIONS */
+.nav-and-actions {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.header-nav {
+  display: flex;
+  gap: 35px;
+  align-items: center;
+}
+
+.header-nav a {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+}
+
+.header-nav a:hover {
   color: #ffffff;
   transform: translateY(-1px);
 }
 
-@media (max-width: 768px) {
-  .header { padding: 15px 20px; }
-  .nav-links { gap: 20px; }
-  .header .logo h1 { font-size: 1.1rem; letter-spacing: 2px; }
+.action-divider {
+  width: 1px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* LOGOUT REFINED */
+.logout-ghost-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.8);
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-size: 0.65rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.logout-ghost-btn:hover {
+  background: #ffffff;
+  color: var(--espresso);
+  border-color: #ffffff;
+  box-shadow: 0 0 15px rgba(255,255,255,0.2);
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .header-nav, .action-divider { display: none; }
+  .ledger-title { letter-spacing: 4px; font-size: 1rem; }
 }
