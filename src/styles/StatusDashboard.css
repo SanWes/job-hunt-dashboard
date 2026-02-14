@@ -1,74 +1,73 @@
 .status-dashboard-wrapper {
     max-width: 900px;
-    margin: 40px auto 30px auto; /* Reduced bottom margin */
+    margin: 40px auto 30px auto;
     padding: 0 20px;
     position: relative;
 }
 
 .dashboard-label {
-    font-family: 'Inter', -apple-system, sans-serif; /* Keep it consistent with your body font */
+    font-family: 'Inter', -apple-system, sans-serif;
     font-size: 0.85rem;
-    color: #8c7b6c;
+    color: var(--espresso); /* Matching brand primary */
     text-transform: uppercase;
-    letter-spacing: 3px; /* Slightly increased for a premium look */
-    margin-bottom: 20px;
-    opacity: 0.7;
-    display: block; /* Changed from inline-block to allow centering */
-    text-align: center; /* This is the key change */
+    letter-spacing: 5px; /* Matches your 'Centralize' headings */
+    margin-bottom: 25px;
+    opacity: 0.6;
+    display: block;
+    text-align: center;
     width: 100%;
-    font-weight: 700;
+    font-weight: 800;
 }
 
 .status-dashboard {
     display: flex;
     justify-content: center;
-    gap: 12px;
+    gap: 15px;
     flex-wrap: wrap;
 }
 
 .stat-item {
     background: #ffffff;
-    padding: 12px 15px;
-    border-radius: 10px;
+    padding: 15px 10px;
+    border-radius: 12px;
     flex: 1;
-    min-width: 130px;
+    min-width: 140px;
     text-align: center;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
     border-bottom: 4px solid #ddd;
-    cursor: pointer; /* Indicates it is clickable */
-    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .stat-item:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-}
-
-.stat-item:active {
-    transform: translateY(-1px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
 .stat-count {
     display: block;
-    font-size: 1.6rem;
-    font-weight: 800;
-    color: #2d3436;
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--espresso); /* Unified text color */
+    margin-bottom: 4px;
 }
 
 .stat-name {
-    font-size: 0.7rem;
-    font-weight: 700;
+    font-size: 0.65rem;
+    font-weight: 800;
     text-transform: uppercase;
-    color: #a0aec0;
+    color: #94a3b8; /* Muted slate */
+    letter-spacing: 1px;
 }
 
-/* Status Colors */
-.stat-item.total { border-bottom-color: #3e2723; }
-.stat-item.applied { border-bottom-color: #3498db; }
-.stat-item.interviewing { border-bottom-color: #f1c40f; }
-.stat-item.offer { border-bottom-color: #2ecc71; }
-.stat-item.rejected { border-bottom-color: #e74c3c; }
+/* Updated Status Colors to match your Muted Palette */
+.stat-item.total { border-bottom-color: var(--espresso); }
+.stat-item.applied { border-bottom-color: var(--slate-muted); }
+.stat-item.interviewing { border-bottom-color: var(--gold-muted); }
+.stat-item.offer { border-bottom-color: var(--sage-green); }
+.stat-item.rejected { border-bottom-color: var(--error-muted); }
 
 @media (max-width: 600px) {
     .stat-item { min-width: 45%; }
+    .stat-count { font-size: 1.5rem; }
 }

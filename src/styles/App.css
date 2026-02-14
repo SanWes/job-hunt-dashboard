@@ -1,10 +1,10 @@
 :root {
-  --primary-green: #2ecc71;
-  --primary-orange: #f39c12;
-  --cork-dark: #3e2723;
+--sage-green: #6d8c7d;   /* Success / Offer */
+  --gold-muted: #d4a373;   /* Progress / Interviewing */
+  --slate-muted: #718096;  /* Neutral / Applied */
+  --error-muted: #e57373;  /* Closed / Rejected */
+  --espresso: #3e2723;     /* Primary Brand / Headers */
   --glass-white: rgba(255, 255, 255, 0.95);
-  --text-main: #2d3436;
-  --text-muted: #636e72;
 }
 
 body {
@@ -56,7 +56,7 @@ body {
   background: white;
   padding: 30px 20px;
   border-radius: 16px;
-  border-bottom: 4px solid var(--primary-green);
+  border-bottom: 4px solid var(--sage-green);
   box-shadow: 0 4px 12px rgba(0,0,0,0.03);
   transition: transform 0.2s ease;
 }
@@ -67,6 +67,7 @@ body {
   font-size: 1.8rem;
   margin-bottom: 15px;
   display: block;
+  color: var(--espresso); 
 }
 
 .about-item strong {

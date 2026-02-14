@@ -13,9 +13,7 @@ const JobCard = ({ job, onDelete, onEdit }) => {
         setEditedNotes(Array.isArray(job.notes) ? job.notes : []);
     }, [job.notes]);
 
-    const handleEditClick = () => {
-        setIsEditing(true);
-    };
+    const handleEditClick = () => setIsEditing(true);
 
     const handleSaveClick = () => {
         if (editedPosition.trim() === "" || editedCompany.trim() === "") {
@@ -32,86 +30,61 @@ const JobCard = ({ job, onDelete, onEdit }) => {
         setEditedNotes(updatedNotes);
     };
 
-    const handleAddNote = () => {
-        setEditedNotes([...editedNotes, ""]);
-    };
+    const handleAddNote = () => setEditedNotes([...editedNotes, ""]);
+    const handleDeleteNote = (index) => setEditedNotes(editedNotes.filter((_, i) => i !== index));
 
-    const handleDeleteNote = (index) => {
-        const updatedNotes = editedNotes.filter((_, i) => i !== index);
-        setEditedNotes(updatedNotes);
-    };
-
-    // Get color class based on status
     const statusClass = job.status ? job.status.toLowerCase() : "applied";
 
     return (
-        <div className={`job-card ${statusClass} ${isEditing ? " editing" : ""}`}>
-            {/* Status Tab - Visual Indicator */}
+        <div className={`job-card ${statusClass} ${isEditing ? "editing" : ""}`}>
             <div className="status-tab">{job.status}</div>
 
             <h3>
-                <span className="job-position">
-                    {isEditing ? (
-                        <input
-                            type="text"
-                            value={editedPosition}
-                            onChange={(e) => setEditedPosition(e.target.value)}
-                            className="edit-input"
-                            placeholder="Position"
-                        />
-                    ) : (
-                        job.position
-                    )}
-                </span>{" "}
-                <span className="at-text">at</span>{" "}
-                <span className="company-name">
-                    {isEditing ? (
-                        <input
-                            type="text"
-                            value={editedCompany}
-                            onChange={(e) => setEditedCompany(e.target.value)}
-                            className="edit-input"
-                            placeholder="Company"
-                        />
-                    ) : (
-                        job.company
-                    )}
-                </span>
+                {isEditing ? (
+                    <input
+                        type="text"
+                        value={editedPosition}
+                        onChange={(e) => setEditedPosition(e.target.value)}
+                        className="edit-input"
+                        placeholder="Position"
+                    />
+                ) : (
+                    <span className="job-position">{job.position}</span>
+                )}
+                <span className="at-text"> at </span>
+                {isEditing ? (
+                    <input
+                        type="text"
+                        value={editedCompany}
+                        onChange={(e) => setEditedCompany(e.target.value)}
+                        className="edit-input"
+                        placeholder="Company"
+                    />
+                ) : (
+                    <span className="company-name">{job.company}</span>
+                )}
             </h3>
 
-            <p className="date-added">📅 {job.dateAdded}</p>
+            <p className="date-added">Added on {job.dateAdded}</p>
 
             {isEditing ? (
                 <div className="edit-section">
-                    <label>Job Link:</label>
+                    <label className="edit-label">Listing URL</label>
                     <input
                         type="text"
                         value={editedJobLink}
                         onChange={(e) => setEditedJobLink(e.target.value)}
-                        placeholder="Job Link"
-                        className="edit-input"
+                        placeholder="https://..."
+                        className="edit-input full-width"
                     />
-                </div>
-            ) : (
-                job.jobLink && (
-                    <p className="job-link-p">
-                        <strong>Link: </strong>
-                        <a href={job.jobLink} target="_blank" rel="noopener noreferrer">
-                            Visit Listing 🔗
-                        </a>
-                    </p>
-                )
-            )}
-
-            {isEditing ? (
-                <div className="edit-section">
-                    <label>Notes:</label>
+                    
+                    <label className="edit-label">Notes</label>
                     {editedNotes.map((note, index) => (
                         <div key={index} className="note-edit-row">
                             <textarea
                                 value={note}
                                 onChange={(e) => handleNoteChange(index, e.target.value)}
-                                className="edit-input"
+                                className="edit-input note-area"
                             />
                             <button onClick={() => handleDeleteNote(index)} className="delete-note-btn">✕</button>
                         </div>
@@ -119,21 +92,24 @@ const JobCard = ({ job, onDelete, onEdit }) => {
                     <button onClick={handleAddNote} className="add-note-btn">+ Add Note</button>
                 </div>
             ) : (
-                <div className="notes-display">
-                    {Array.isArray(job.notes) && job.notes.length > 0 ? (
-                        <ul>
+                <>
+                    {job.jobLink && (
+                        <a href={job.jobLink} target="_blank" rel="noopener noreferrer" className="job-link">
+                            View Listing
+                        </a>
+                    )}
+                    <div className="notes-display">
+                        <ul className="notes-list">
                             {job.notes.map((note, index) => (
                                 <li key={index}>{note}</li>
                             ))}
                         </ul>
-                    ) : (
-                        <p className="no-notes">No notes yet.</p>
-                    )}
-                </div>
+                    </div>
+                </>
             )}
 
             <div className="card-footer">
-                <div className="status-selector">
+                <div className="status-selector-container">
                     {isEditing && (
                         <select
                             value={editedStatus}
@@ -147,7 +123,6 @@ const JobCard = ({ job, onDelete, onEdit }) => {
                         </select>
                     )}
                 </div>
-
                 <div className="actions">
                     {isEditing ? (
                         <button onClick={handleSaveClick} className="save-btn">Save</button>
