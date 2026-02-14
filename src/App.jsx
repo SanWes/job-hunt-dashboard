@@ -126,12 +126,13 @@ function App() {
       <section id="joblist" style={{ padding: "40px 20px", maxWidth: "900px", margin: "0 auto" }}>
         <div className="filter-container">
           <span>Filter by Status:</span>
+
           <div className="button-row">
             {["All", "Applied", "Interviewing", "Offer", "Rejected"].map((status) => (
               <button
                 key={status}
                 onClick={() => setStatusFilter(status)}
-                className={`filter-button ${statusFilter === status ? "active" : ""}`}
+                className={`filter-button ${status.toLowerCase()} ${statusFilter === status ? "active" : ""}`}
               >
                 {status}
               </button>

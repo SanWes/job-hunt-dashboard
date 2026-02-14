@@ -123,3 +123,72 @@ body {
   .about-grid { flex-direction: column; }
   .section-card { padding: 30px 20px; }
 }
+
+/* Filter Container Label */
+.filter-container span {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--espresso);
+  opacity: 0.6;
+  margin-bottom: 15px;
+}
+
+/* Base Filter Button */
+.filter-button {
+  padding: 10px 24px;
+  border: 1px solid #dfe6e9;
+  background: white;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  color: #94a3b8; /* Muted Slate text */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* The "Lift" Hover Effect */
+.filter-button:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  border-color: #cbd5e1;
+  color: var(--espresso);
+}
+
+/* Universal Active State: White text for all */
+.filter-button.active {
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Coordinate Active Colors with Status Variables */
+.filter-button.active.all {
+  background: var(--espresso);
+  border-color: var(--espresso);
+}
+
+.filter-button.active.applied {
+  background: var(--slate-muted);
+  border-color: var(--slate-muted);
+}
+
+.filter-button.active.interviewing {
+  background: var(--gold-muted);
+  border-color: var(--gold-muted);
+}
+
+.filter-button.active.offer {
+  background: var(--sage-green);
+  border-color: var(--sage-green);
+}
+
+.filter-button.active.rejected {
+  background: var(--error-muted);
+  border-color: var(--error-muted);
+}
