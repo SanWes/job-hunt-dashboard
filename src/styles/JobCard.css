@@ -1,192 +1,131 @@
-.job-card {
-    background: #ffffff;
-    border-radius: 16px;
-    padding: 35px 24px 20px 24px;
+.portfolio-file {
     position: relative;
-    border-top: 6px solid #dfe6e9; 
-    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    margin-bottom: 25px;
+    margin-top: 40px; /* Space for the tab */
+    margin-bottom: 30px;
+    background: #ffffff;
+    border: 1px solid rgba(62, 39, 35, 0.1);
+    box-shadow: 5px 5px 20px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
 }
 
-/* Status Colors */
-.job-card.applied { border-top-color: var(--slate-muted); }
-.job-card.interviewing { border-top-color: var(--gold-muted); }
-.job-card.offer { border-top-color: var(--sage-green); }
-.job-card.rejected { border-top-color: var(--error-muted); }
+.portfolio-file:hover {
+    transform: translateY(-5px); /* Lift out of briefcase effect */
+}
 
-/* The Status Ribbon/Tab */
-.status-tab {
+/* THE FOLDER TAB */
+.folder-tab {
     position: absolute;
-    top: 0;
-    right: 24px;
-    padding: 6px 16px;
-    font-size: 11px; /* Slightly larger for visibility */
+    top: -30px;
+    left: 0;
+    height: 30px;
+    width: 180px;
+    background: #e2e8f0; /* Default manila */
+    clip-path: polygon(0% 100%, 10% 0%, 90% 0%, 100% 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+}
+
+.tab-text {
+    font-size: 0.6rem;
     font-weight: 900;
+    letter-spacing: 2px;
     text-transform: uppercase;
     color: white;
-    letter-spacing: 1.2px;
-    border-radius: 0 0 8px 8px;
-    z-index: 10; /* Ensures it stays on top */
 }
 
-.applied .status-tab { background: var(--slate-muted); }
-.interviewing .status-tab { background: var(--gold-muted); }
-.offer .status-tab { background: var(--sage-green); }
-.rejected .status-tab { background: var(--error-muted); }
-
-/* Spacing Fixes for Editing */
-.edit-field-group {
-    margin-top: 18px; /* Breathing room between sections */
+/* Status Colors for Tabs */
+.applied .folder-tab { background-color: var(--slate-muted); }
+.interviewing .folder-tab, .in-process .folder-tab { background-color: var(--gold-muted); }
+.offer .folder-tab, .offer-received .folder-tab { background-color: var(--sage-green); }
+.settled .folder-tab, .rejected .folder-tab { background-color: var(--error-muted); }
+/* Content Inside the File */
+.file-content {
+    padding: 40px;
+    background-image: linear-gradient(rgba(0,0,0,0.01) 1px, transparent 1px);
+    background-size: 100% 25px; /* Subtle line effect on the folder */
 }
 
-.edit-grid-main {
-    display: grid;
-    grid-template-columns: 1fr 1fr 150px;
-    gap: 15px;
-    align-items: flex-end;
-}
-
-/* Labels in the grid don't need top margin */
-.edit-grid-main .edit-field-group {
-    margin-top: 0;
-}
-
-.edit-label {
-    display: block;
-    font-size: 0.65rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    color: var(--espresso);
-    letter-spacing: 1px;
-    margin-bottom: 8px;
-    opacity: 0.8;
-}
-
-/* Inputs */
-.edit-input, .edit-select-main {
-    padding: 10px;
-    border: 1px solid #cbd5e1;
-    border-radius: 8px;
-    background: #fdfdfd;
-    font-family: inherit;
-    font-size: 0.9rem;
+.file-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
     color: var(--espresso);
 }
 
-.edit-input.full-width { width: 100%; box-sizing: border-box; }
-
-.edit-select-main {
-    width: 100%;
-    font-weight: 700;
-    cursor: pointer;
+.at-text { font-weight: 300; opacity: 0.5; }
+.date-added { 
+    font-size: 0.6rem; 
+    letter-spacing: 2px; 
+    text-transform: uppercase; 
+    margin-top: 5px;
+    color: #94a3b8;
 }
-
-/* View Mode Styles */
-.job-card h3 { margin: 0 0 8px 0; font-size: 1.3rem; color: var(--espresso); font-weight: 800; }
-.at-text { color: #b2bec3; font-weight: 400; font-size: 0.9rem; }
-.company-name { color: var(--sage-green); }
-.date-added { font-size: 0.75rem; color: #94a3b8; margin-bottom: 20px; text-transform: uppercase; }
 
 .job-link {
     display: inline-block;
-    color: var(--sage-green);
-    text-decoration: none;
-    font-size: 0.8rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    margin-bottom: 15px;
-}
-.job-link:after { content: " →"; }
-
-.notes-display {
-    background: #fdfdfd;
-    border: 1px solid #f1f5f9;
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 20px;
-}
-
-.notes-list { margin: 0; padding-left: 15px; font-size: 0.9rem; color: #475569; line-height: 1.6; }
-
-/* Note Records */
-.note-edit-row { display: flex; gap: 10px; margin-bottom: 10px; }
-.note-area { flex-grow: 1; min-height: 50px; }
-
-.add-note-btn {
-    width: 100%;
-    padding: 10px;
-    background: transparent;
-    border: 1px dashed var(--sage-green);
-    color: var(--sage-green);
-    border-radius: 8px;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-/* Footer Actions */
-.card-footer { display: flex; justify-content: flex-end; padding-top: 15px; border-top: 1px solid #f1f5f9; }
-.actions { display: flex; gap: 10px; }
-
-.job-card button {
-    padding: 10px 18px;
-    border-radius: 8px;
+    margin: 20px 0;
     font-size: 0.7rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    border: 1px solid #dfe6e9;
-    cursor: pointer;
-    transition: all 0.25s ease;
-}
-
-.edit-btn:hover, .save-btn:hover {
-    background: var(--espresso);
-    color: white;
-    transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(62, 39, 35, 0.2);
-}
-
-.delete-btn:hover { background: var(--error-muted); color: white; border-color: var(--error-muted); transform: translateY(-3px); }
-.delete-note-btn { background: #fee2e2; color: #ef4444; border: none; }
-
-@media (max-width: 650px) {
-    .edit-grid-main { grid-template-columns: 1fr; gap: 10px; }
-}
-
-/* Normal Delete Button */
-.delete-btn {
-    background: transparent;
-    border: 1px solid rgba(220, 53, 69, 0.2);
-    color: #dc3545;
-    padding: 6px 14px;
-    border-radius: 6px;
-    font-size: 0.65rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-/* Confirming State - Makes it clear something is about to happen */
-.delete-btn.confirming {
-    background: #dc3545;
-    color: white;
-    border-color: #dc3545;
-    animation: pulse 1.5s infinite;
-}
-
-.cancel-delete-btn {
-    background: transparent;
-    border: none;
+    font-weight: 900;
+    letter-spacing: 2px;
     color: var(--espresso);
-    font-size: 0.65rem;
-    text-decoration: underline;
-    cursor: pointer;
-    opacity: 0.6;
+    text-decoration: none;
+    border-bottom: 1px solid var(--espresso);
 }
 
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
+/* Notes / Intel Section */
+.notes-container {
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(62, 39, 35, 0.05);
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.notes-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #4b5563;
+}
+
+.notes-list li:before {
+    content: "• ";
+    color: var(--espresso);
+    font-weight: bold;
+}
+
+/* File Actions */
+.file-footer {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px dashed rgba(62, 39, 35, 0.1);
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+}
+
+.edit-btn, .save-btn, .delete-btn {
+    background: transparent;
+    border: 1px solid rgba(62, 39, 35, 0.2);
+    padding: 10px 20px;
+    font-size: 0.65rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.edit-btn:hover { background: var(--espresso); color: white; }
+.delete-btn { color: #a63d40; border-color: rgba(166, 61, 64, 0.2); }
+.delete-btn.confirming { background: #a63d40; color: white; }
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+    .folder-tab { width: 140px; }
+    .file-content { padding: 30px 20px; }
 }

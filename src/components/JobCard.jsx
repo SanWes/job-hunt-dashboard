@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import "../styles/JobCard.css";
 
 const JobCard = ({ job, onDelete, onEdit }) => {
-    // --- STATE MANAGEMENT ---
     const [isEditing, setIsEditing] = useState(false);
-    const [showConfirm, setShowConfirm] = useState(false); // Safety catch for deletion
+    const [showConfirm, setShowConfirm] = useState(false);
 
     const [editedPosition, setEditedPosition] = useState(job.position);
     const [editedCompany, setEditedCompany] = useState(job.company);
@@ -12,12 +11,10 @@ const JobCard = ({ job, onDelete, onEdit }) => {
     const [editedJobLink, setEditedJobLink] = useState(job.jobLink);
     const [editedNotes, setEditedNotes] = useState(Array.isArray(job.notes) ? job.notes : []);
 
-    // Sync notes if they change externally
     useEffect(() => {
         setEditedNotes(Array.isArray(job.notes) ? job.notes : []);
     }, [job.notes]);
 
-    // --- HANDLERS ---
     const handleEditClick = () => setIsEditing(true);
 
     const handleSaveClick = () => {
@@ -34,7 +31,6 @@ const JobCard = ({ job, onDelete, onEdit }) => {
             onDelete(job.id);
         } else {
             setShowConfirm(true);
-            // Optional: Auto-reset confirmation after 3 seconds of inactivity
             setTimeout(() => setShowConfirm(false), 3000);
         }
     };
@@ -48,132 +44,122 @@ const JobCard = ({ job, onDelete, onEdit }) => {
     const handleAddNote = () => setEditedNotes([...editedNotes, ""]);
     const handleDeleteNote = (index) => setEditedNotes(editedNotes.filter((_, i) => i !== index));
 
-    const statusClass = job.status ? job.status.toLowerCase() : "applied";
+    // Map status to a safe CSS class
+    const statusClass = job.status ? job.status.toLowerCase().replace(/\s+/g, '-') : "applied";
 
     return (
-        <div className={`job-card ${statusClass} ${isEditing ? "editing" : ""}`}>
-            {/* STATUS TAB */}
-            <div className="status-tab">{isEditing ? editedStatus : job.status}</div>
+        <div className={`portfolio-file ${statusClass} ${isEditing ? "editing" : ""}`}>
+            {/* THE MANILA FOLDER TAB */}
+            <div className="folder-tab">
+                <span className="tab-text">{isEditing ? editedStatus : job.status}</span>
+            </div>
 
-            {isEditing ? (
-                /* EDIT MODE TOP */
-                <div className="edit-top-info">
-                    <div className="edit-grid-main">
-                        <div className="edit-group">
-                            <label className="edit-label">Position</label>
+            <div className="file-content">
+                {isEditing ? (
+                    <div className="edit-mode">
+                        <div className="edit-grid-main">
+                            <div className="edit-group">
+                                <label className="edit-label">Entity</label>
+                                <input
+                                    type="text"
+                                    value={editedCompany}
+                                    onChange={(e) => setEditedCompany(e.target.value)}
+                                    className="ledger-input"
+                                />
+                            </div>
+                            <div className="edit-group">
+                                <label className="edit-label">Role</label>
+                                <input
+                                    type="text"
+                                    value={editedPosition}
+                                    onChange={(e) => setEditedPosition(e.target.value)}
+                                    className="ledger-input"
+                                />
+                            </div>
+                            <div className="edit-group">
+                                <label className="edit-label">Status</label>
+                                <select
+                                    value={editedStatus}
+                                    onChange={(e) => setEditedStatus(e.target.value)}
+                                    className="ledger-select"
+                                >
+                                    <option value="Applied">Applied</option>
+                                    <option value="Interviewing">In Process</option>
+                                    <option value="Offer">Offer Received</option>
+                                    <option value="Rejected">Settled</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div className="edit-section">
+                            <label className="edit-label">Listing URL</label>
                             <input
                                 type="text"
-                                value={editedPosition}
-                                onChange={(e) => setEditedPosition(e.target.value)}
-                                className="edit-input full-width"
-                                placeholder="Position"
+                                value={editedJobLink}
+                                onChange={(e) => setEditedJobLink(e.target.value)}
+                                className="ledger-input"
                             />
-                        </div>
-                        <div className="edit-group">
-                            <label className="edit-label">Company</label>
-                            <input
-                                type="text"
-                                value={editedCompany}
-                                onChange={(e) => setEditedCompany(e.target.value)}
-                                className="edit-input full-width"
-                                placeholder="Company"
-                            />
-                        </div>
-                        <div className="edit-group">
-                            <label className="edit-label">Status</label>
-                            <select
-                                value={editedStatus}
-                                onChange={(e) => setEditedStatus(e.target.value)}
-                                className="edit-select-main"
-                            >
-                                <option value="Applied">Applied</option>
-                                <option value="Interviewing">Interviewing</option>
-                                <option value="Offer">Offer</option>
-                                <option value="Rejected">Rejected</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            ) : (
-                /* VIEW MODE TOP */
-                <div className="view-header">
-                    <h3>
-                        <span className="job-position">{job.position}</span>
-                        <span className="at-text"> at </span>
-                        <span className="company-name">{job.company}</span>
-                    </h3>
-                    <p className="date-added">Added on {job.dateAdded}</p>
-                </div>
-            )}
-
-            {isEditing ? (
-                /* EDIT MODE MIDDLE */
-                <div className="edit-section">
-                    <label className="edit-label">Listing URL</label>
-                    <input
-                        type="text"
-                        value={editedJobLink}
-                        onChange={(e) => setEditedJobLink(e.target.value)}
-                        placeholder="https://..."
-                        className="edit-input full-width"
-                    />
-                    
-                    <label className="edit-label">Notes Intelligence</label>
-                    {editedNotes.map((note, index) => (
-                        <div key={index} className="note-edit-row">
-                            <textarea
-                                value={note}
-                                onChange={(e) => handleNoteChange(index, e.target.value)}
-                                className="edit-input note-area"
-                            />
-                            <button onClick={() => handleDeleteNote(index)} className="delete-note-btn">✕</button>
-                        </div>
-                    ))}
-                    <button onClick={handleAddNote} className="add-note-btn">+ Add Record</button>
-                </div>
-            ) : (
-                /* VIEW MODE MIDDLE */
-                <div className="view-section">
-                    {job.jobLink && (
-                        <a href={job.jobLink} target="_blank" rel="noopener noreferrer" className="job-link">
-                            View Listing
-                        </a>
-                    )}
-                    <div className="notes-display">
-                        <ul className="notes-list">
-                            {job.notes.map((note, index) => (
-                                <li key={index}>{note}</li>
+                            
+                            <label className="edit-label">Strategic Context</label>
+                            {editedNotes.map((note, index) => (
+                                <div key={index} className="note-edit-row">
+                                    <textarea
+                                        value={note}
+                                        onChange={(e) => handleNoteChange(index, e.target.value)}
+                                        className="ledger-textarea"
+                                    />
+                                    <button onClick={() => handleDeleteNote(index)} className="delete-note-btn">✕</button>
+                                </div>
                             ))}
-                        </ul>
+                            <button onClick={handleAddNote} className="add-note-btn">+ Add Record</button>
+                        </div>
                     </div>
-                </div>
-            )}
+                ) : (
+                    <div className="view-mode">
+                        <div className="file-header">
+                            <h2>
+                                <span className="job-position">{job.position}</span>
+                                <span className="at-text"> at </span>
+                                <span className="company-name">{job.company}</span>
+                            </h2>
+                            <p className="date-added">Archived on {job.dateAdded}</p>
+                        </div>
 
-            {/* CARD FOOTER: Actions with Delete Confirmation */}
-            <div className="card-footer">
-                <div className="actions">
-                    {isEditing ? (
-                        <button onClick={handleSaveClick} className="save-btn">Save Changes</button>
-                    ) : (
-                        <button onClick={handleEditClick} className="edit-btn">Edit</button>
-                    )}
-
-                    <div className="delete-container">
-                        <button 
-                            onClick={handleDeleteClick} 
-                            className={`delete-btn ${showConfirm ? "confirming" : ""}`}
-                        >
-                            {showConfirm ? "Confirm Delete?" : "Delete"}
-                        </button>
-                        
-                        {showConfirm && (
-                            <button 
-                                onClick={() => setShowConfirm(false)} 
-                                className="cancel-delete-btn"
-                            >
-                                Cancel
-                            </button>
+                        {job.jobLink && (
+                            <a href={job.jobLink} target="_blank" rel="noopener noreferrer" className="job-link">
+                                VIEW LISTING →
+                            </a>
                         )}
+
+                        <div className="notes-container">
+                            <ul className="notes-list">
+                                {job.notes.map((note, index) => (
+                                    <li key={index}>{note}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+                )}
+
+                <div className="file-footer">
+                    <div className="actions">
+                        {isEditing ? (
+                            <button onClick={handleSaveClick} className="save-btn">COMMIT CHANGES</button>
+                        ) : (
+                            <button onClick={handleEditClick} className="edit-btn">EDIT FILE</button>
+                        )}
+
+                        <div className="delete-wrapper">
+                            <button 
+                                onClick={handleDeleteClick} 
+                                className={`delete-btn ${showConfirm ? "confirming" : ""}`}
+                            >
+                                {showConfirm ? "CONFIRM PURGE?" : "DELETE"}
+                            </button>
+                            {showConfirm && (
+                                <button onClick={() => setShowConfirm(false)} className="cancel-btn">CANCEL</button>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
