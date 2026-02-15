@@ -15,24 +15,9 @@ const JobCard = ({ job, onDelete, onEdit }) => {
         setEditedNotes(Array.isArray(job.notes) ? job.notes : []);
     }, [job.notes]);
 
-    const handleEditClick = () => setIsEditing(true);
-
     const handleSaveClick = () => {
-        if (editedPosition.trim() === "" || editedCompany.trim() === "") {
-            alert("Position and company cannot be empty!");
-            return;
-        }
         onEdit(job.id, editedPosition, editedCompany, editedStatus, editedJobLink, editedNotes);
         setIsEditing(false);
-    };
-
-    const handleDeleteClick = () => {
-        if (showConfirm) {
-            onDelete(job.id);
-        } else {
-            setShowConfirm(true);
-            setTimeout(() => setShowConfirm(false), 3000);
-        }
     };
 
     const handleNoteChange = (index, value) => {
@@ -41,127 +26,88 @@ const JobCard = ({ job, onDelete, onEdit }) => {
         setEditedNotes(updatedNotes);
     };
 
-    const handleAddNote = () => setEditedNotes([...editedNotes, ""]);
-    const handleDeleteNote = (index) => setEditedNotes(editedNotes.filter((_, i) => i !== index));
-
-    // Map status to a safe CSS class
     const statusClass = job.status ? job.status.toLowerCase().replace(/\s+/g, '-') : "applied";
 
     return (
-        <div className={`portfolio-file ${statusClass} ${isEditing ? "editing" : ""}`}>
-            {/* THE MANILA FOLDER TAB */}
+        <div className={`portfolio-file ${statusClass} ${isEditing ? "is-editing" : ""}`}>
+            {/* THE FOLDER TAB */}
             <div className="folder-tab">
-                <span className="tab-text">{isEditing ? editedStatus : job.status}</span>
+                <span className="tab-label">{isEditing ? "EDITING MODE" : job.status}</span>
             </div>
 
-            <div className="file-content">
+            <div className="file-inner">
                 {isEditing ? (
-                    <div className="edit-mode">
-                        <div className="edit-grid-main">
-                            <div className="edit-group">
-                                <label className="edit-label">Entity</label>
-                                <input
-                                    type="text"
-                                    value={editedCompany}
-                                    onChange={(e) => setEditedCompany(e.target.value)}
-                                    className="ledger-input"
-                                />
+                    /* --- EDIT STATE --- */
+                    <div className="edit-container">
+                        <div className="edit-row-main">
+                            <div className="input-box">
+                                <label>ENTITY</label>
+                                <input type="text" value={editedCompany} onChange={(e) => setEditedCompany(e.target.value)} />
                             </div>
-                            <div className="edit-group">
-                                <label className="edit-label">Role</label>
-                                <input
-                                    type="text"
-                                    value={editedPosition}
-                                    onChange={(e) => setEditedPosition(e.target.value)}
-                                    className="ledger-input"
-                                />
+                            <div className="input-box">
+                                <label>ROLE</label>
+                                <input type="text" value={editedPosition} onChange={(e) => setEditedPosition(e.target.value)} />
                             </div>
-                            <div className="edit-group">
-                                <label className="edit-label">Status</label>
-                                <select
-                                    value={editedStatus}
-                                    onChange={(e) => setEditedStatus(e.target.value)}
-                                    className="ledger-select"
-                                >
+                        </div>
+
+                        <div className="edit-row-secondary">
+                            <div className="input-box">
+                                <label>STATUS</label>
+                                <select value={editedStatus} onChange={(e) => setEditedStatus(e.target.value)}>
                                     <option value="Applied">Applied</option>
                                     <option value="Interviewing">In Process</option>
                                     <option value="Offer">Offer Received</option>
                                     <option value="Rejected">Settled</option>
                                 </select>
                             </div>
+                            <div className="input-box">
+                                <label>SOURCE LINK</label>
+                                <input type="text" value={editedJobLink} onChange={(e) => setEditedJobLink(e.target.value)} />
+                            </div>
                         </div>
 
-                        <div className="edit-section">
-                            <label className="edit-label">Listing URL</label>
-                            <input
-                                type="text"
-                                value={editedJobLink}
-                                onChange={(e) => setEditedJobLink(e.target.value)}
-                                className="ledger-input"
-                            />
-                            
-                            <label className="edit-label">Strategic Context</label>
+                        <div className="edit-notes-area">
+                            <label>STRATEGIC CONTEXT</label>
                             {editedNotes.map((note, index) => (
-                                <div key={index} className="note-edit-row">
-                                    <textarea
-                                        value={note}
-                                        onChange={(e) => handleNoteChange(index, e.target.value)}
-                                        className="ledger-textarea"
-                                    />
-                                    <button onClick={() => handleDeleteNote(index)} className="delete-note-btn">✕</button>
-                                </div>
+                                <textarea key={index} value={note} onChange={(e) => handleNoteChange(index, e.target.value)} />
                             ))}
-                            <button onClick={handleAddNote} className="add-note-btn">+ Add Record</button>
+                        </div>
+
+                        <div className="edit-actions">
+                            <button className="btn-save" onClick={handleSaveClick}>COMMIT CHANGES</button>
+                            <button className="btn-cancel" onClick={() => setIsEditing(false)}>ABORT</button>
                         </div>
                     </div>
                 ) : (
-                    <div className="view-mode">
-                        <div className="file-header">
-                            <h2>
-                                <span className="job-position">{job.position}</span>
-                                <span className="at-text"> at </span>
-                                <span className="company-name">{job.company}</span>
-                            </h2>
-                            <p className="date-added">Archived on {job.dateAdded}</p>
+                    /* --- VIEW STATE --- */
+                    <div className="view-container">
+                        <div className="view-header">
+                            <h2>{job.position} <span className="at">at</span> <span className="entity">{job.company}</span></h2>
+                            <p className="meta">ARCHIVED: {job.dateAdded}</p>
                         </div>
 
-                        {job.jobLink && (
-                            <a href={job.jobLink} target="_blank" rel="noopener noreferrer" className="job-link">
-                                VIEW LISTING →
-                            </a>
-                        )}
-
-                        <div className="notes-container">
-                            <ul className="notes-list">
-                                {job.notes.map((note, index) => (
-                                    <li key={index}>{note}</li>
-                                ))}
+                        <div className="view-body">
+                            {job.jobLink && <a href={job.jobLink} target="_blank" className="source-link">Source File ↗</a>}
+                            <ul className="intel-list">
+                                {job.notes.map((n, i) => <li key={i}>{n}</li>)}
                             </ul>
+                        </div>
+
+                        <div className="view-footer">
+                            <button className="btn-modify" onClick={() => setIsEditing(true)}>MODIFY</button>
+                            <div className="delete-zone">
+                                {showConfirm ? (
+                                    <>
+                                        <button className="btn-confirm" onClick={() => onDelete(job.id)}>SHRED NOW</button>
+                                        <button className="btn-abort" onClick={() => setShowConfirm(false)}>CANCEL</button>
+                                    </>
+                                ) : (
+                                    <button className="btn-shred" onClick={() => setShowConfirm(true)}>SHRED</button>
+                                )}
+                            </div>
                         </div>
                     </div>
                 )}
-
-                <div className="file-footer">
-                    <div className="actions">
-                        {isEditing ? (
-                            <button onClick={handleSaveClick} className="save-btn">COMMIT CHANGES</button>
-                        ) : (
-                            <button onClick={handleEditClick} className="edit-btn">EDIT FILE</button>
-                        )}
-
-                        <div className="delete-wrapper">
-                            <button 
-                                onClick={handleDeleteClick} 
-                                className={`delete-btn ${showConfirm ? "confirming" : ""}`}
-                            >
-                                {showConfirm ? "CONFIRM PURGE?" : "DELETE"}
-                            </button>
-                            {showConfirm && (
-                                <button onClick={() => setShowConfirm(false)} className="cancel-btn">CANCEL</button>
-                            )}
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     );

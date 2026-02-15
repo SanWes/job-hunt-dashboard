@@ -1,131 +1,279 @@
+/* --- THE OVERALL FOLDER --- */
 .portfolio-file {
     position: relative;
-    margin-top: 40px; /* Space for the tab */
-    margin-bottom: 30px;
-    background: #ffffff;
-    border: 1px solid rgba(62, 39, 35, 0.1);
-    box-shadow: 5px 5px 20px rgba(0,0,0,0.05);
-    transition: transform 0.3s ease;
+    margin: 80px auto 40px auto;
+    background: #fff;
+    border: 1px solid rgba(62, 39, 35, 0.15);
+    box-shadow: 10px 10px 0px rgba(62, 39, 35, 0.03);
+    width: 100%; 
+    max-width: 850px; 
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .portfolio-file:hover {
-    transform: translateY(-5px); /* Lift out of briefcase effect */
+    transform: translateY(-4px);
+    box-shadow: 12px 12px 0px rgba(62, 39, 35, 0.05);
 }
 
-/* THE FOLDER TAB */
+/* --- THE TAB --- */
 .folder-tab {
     position: absolute;
-    top: -30px;
-    left: 0;
-    height: 30px;
-    width: 180px;
-    background: #e2e8f0; /* Default manila */
-    clip-path: polygon(0% 100%, 10% 0%, 90% 0%, 100% 100%);
+    top: -31px;
+    left: -1px;
+    height: 31px;
+    width: 220px;
+    background: var(--slate-muted);
+    clip-path: polygon(0% 100%, 12% 0%, 88% 0%, 100% 100%);
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.3s ease;
+    z-index: 10;
 }
 
-.tab-text {
-    font-size: 0.6rem;
+.tab-label {
+    color: #fff;
+    font-size: 0.7rem;
     font-weight: 900;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
     text-transform: uppercase;
-    color: white;
+    padding-top: 4px;
 }
 
 /* Status Colors for Tabs */
 .applied .folder-tab { background-color: var(--slate-muted); }
 .interviewing .folder-tab, .in-process .folder-tab { background-color: var(--gold-muted); }
 .offer .folder-tab, .offer-received .folder-tab { background-color: var(--sage-green); }
-.settled .folder-tab, .rejected .folder-tab { background-color: var(--error-muted); }
-/* Content Inside the File */
-.file-content {
-    padding: 40px;
-    background-image: linear-gradient(rgba(0,0,0,0.01) 1px, transparent 1px);
-    background-size: 100% 25px; /* Subtle line effect on the folder */
+.rejected .folder-tab, .settled .folder-tab { background-color: var(--error-muted); }
+
+/* --- THE INTERIOR --- */
+.file-inner {
+    padding: 50px;
+    width: 100%;
+    box-sizing: border-box;
+    background-image: radial-gradient(circle, #f0f0f0 1px, transparent 1px);
+    background-size: 25px 25px;
 }
 
-.file-header h2 {
+.view-container, .edit-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- TYPOGRAPHY --- */
+.view-header h2 {
+    font-size: 2rem;
+    color: var(--espresso);
     margin: 0;
-    font-size: 1.5rem;
-    color: var(--espresso);
-}
-
-.at-text { font-weight: 300; opacity: 0.5; }
-.date-added { 
-    font-size: 0.6rem; 
-    letter-spacing: 2px; 
-    text-transform: uppercase; 
-    margin-top: 5px;
-    color: #94a3b8;
-}
-
-.job-link {
-    display: inline-block;
-    margin: 20px 0;
-    font-size: 0.7rem;
     font-weight: 900;
+    line-height: 1.2;
+}
+
+.at { font-weight: 300; color: var(--text-muted); padding: 0 12px; }
+.entity { color: var(--sage-green); }
+
+.meta {
+    font-size: 0.7rem;
     letter-spacing: 2px;
-    color: var(--espresso);
+    color: var(--text-muted);
+    margin: 15px 0 30px 0;
+    text-transform: uppercase;
+}
+
+/* --- SOURCE LINK (STAMP STYLE) --- */
+.source-link {
+    align-self: flex-start;
     text-decoration: none;
-    border-bottom: 1px solid var(--espresso);
+    font-size: 0.65rem;
+    font-weight: 900;
+    color: var(--espresso);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    border: 1px solid rgba(62, 39, 35, 0.2);
+    background: rgba(62, 39, 35, 0.03);
+    margin-bottom: 30px;
+    transition: all 0.2s ease;
 }
 
-/* Notes / Intel Section */
-.notes-container {
-    background: rgba(255, 255, 255, 0.5);
-    border: 1px solid rgba(62, 39, 35, 0.05);
-    padding: 20px;
-    margin-top: 20px;
+.source-link:hover {
+    background: var(--espresso);
+    color: #fff;
+    transform: translateX(4px);
 }
 
-.notes-list {
+/* --- INTEL LIST --- */
+.intel-list {
     list-style: none;
     padding: 0;
-    margin: 0;
-    font-size: 0.9rem;
-    line-height: 1.6;
-    color: #4b5563;
+    border-left: 3px solid var(--gold-muted);
+    padding-left: 25px;
+    margin: 25px 0;
 }
 
-.notes-list li:before {
-    content: "• ";
-    color: var(--espresso);
-    font-weight: bold;
+.intel-list li {
+    font-size: 1.1rem;
+    color: var(--text-main);
+    line-height: 1.8;
+    margin-bottom: 12px;
 }
 
-/* File Actions */
-.file-footer {
+/* --- EDIT MODE GRID --- */
+.edit-row-main, .edit-row-secondary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 30px;
+}
+
+.input-box label {
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+}
+
+.input-box input, .input-box select {
+    width: 100%;
+    border: none;
+    border-bottom: 1.5px solid rgba(62, 39, 35, 0.2);
+    padding: 12px 0;
+    font-family: inherit;
+    font-size: 1.1rem;
+    background: transparent;
+    outline: none;
+    color: var(--text-main);
+}
+
+/* --- STRATEGIC CONTEXT (RULED PAPER TEXTAREA) --- */
+.edit-notes-area {
     margin-top: 30px;
-    padding-top: 20px;
-    border-top: 1px dashed rgba(62, 39, 35, 0.1);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
-.actions {
+.edit-notes-area label {
+    font-size: 0.65rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+}
+
+.edit-notes-area textarea {
+    width: 100%;
+    min-height: 220px;
+    border: none;
+    border-bottom: 1.5px solid rgba(62, 39, 35, 0.2); 
+    padding: 0; 
+    font-family: inherit;
+    font-size: 1.1rem;
+    background: transparent;
+    outline: none;
+    color: var(--text-main);
+    line-height: 2rem; 
+    resize: vertical;
+
+    /* Ruled lines sync with 2rem line-height */
+    background-image: linear-gradient(rgba(62, 39, 35, 0.08) 1px, transparent 1px);
+    background-size: 100% 2rem; 
+    background-attachment: local;
+}
+
+/* --- FOOTER & BUTTON ACTIONS --- */
+.view-footer, .edit-actions {
     display: flex;
     justify-content: flex-end;
-    gap: 15px;
+    align-items: center;
+    gap: 20px;
+    margin-top: 40px;
+    border-top: 1px solid rgba(62, 39, 35, 0.08);
+    padding-top: 30px;
 }
 
-.edit-btn, .save-btn, .delete-btn {
+/* Base Button Style */
+.btn-modify, .btn-shred, .btn-save, .btn-confirm {
+    background: transparent;
+    border: 1.5px solid var(--espresso);
+    padding: 12px 30px;
+    font-size: 0.75rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    text-transform: uppercase;
+}
+
+/* Modify & Save State */
+.btn-modify:hover {
+    background: var(--espresso);
+    color: #fff;
+}
+
+.btn-save {
+    background: var(--espresso) !important;
+    color: #fff !important;
+    animation: commit-glow 3s infinite ease-in-out;
+}
+
+.btn-save:hover {
+    background: var(--sage-green) !important;
+    border-color: var(--sage-green) !important;
+    box-shadow: 0 4px 12px rgba(109, 140, 125, 0.4);
+}
+
+/* Shred / Delete States */
+.btn-shred {
+    border-color: var(--error-muted);
+    color: var(--error-muted);
+}
+
+.btn-shred:hover {
+    background: var(--error-muted);
+    color: white;
+}
+
+.btn-confirm {
+    background: var(--error-muted) !important;
+    color: white !important;
+    border-color: var(--error-muted) !important;
+    animation: shred-shiver 0.2s infinite ease-in-out;
+}
+
+/* Cancel / Abort States */
+.btn-abort, .btn-cancel {
     background: transparent;
     border: 1px solid rgba(62, 39, 35, 0.2);
     padding: 10px 20px;
     font-size: 0.65rem;
     font-weight: 900;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
+    color: var(--text-muted);
     cursor: pointer;
+    text-transform: uppercase;
     transition: all 0.2s ease;
 }
 
-.edit-btn:hover { background: var(--espresso); color: white; }
-.delete-btn { color: #a63d40; border-color: rgba(166, 61, 64, 0.2); }
-.delete-btn.confirming { background: #a63d40; color: white; }
+.btn-abort:hover, .btn-cancel:hover {
+    color: var(--espresso);
+    border-color: var(--espresso);
+    background: rgba(62, 39, 35, 0.05);
+}
 
-/* Mobile adjustments */
-@media (max-width: 600px) {
-    .folder-tab { width: 140px; }
-    .file-content { padding: 30px 20px; }
+/* --- ANIMATIONS --- */
+@keyframes commit-glow {
+    0% { box-shadow: 0 0 5px rgba(109, 140, 125, 0.1); }
+    50% { box-shadow: 0 0 15px rgba(109, 140, 125, 0.3); }
+    100% { box-shadow: 0 0 5px rgba(109, 140, 125, 0.1); }
+}
+
+@keyframes shred-shiver {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(1px); }
+    75% { transform: translateX(-1px); }
+    100% { transform: translateX(0); }
 }
