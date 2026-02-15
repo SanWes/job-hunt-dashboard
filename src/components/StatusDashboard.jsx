@@ -21,7 +21,9 @@ const StatusDashboard = ({ jobs, setStatusFilter }) => {
 
   return (
     <div className="status-dashboard-wrapper">
-      <div className="dashboard-label">Status Report</div>
+      <div className="dashboard-label">Status Report <br />
+
+      </div>
       
       <div className="status-dashboard">
         <div className="stat-item total" onClick={() => handleStatClick("All")}>
@@ -44,6 +46,7 @@ const StatusDashboard = ({ jobs, setStatusFilter }) => {
           <span className="stat-count">{stats.rejected}</span>
           <span className="stat-name">Rejections</span>
         </div>
+        
       </div>
     </div>
   );

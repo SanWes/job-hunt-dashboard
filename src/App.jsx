@@ -16,11 +16,13 @@ import {
 
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase/firebase";
+import SearchBar from "./components/SearchBar";
 
 function App() {
   const [user, setUser] = useState(null);
   const [jobs, setJobs] = useState([]);
   const [statusFilter, setStatusFilter] = useState("All");
+  const [searchTerm, setSearchTerm] = useState(""); // Shared Search State
   
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -70,7 +72,14 @@ function App() {
     }
   };
 
-  const filteredJobs = statusFilter === "All" ? jobs : jobs.filter((job) => job.status === statusFilter);
+  // --- NEW COMBINED FILTER LOGIC ---
+  const displayJobs = jobs.filter((job) => {
+    const matchesStatus = statusFilter === "All" || job.status === statusFilter;
+    const matchesSearch = 
+      job.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      job.position.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesStatus && matchesSearch;
+  });
   
   if (!user) {
     return <AuthPage onLogin={() => setUser(auth.currentUser)} />;
@@ -85,11 +94,7 @@ function App() {
 
   return (
     <div className="App">
-      <br />
-      <br />
-      <br />
-      <br />
-      <Header />
+      <Header searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
 
       <AboutSection />
 
@@ -101,8 +106,8 @@ function App() {
 
       <section id="joblist" className="section-card">
         <div className="filter-container">
+        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
           <span>Filter by Status:</span>
-
           <div className="button-row">
             {["All", "Applied", "Interviewing", "Offer", "Rejected"].map((status) => (
               <button
@@ -116,28 +121,34 @@ function App() {
           </div>
         </div>
         
-        
-{filteredJobs.length > 0 ? (
-  <JobList jobs={filteredJobs} onDelete={deleteJob} onEdit={editJob} />
-) : (
-  <div className="empty-ledger-state">
-    <div className="empty-icon">🖋️</div>
-    <h3>The Ledger is Empty</h3>
-    <p>Every great career move begins with a single entry.</p>
-    
-    {statusFilter === "All" ? (
-      <button onClick={scrollToForm} className="reset-filter-btn">
-        Initialize First Entry
-      </button>
-    ) : (
-      <button onClick={() => setStatusFilter("All")} className="reset-filter-btn">
-        Back to Full Ledger
-      </button>
-    )}
-  </div>
-)}
-</section>
-
+        {displayJobs.length > 0 ? (
+          <JobList 
+            jobs={displayJobs} 
+            onDelete={deleteJob} 
+            onEdit={editJob} 
+          />
+        ) : (
+          <div className="empty-ledger-state">
+            <div className="empty-icon">{searchTerm ? "🔍" : "🖋️"}</div>
+            <h3>{searchTerm ? "No Matches Found" : "The Ledger is Empty"}</h3>
+            <p>{searchTerm ? "Adjust your search to find a record." : "Every great career move begins with a single entry."}</p>
+            
+            {searchTerm ? (
+              <button onClick={() => setSearchTerm("")} className="reset-filter-btn">
+                Clear Search
+              </button>
+            ) : statusFilter !== "All" ? (
+              <button onClick={() => setStatusFilter("All")} className="reset-filter-btn">
+                Back to Full Ledger
+              </button>
+            ) : (
+              <button onClick={scrollToForm} className="reset-filter-btn">
+                Initialize First Entry
+              </button>
+            )}
+          </div>
+        )}
+      </section>
 
       <Footer />
     </div>
