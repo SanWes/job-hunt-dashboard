@@ -57,6 +57,14 @@ body {
   letter-spacing: 5px;
 }
 
+.about-section h2, .empty-ledger-state h3 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  letter-spacing: 1px; /* Serifs don't need the 5px spacing */
+  text-transform: none; /* Let the font speak for itself */
+  font-size: 2.2rem;
+}
+
 /* --- Workflow Grid --- */
 .about-grid {
   display: flex;
@@ -68,15 +76,19 @@ body {
 .about-item {
   flex: 1;
   min-width: 240px; 
-  background: white;
-  padding: 30px 20px;
-  border-radius: 16px;
-  border-bottom: 4px solid var(--sage-green);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-  transition: transform 0.2s ease;
+  background: rgba(255, 255, 255, 0.7); /* More transparent */
+  backdrop-filter: blur(10px);          /* Glass effect */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 40px 30px;
+  border-radius: 20px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Snappy bounce hover */
 }
 
-.about-item:hover { transform: translateY(-5px); }
+.about-item:hover {
+  transform: translateY(-8px) scale(1.02);
+  background: white;
+  box-shadow: 0 20px 40px rgba(62, 39, 35, 0.1);
+}
 
 .about-icon {
   font-size: 1.8rem;

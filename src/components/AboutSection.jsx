@@ -3,34 +3,37 @@ import React from "react";
 const AboutSection = () => {
 return (
     <section id="about" className="about-section">
-
     <h2>The Workflow</h2>
-    <br />
     <div className="about-grid">
+        
         <div className="about-item">
-        <span className="about-icon">📁</span>
+        <span className="about-icon">📥</span>
         <p>
-            <strong>Centralize</strong>
+            <strong>Vault</strong>
             <br />
-            Consolidate every active application into a single, organized dashboard.
+            Secure every active application in a centralized, high-performance command center.
         </p>
         </div>
+
         <div className="about-item">
-        <span className="about-icon">📝</span>
+        <span className="about-icon">✍️</span>
+        
         <p>
-            <strong>Document</strong>
+            <strong>Chronicle</strong>
             <br />
-            Maintain detailed records of interview feedback, salary ranges, and follow-ups.
+            Maintain detailed records of interview nuances, salary benchmarks, and feedback.
         </p>
         </div>
+
         <div className="about-item">
-        <span className="about-icon">📊</span>
+        <span className="about-icon">📈</span>
         <p>
-            <strong>Analyze</strong>
+            <strong>Optimize</strong>
             <br />
-            Track your conversion rate from initial application to final offer in real-time.
+            Visualize your funnel metrics from initial touchpoint to final offer in real-time.
         </p>
         </div>
+
     </div>
     </section>
 );
