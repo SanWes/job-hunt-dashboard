@@ -13,7 +13,7 @@ const JobForm = ({ onAddJob }) => {
 
   const [jobDetails, setJobDetails] = useState(initialState);
   const [error, setError] = useState("");
-  const [showSuccess, setShowSuccess] = useState(false); // New Success State
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -26,96 +26,110 @@ const JobForm = ({ onAddJob }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!jobDetails.company.trim() || !jobDetails.position.trim()) {
-      setError("Company and Position are required.");
+      setError("Entries required: Company and Position.");
       return;
     }
 
     setError("");
     onAddJob({ ...jobDetails, id: Date.now() });
-    
-    // Trigger Success Message
     setShowSuccess(true);
     setJobDetails(initialState);
-    
-    setTimeout(() => setShowSuccess(false), 5000); // Hide after 3s
+    setTimeout(() => setShowSuccess(false), 5000);
   };
 
   return (
-    <div className="job-form-wrapper" id="newjob">
-      <div className="section-card">
+    <div className="ledger-form-wrapper" id="newjob">
+      <div className="ledger-sheet">
         {showSuccess && <div className="success-toast">Entry Logged Successfully</div>}
         
         <div className="form-header">
-          <h2 className="section-title">Add Entry</h2>
-          <p className="form-subtitle">Record a new opportunity in your ledger</p>
+          <h2 className="ledger-title">ADD ENTRY</h2>
+          <p className="ledger-subtitle">RECORD A NEW OPPORTUNITY IN YOUR LEDGER</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="job-form">
+        <form onSubmit={handleSubmit} className="ledger-form">
           {error && <p className="error-message">{error}</p>}
 
-          <div className="form-grid">
-            <div className="form-group">
-              <label htmlFor="company">Company</label>
+          {/* Row 1: Entity & Role */}
+          <div className="ledger-grid">
+            <div className="ledger-group">
+              <label htmlFor="company">COMPANY</label>
               <input
                 type="text"
                 id="company"
                 name="company"
+                className="ledger-input"
                 value={jobDetails.company}
                 onChange={handleInputChange}
-                placeholder="e.g. Google"
+                placeholder="Enter Entity..."
               />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="position">Position</label>
+            <div className="ledger-group">
+              <label htmlFor="position">POSITION</label>
               <input
                 type="text"
                 id="position"
                 name="position"
+                className="ledger-input"
                 value={jobDetails.position}
                 onChange={handleInputChange}
-                placeholder="e.g. Software Engineer"
+                placeholder="Enter Role..."
               />
             </div>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="status">Application Status</label>
-            <select id="status" name="status" value={jobDetails.status} onChange={handleInputChange}>
-              <option value="Applied">Applied</option>
-              <option value="Interviewing">Interviewing</option>
-              <option value="Offer">Offer</option>
-              <option value="Rejected">Rejected</option>
-            </select>
+          {/* Row 2: Status & URL */}
+          <div className="ledger-grid">
+            <div className="ledger-group">
+              <label htmlFor="status">APPLICATION STATUS</label>
+              <div className="select-wrapper">
+                <select 
+                  id="status" 
+                  name="status" 
+                  className="ledger-select"
+                  value={jobDetails.status} 
+                  onChange={handleInputChange}
+                >
+                  <option value="Applied">Applied</option>
+                  <option value="Interviewing">In Process</option>
+                  <option value="Offer">Offer Received</option>
+                  <option value="Rejected">Settled</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="ledger-group">
+              <label htmlFor="jobLink">LISTING URL</label>
+              <input
+                type="text"
+                id="jobLink"
+                name="jobLink"
+                className="ledger-input"
+                value={jobDetails.jobLink}
+                onChange={handleInputChange}
+                placeholder="https://..."
+              />
+            </div>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="jobLink">Listing URL</label>
-            <input
-              type="text"
-              id="jobLink"
-              name="jobLink"
-              value={jobDetails.jobLink}
-              onChange={handleInputChange}
-              placeholder="https://..."
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="notes">Strategic Context</label>
+          {/* Row 3: Notes */}
+          <div className="ledger-group full-width">
+            <label htmlFor="notes">STRATEGIC CONTEXT</label>
             <textarea
               id="notes"
               name="notes"
+              className="ledger-textarea"
               value={jobDetails.notes[0]}
               onChange={handleInputChange}
-              placeholder="Salary, contact person, or interview dates..."
-              rows={3}
+              placeholder="Record metadata, salary, or interview intelligence..."
+              rows={4}
             />
           </div>
 
-          <button type="submit" className="submit-btn">
-            Finalize Entry
-          </button>
+<button type="submit" className="ledger-submit-btn">
+  FILE ENTRY 
+</button>
         </form>
       </div>
     </div>
