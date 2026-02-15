@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import AuthPage from "./components/AuthPage";
 import StatusDashboard from "./components/StatusDashboard";
+import AboutSection from "./components/AboutSection";
 
 import {
   getJobs,
@@ -84,41 +85,21 @@ function App() {
 
   return (
     <div className="App">
+      <br />
+      <br />
+      <br />
+      <br />
       <Header />
 
-      {/* REFINED ABOUT SECTION */}
-      <section id="about" className="about-section">
-          <h2>The Workflow</h2>
-          <div className="about-grid">
-
-
-
-            <div className="about-item">
-        <span className="about-icon">📁</span>
-        <p><strong>Centralize</strong><br/>
-        Consolidate every active application into a single, organized dashboard.</p>
-      </div>
-      <div className="about-item">
-        <span className="about-icon">📝</span>
-        <p><strong>Document</strong><br/>
-        Maintain detailed records of interview feedback, salary ranges, and follow-ups.</p>
-      </div>
-      <div className="about-item">
-        <span className="about-icon">📊</span>
-        <p><strong>Analyze</strong><br/>
-        Track your conversion rate from initial application to final offer in real-time.</p>
-      </div>
-
-          </div>
-      </section>
+      <AboutSection />
 
       <StatusDashboard jobs={jobs} setStatusFilter={setStatusFilter} />
 
-      <section id="newjob" style={{ padding: "40px 20px", maxWidth: "900px", margin: "0 auto" }}>
+      <section id="newjob" className="section-card">
         <JobForm onAddJob={addJob} />
       </section>
 
-      <section id="joblist" style={{ padding: "40px 20px", maxWidth: "900px", margin: "0 auto" }}>
+      <section id="joblist" className="section-card">
         <div className="filter-container">
           <span>Filter by Status:</span>
 
