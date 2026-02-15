@@ -1,49 +1,95 @@
-/* Container to handle the positioning */
+/* Container handles the sticky positioning and spacing from the dashboard above */
 .search-bar-wrapper {
 position: sticky;
-top: 90px; /* Adjust this based on your header height */
+top: 100px; /* Adjust based on your header height */
 z-index: 100;
+width: 95%;
+max-width: 650px;
+margin: 0 auto 30px auto;
+transition: transform 0.4s ease;
+}
+
+/* Inner container houses the icons and input */
+.search-container-inner {
+position: relative;
+display: flex;
+align-items: center;
 width: 100%;
-max-width: 600px;
-margin: 0 auto 40px auto;
-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* The Input Field */
-.header-search .search-input {
+.search-input {
 width: 100%;
-background: rgba(255, 255, 255, 0.7); /* Translucent glass */
-backdrop-filter: blur(8px);
-border: 1px solid rgba(62, 39, 35, 0.1);
-padding: 14px 20px 14px 45px; /* Added left padding for icon */
-border-radius: 50px; /* Pill shape is more modern */
-font-size: 0.9rem;
-color: var(--espresso);
-box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-transition: all 0.3s ease;
+background: rgba(255, 255, 255, 0.85); /* Slightly more opaque for readability */
+backdrop-filter: blur(10px);
+border: 1px solid rgba(62, 39, 35, 0.15);
+/* Top/Bottom padding must be identical for vertical centering */
+padding: 14px 45px 14px 48px; 
+border-radius: 50px;
+font-size: 0.85rem;
+font-weight: 600;
+letter-spacing: 0.5px;
+color: #3e2723; /* fallback for var(--espresso) */
+box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+box-sizing: border-box;
 }
 
-/* Icon Alignment Fix */
-.header-search .search-icon {
+/* Perfecting Vertical Centering for the Icon */
+.search-icon {
 position: absolute;
 left: 18px;
 top: 50%;
 transform: translateY(-50%);
 font-size: 16px;
-opacity: 0.4;
+opacity: 0.5;
 pointer-events: none;
+display: flex;
+align-items: center;
 }
 
-/* Hover/Focus States */
-.header-search .search-input:hover {
-border-color: rgba(62, 39, 35, 0.2);
-background: rgba(255, 255, 255, 0.9);
+/* Perfecting Vertical Centering for the Clear Button */
+.search-clear-btn {
+position: absolute;
+right: 18px;
+top: 50%;
+transform: translateY(-50%);
+background: none;
+border: none;
+color: #3e2723;
+opacity: 0.4;
+font-size: 16px;
+cursor: pointer;
+padding: 4px;
+display: flex;
+align-items: center;
+justify-content: center;
+transition: all 0.2s ease;
 }
 
-.header-search .search-input:focus {
-outline: none;
-width: 105%; /* Subtle expansion */
+.search-clear-btn:hover {
+opacity: 1;
+transform: translateY(-50%) scale(1.2);
+}
+
+/* State Changes */
+.search-input:hover {
 background: white;
-border-color: var(--sage-green);
-box-shadow: 0 8px 30px rgba(109, 140, 125, 0.15);
+border-color: rgba(62, 39, 35, 0.3);
+}
+
+.search-input:focus {
+outline: none;
+border-color: #6d8c7d; /* fallback for var(--sage-green) */
+background: white;
+box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+/* Use transform scale instead of width % to keep alignment locked */
+transform: scale(1.02);
+}
+
+/* Placeholder styling for a high-end look */
+.search-input::placeholder {
+color: rgba(62, 39, 35, 0.4);
+font-size: 0.75rem;
+letter-spacing: 1px;
 }

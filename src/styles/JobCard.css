@@ -152,3 +152,41 @@
 @media (max-width: 650px) {
     .edit-grid-main { grid-template-columns: 1fr; gap: 10px; }
 }
+
+/* Normal Delete Button */
+.delete-btn {
+    background: transparent;
+    border: 1px solid rgba(220, 53, 69, 0.2);
+    color: #dc3545;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Confirming State - Makes it clear something is about to happen */
+.delete-btn.confirming {
+    background: #dc3545;
+    color: white;
+    border-color: #dc3545;
+    animation: pulse 1.5s infinite;
+}
+
+.cancel-delete-btn {
+    background: transparent;
+    border: none;
+    color: var(--espresso);
+    font-size: 0.65rem;
+    text-decoration: underline;
+    cursor: pointer;
+    opacity: 0.6;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}

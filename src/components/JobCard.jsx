@@ -2,17 +2,22 @@ import React, { useState, useEffect } from "react";
 import "../styles/JobCard.css";
 
 const JobCard = ({ job, onDelete, onEdit }) => {
+    // --- STATE MANAGEMENT ---
     const [isEditing, setIsEditing] = useState(false);
+    const [showConfirm, setShowConfirm] = useState(false); // Safety catch for deletion
+
     const [editedPosition, setEditedPosition] = useState(job.position);
     const [editedCompany, setEditedCompany] = useState(job.company);
     const [editedStatus, setEditedStatus] = useState(job.status);
     const [editedJobLink, setEditedJobLink] = useState(job.jobLink);
     const [editedNotes, setEditedNotes] = useState(Array.isArray(job.notes) ? job.notes : []);
 
+    // Sync notes if they change externally
     useEffect(() => {
         setEditedNotes(Array.isArray(job.notes) ? job.notes : []);
     }, [job.notes]);
 
+    // --- HANDLERS ---
     const handleEditClick = () => setIsEditing(true);
 
     const handleSaveClick = () => {
@@ -22,6 +27,16 @@ const JobCard = ({ job, onDelete, onEdit }) => {
         }
         onEdit(job.id, editedPosition, editedCompany, editedStatus, editedJobLink, editedNotes);
         setIsEditing(false);
+    };
+
+    const handleDeleteClick = () => {
+        if (showConfirm) {
+            onDelete(job.id);
+        } else {
+            setShowConfirm(true);
+            // Optional: Auto-reset confirmation after 3 seconds of inactivity
+            setTimeout(() => setShowConfirm(false), 3000);
+        }
     };
 
     const handleNoteChange = (index, value) => {
@@ -37,11 +52,11 @@ const JobCard = ({ job, onDelete, onEdit }) => {
 
     return (
         <div className={`job-card ${statusClass} ${isEditing ? "editing" : ""}`}>
-            {/* The Visual Status Tab stays regardless of mode */}
+            {/* STATUS TAB */}
             <div className="status-tab">{isEditing ? editedStatus : job.status}</div>
 
             {isEditing ? (
-                /* EDIT MODE TOP: Grid for Position, Company, and Status */
+                /* EDIT MODE TOP */
                 <div className="edit-top-info">
                     <div className="edit-grid-main">
                         <div className="edit-group">
@@ -80,7 +95,7 @@ const JobCard = ({ job, onDelete, onEdit }) => {
                     </div>
                 </div>
             ) : (
-                /* VIEW MODE TOP: Standard Header */
+                /* VIEW MODE TOP */
                 <div className="view-header">
                     <h3>
                         <span className="job-position">{job.position}</span>
@@ -92,7 +107,7 @@ const JobCard = ({ job, onDelete, onEdit }) => {
             )}
 
             {isEditing ? (
-                /* EDIT MODE MIDDLE: Link and Notes */
+                /* EDIT MODE MIDDLE */
                 <div className="edit-section">
                     <label className="edit-label">Listing URL</label>
                     <input
@@ -117,7 +132,7 @@ const JobCard = ({ job, onDelete, onEdit }) => {
                     <button onClick={handleAddNote} className="add-note-btn">+ Add Record</button>
                 </div>
             ) : (
-                /* VIEW MODE MIDDLE: Link and Display Notes */
+                /* VIEW MODE MIDDLE */
                 <div className="view-section">
                     {job.jobLink && (
                         <a href={job.jobLink} target="_blank" rel="noopener noreferrer" className="job-link">
@@ -134,7 +149,7 @@ const JobCard = ({ job, onDelete, onEdit }) => {
                 </div>
             )}
 
-            {/* FOOTER: Only for Primary Actions */}
+            {/* CARD FOOTER: Actions with Delete Confirmation */}
             <div className="card-footer">
                 <div className="actions">
                     {isEditing ? (
@@ -142,7 +157,24 @@ const JobCard = ({ job, onDelete, onEdit }) => {
                     ) : (
                         <button onClick={handleEditClick} className="edit-btn">Edit</button>
                     )}
-                    <button onClick={() => onDelete(job.id)} className="delete-btn">Delete</button>
+
+                    <div className="delete-container">
+                        <button 
+                            onClick={handleDeleteClick} 
+                            className={`delete-btn ${showConfirm ? "confirming" : ""}`}
+                        >
+                            {showConfirm ? "Confirm Delete?" : "Delete"}
+                        </button>
+                        
+                        {showConfirm && (
+                            <button 
+                                onClick={() => setShowConfirm(false)} 
+                                className="cancel-delete-btn"
+                            >
+                                Cancel
+                            </button>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
