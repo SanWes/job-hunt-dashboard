@@ -1,73 +1,112 @@
 .status-dashboard-wrapper {
-    max-width: 900px;
-    margin: 40px auto 30px auto;
+    max-width: 1000px;
+    margin: 30px auto;
     padding: 0 20px;
     position: relative;
 }
 
 .dashboard-label {
-    font-family: 'Inter', -apple-system, sans-serif;
-    font-size: 0.85rem;
-    color: var(--espresso); /* Matching brand primary */
+    font-size: 0.6rem;
+    color: var(--espresso);
     text-transform: uppercase;
-    letter-spacing: 5px; /* Matches your 'Centralize' headings */
-    margin-bottom: 25px;
-    opacity: 0.6;
-    display: block;
+    letter-spacing: 4px;
+    margin-bottom: 20px;
+    opacity: 0.5;
     text-align: center;
-    width: 100%;
-    font-weight: 800;
+    font-weight: 900;
 }
 
 .status-dashboard {
     display: flex;
-    justify-content: center;
-    gap: 15px;
-    flex-wrap: wrap;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: 5px 5px 15px 5px;
+    scrollbar-width: none;
+}
+
+.status-dashboard::-webkit-scrollbar {
+    display: none;
 }
 
 .stat-item {
-    background: #ffffff;
-    padding: 15px 10px;
-    border-radius: 12px;
-    flex: 1;
-    min-width: 140px;
+    /* Reduced size to fit more on screen */
+    flex: 0 0 120px; 
+    scroll-snap-align: start;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px);
+    padding: 15px 8px; /* Tighter padding */
+    border-radius: 10px;
     text-align: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    border-bottom: 4px solid #ddd;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(62, 39, 35, 0.08);
+    position: relative;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
 }
 
-.stat-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+.stat-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: #ddd;
 }
+
+/* Accents */
+.stat-item.total::before { background: var(--espresso); }
+.stat-item.applied::before { background: #94a3b8; }
+.stat-item.interviewing::before { background: #f39c12; }
+.stat-item.offer::before { background: #6d8c7d; }
+.stat-item.rejected::before { background: #a63d40; }
 
 .stat-count {
     display: block;
-    font-size: 1.8rem;
+    font-size: 1.5rem; /* Reduced font size for better fit */
     font-weight: 900;
-    color: var(--espresso); /* Unified text color */
-    margin-bottom: 4px;
+    color: var(--espresso);
+    margin-bottom: 2px;
 }
 
 .stat-name {
-    font-size: 0.65rem;
+    font-size: 0.5rem; /* Micro-labeling */
     font-weight: 800;
     text-transform: uppercase;
-    color: #94a3b8; /* Muted slate */
-    letter-spacing: 1px;
+    color: #64748b;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
 }
 
-/* Updated Status Colors to match your Muted Palette */
-.stat-item.total { border-bottom-color: var(--espresso); }
-.stat-item.applied { border-bottom-color: var(--slate-muted); }
-.stat-item.interviewing { border-bottom-color: var(--gold-muted); }
-.stat-item.offer { border-bottom-color: var(--sage-green); }
-.stat-item.rejected { border-bottom-color: var(--error-muted); }
+/* Active State */
+.stat-item.active {
+    background: #ffffff;
+    border: 1px solid var(--espresso);
+    box-shadow: 0 6px 18px rgba(62, 39, 35, 0.12);
+}
 
-@media (max-width: 600px) {
-    .stat-item { min-width: 45%; }
-    .stat-count { font-size: 1.5rem; }
+/* Desktop Polish: Grid with smaller items */
+@media (min-width: 800px) {
+    .status-dashboard {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        overflow-x: visible;
+        justify-content: center;
+        max-width: 850px;
+        margin: 0 auto;
+    }
+    .stat-item {
+        flex: none;
+        width: auto;
+    }
+}
+
+/* Mobile Edge Fade */
+@media (max-width: 799px) {
+    .status-dashboard-wrapper {
+        -webkit-mask-image: linear-gradient(to right, black 88%, transparent 100%);
+        mask-image: linear-gradient(to right, black 88%, transparent 100%);
+    }
 }
