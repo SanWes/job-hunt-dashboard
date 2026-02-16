@@ -96,9 +96,12 @@ function App() {
     <div className="App">
       <Header searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
 
-      <AboutSection />
-
+      <br />
+      <br />
+      <br />
       <StatusDashboard jobs={jobs} setStatusFilter={setStatusFilter} />
+
+      <AboutSection />
 
       <section id="newjob" className="section-card">
         <JobForm onAddJob={addJob} />
@@ -106,20 +109,22 @@ function App() {
 
       <section id="joblist" className="section-card">
         <div className="filter-container">
-        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+        
           <span>Filter by Status:</span>
           <div className="button-row">
-            {["All", "Applied", "Interviewing", "Offer", "Rejected"].map((status) => (
-              <button
-                key={status}
-                onClick={() => setStatusFilter(status)}
-                className={`filter-button ${status.toLowerCase()} ${statusFilter === status ? "active" : ""}`}
-              >
-                {status}
-              </button>
-            ))}
-          </div>
-        </div>
+  {["All", "Filed", "Active", "Secured", "Archived"].map((status) => (
+    <button
+      key={status}
+      onClick={() => setStatusFilter(status)}
+      className={`filter-button ${status.toLowerCase()} ${statusFilter === status ? "is-focused" : ""}`}
+    >
+      {status}
+    </button>
+  ))}
+</div>
+        </div> 
+        
+        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
         
         {displayJobs.length > 0 ? (
           <JobList 

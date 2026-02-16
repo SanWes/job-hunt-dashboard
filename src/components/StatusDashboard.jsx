@@ -4,10 +4,10 @@ import "../styles/StatusDashboard.css";
 const StatusDashboard = ({ jobs, setStatusFilter, activeFilter }) => {
   const stats = [
     { label: "Total Ledger", count: jobs.length, key: "All", className: "total" },
-    { label: "Applied", count: jobs.filter(j => j.status === "Applied").length, key: "Applied", className: "applied" },
-    { label: "In Process", count: jobs.filter(j => j.status === "Interviewing").length, key: "Interviewing", className: "interviewing" },
-    { label: "Offers", count: jobs.filter(j => j.status === "Offer").length, key: "Offer", className: "offer" },
-    { label: "Settled", count: jobs.filter(j => j.status === "Rejected").length, key: "Rejected", className: "rejected" },
+    { label: "Filed", count: jobs.filter(j => j.status === "Filed").length, key: "Filed", className: "filed" },
+    { label: "Active", count: jobs.filter(j => j.status === "Active").length, key: "Active", className: "active" },
+    { label: "Secured", count: jobs.filter(j => j.status === "Secured").length, key: "Secured", className: "secured" },
+    { label: "Archived", count: jobs.filter(j => j.status === "Archived").length, key: "Archived", className: "archived" },
   ];
 
   const handleStatClick = (key) => {
@@ -26,7 +26,7 @@ const StatusDashboard = ({ jobs, setStatusFilter, activeFilter }) => {
         {stats.map((stat) => (
           <div 
             key={stat.key}
-            className={`stat-item ${stat.className} ${activeFilter === stat.key ? "active" : ""}`} 
+            className={`stat-item ${stat.className} ${activeFilter === stat.key ? "is-focused" : ""}`} 
             onClick={() => handleStatClick(stat.key)}
           >
             <span className="stat-count">{stat.count}</span>

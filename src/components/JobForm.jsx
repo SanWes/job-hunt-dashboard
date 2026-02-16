@@ -5,7 +5,7 @@ const JobForm = ({ onAddJob }) => {
   const initialState = {
     company: "",
     position: "",
-    status: "Applied",
+    status: "Filed",
     jobLink: "",
     notes: [""], 
     dateAdded: new Date().toLocaleDateString(),
@@ -43,7 +43,7 @@ const JobForm = ({ onAddJob }) => {
         {showSuccess && <div className="success-toast">Entry Logged Successfully</div>}
         
         <div className="form-header">
-          <h2 className="ledger-title">ADD ENTRY</h2>
+          <h2 className="ledger-title">NEW ENTRY</h2>
           <p className="ledger-subtitle">RECORD A NEW OPPORTUNITY IN YOUR LEDGER</p>
         </div>
 
@@ -53,7 +53,7 @@ const JobForm = ({ onAddJob }) => {
           {/* Row 1: Entity & Role */}
           <div className="ledger-grid">
             <div className="ledger-group">
-              <label htmlFor="company">COMPANY</label>
+              <label htmlFor="company">ENTITY</label>
               <input
                 type="text"
                 id="company"
@@ -61,12 +61,12 @@ const JobForm = ({ onAddJob }) => {
                 className="ledger-input"
                 value={jobDetails.company}
                 onChange={handleInputChange}
-                placeholder="Enter Entity..."
+                placeholder="Enter organization name..."
               />
             </div>
 
             <div className="ledger-group">
-              <label htmlFor="position">POSITION</label>
+              <label htmlFor="position">FUNCTION</label>
               <input
                 type="text"
                 id="position"
@@ -74,7 +74,7 @@ const JobForm = ({ onAddJob }) => {
                 className="ledger-input"
                 value={jobDetails.position}
                 onChange={handleInputChange}
-                placeholder="Enter Role..."
+                placeholder="Specify role or title..."
               />
             </div>
           </div>
@@ -82,7 +82,7 @@ const JobForm = ({ onAddJob }) => {
           {/* Row 2: Status & URL */}
           <div className="ledger-grid">
             <div className="ledger-group">
-              <label htmlFor="status">APPLICATION STATUS</label>
+              <label htmlFor="status">LEDGER STATUS</label>
               <div className="select-wrapper">
                 <select 
                   id="status" 
@@ -91,16 +91,16 @@ const JobForm = ({ onAddJob }) => {
                   value={jobDetails.status} 
                   onChange={handleInputChange}
                 >
-                  <option value="Applied">Applied</option>
-                  <option value="Interviewing">In Process</option>
-                  <option value="Offer">Offer Received</option>
-                  <option value="Rejected">Settled</option>
+                  <option value="Filed">Filed</option>
+                  <option value="Active">Active </option>
+                  <option value="Secured">Secured</option>
+                  <option value="Archived">Archived</option>
                 </select>
               </div>
             </div>
 
             <div className="ledger-group">
-              <label htmlFor="jobLink">LISTING URL</label>
+              <label htmlFor="jobLink">SOURCE LINK </label>
               <input
                 type="text"
                 id="jobLink"
@@ -115,14 +115,14 @@ const JobForm = ({ onAddJob }) => {
 
           {/* Row 3: Notes */}
           <div className="ledger-group full-width">
-            <label htmlFor="notes">STRATEGIC CONTEXT</label>
+            <label htmlFor="notes">STRATEGIC OBESERVATIONS</label>
             <textarea
               id="notes"
               name="notes"
               className="ledger-textarea"
               value={jobDetails.notes[0]}
               onChange={handleInputChange}
-              placeholder="Record metadata, salary, or interview intelligence..."
+              placeholder="Track key interview takeaways, salary markers, and pending actions..."
               rows={4}
             />
           </div>

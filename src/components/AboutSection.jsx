@@ -1,11 +1,10 @@
 import React from "react";
-
 const AboutSection = () => {
 return (
     <section id="about" className="about-section">
     <h2>The Workflow</h2>
+    
     <div className="about-grid">
-        
         <div className="about-item">
         <span className="about-icon">📥</span>
         <p>

@@ -26,7 +26,7 @@ const JobCard = ({ job, onDelete, onEdit }) => {
         setEditedNotes(updatedNotes);
     };
 
-    const statusClass = job.status ? job.status.toLowerCase().replace(/\s+/g, '-') : "applied";
+    const statusClass = job.status ? job.status.toLowerCase().replace(/\s+/g, '-') : "filed";
 
     return (
         <div className={`portfolio-file ${statusClass} ${isEditing ? "is-editing" : ""}`}>
@@ -45,19 +45,19 @@ const JobCard = ({ job, onDelete, onEdit }) => {
                                 <input type="text" value={editedCompany} onChange={(e) => setEditedCompany(e.target.value)} />
                             </div>
                             <div className="input-box">
-                                <label>ROLE</label>
+                                <label>FUNCTION</label>
                                 <input type="text" value={editedPosition} onChange={(e) => setEditedPosition(e.target.value)} />
                             </div>
                         </div>
 
                         <div className="edit-row-secondary">
                             <div className="input-box">
-                                <label>STATUS</label>
+                                <label>LEDGER STATUS</label>
                                 <select value={editedStatus} onChange={(e) => setEditedStatus(e.target.value)}>
-                                    <option value="Applied">Applied</option>
-                                    <option value="Interviewing">In Process</option>
-                                    <option value="Offer">Offer Received</option>
-                                    <option value="Rejected">Settled</option>
+                                    <option value="Filed">Filed</option>
+                                    <option value="Active">Active</option>
+                                    <option value="Secured">Secured</option>
+                                    <option value="Archived">Archived</option>
                                 </select>
                             </div>
                             <div className="input-box">
@@ -67,7 +67,7 @@ const JobCard = ({ job, onDelete, onEdit }) => {
                         </div>
 
                         <div className="edit-notes-area">
-                            <label>STRATEGIC CONTEXT</label>
+                            <label>STRATEGIC OBSERVATIONS</label>
                             {editedNotes.map((note, index) => (
                                 <textarea key={index} value={note} onChange={(e) => handleNoteChange(index, e.target.value)} />
                             ))}
@@ -83,11 +83,11 @@ const JobCard = ({ job, onDelete, onEdit }) => {
                     <div className="view-container">
                         <div className="view-header">
                             <h2>{job.position} <span className="at">at</span> <span className="entity">{job.company}</span></h2>
-                            <p className="meta">ARCHIVED: {job.dateAdded}</p>
+                            <p className="meta">filed on {job.dateAdded}</p>
                         </div>
 
                         <div className="view-body">
-                            {job.jobLink && <a href={job.jobLink} target="_blank" className="source-link">Source File ↗</a>}
+                            {job.jobLink && <a href={job.jobLink} target="_blank" className="source-link">Source Link ↗</a>}
                             <ul className="intel-list">
                                 {job.notes.map((n, i) => <li key={i}>{n}</li>)}
                             </ul>

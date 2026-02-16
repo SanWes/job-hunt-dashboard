@@ -1,112 +1,87 @@
 .status-dashboard-wrapper {
     max-width: 1000px;
-    margin: 30px auto;
+    margin: 20px auto 40px;
     padding: 0 20px;
-    position: relative;
 }
 
 .dashboard-label {
-    font-size: 0.6rem;
+    font-size: 0.65rem;
     color: var(--espresso);
     text-transform: uppercase;
-    letter-spacing: 4px;
-    margin-bottom: 20px;
-    opacity: 0.5;
+    letter-spacing: 5px;
+    margin-bottom: 25px;
+    opacity: 0.6;
     text-align: center;
-    font-weight: 900;
+    font-weight: 800;
 }
 
 .status-dashboard {
     display: flex;
-    gap: 12px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    padding: 5px 5px 15px 5px;
-    scrollbar-width: none;
-}
-
-.status-dashboard::-webkit-scrollbar {
-    display: none;
+    gap: 15px;
+    justify-content: center;
 }
 
 .stat-item {
-    /* Reduced size to fit more on screen */
-    flex: 0 0 120px; 
-    scroll-snap-align: start;
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(8px);
-    padding: 15px 8px; /* Tighter padding */
-    border-radius: 10px;
+    flex: 1;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    padding: 15px 10px;
+    border-radius: 12px;
     text-align: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-    border: 1px solid rgba(62, 39, 35, 0.08);
-    position: relative;
+    border: 1px solid rgba(62, 39, 35, 0.05);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    /* This creates the 'tab' feel without the square corners issue */
+    border-bottom: 4px solid #dfe6e9; 
 }
 
-.stat-item::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 3px;
-    background: #ddd;
+/* Hover effect for all */
+.stat-item:hover {
+    background: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
 }
 
-/* Accents */
-.stat-item.total::before { background: var(--espresso); }
-.stat-item.applied::before { background: #94a3b8; }
-.stat-item.interviewing::before { background: #f39c12; }
-.stat-item.offer::before { background: #6d8c7d; }
-.stat-item.rejected::before { background: #a63d40; }
+/* Specific LEDGER Color Accents on the bottom */
+.stat-item.total { border-bottom-color: var(--espresso); }
+.stat-item.filed { border-bottom-color: var(--slate-muted); }
+.stat-item.active { border-bottom-color: var(--gold-muted); }
+.stat-item.secured { border-bottom-color: var(--sage-green); }
+.stat-item.archived { border-bottom-color: var(--error-muted); }
 
+/* The Focused/Active State */
+.stat-item.is-focused {
+    background: #ffffff;
+    border-color: rgba(62, 39, 35, 0.15);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(62, 39, 35, 0.1);
+}
+
+/* Make the count pop */
 .stat-count {
     display: block;
-    font-size: 1.5rem; /* Reduced font size for better fit */
+    font-size: 1.8rem;
     font-weight: 900;
     color: var(--espresso);
-    margin-bottom: 2px;
+    line-height: 1;
+    margin-bottom: 5px;
 }
 
 .stat-name {
-    font-size: 0.5rem; /* Micro-labeling */
+    font-size: 0.55rem;
     font-weight: 800;
     text-transform: uppercase;
-    color: #64748b;
-    letter-spacing: 0.5px;
-    white-space: nowrap;
+    color: var(--text-muted);
+    letter-spacing: 1.5px;
 }
 
-/* Active State */
-.stat-item.active {
-    background: #ffffff;
-    border: 1px solid var(--espresso);
-    box-shadow: 0 6px 18px rgba(62, 39, 35, 0.12);
-}
-
-/* Desktop Polish: Grid with smaller items */
-@media (min-width: 800px) {
+/* Mobile Responsiveness */
+@media (max-width: 700px) {
     .status-dashboard {
         display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        overflow-x: visible;
-        justify-content: center;
-        max-width: 850px;
-        margin: 0 auto;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
     }
-    .stat-item {
-        flex: none;
-        width: auto;
-    }
-}
-
-/* Mobile Edge Fade */
-@media (max-width: 799px) {
-    .status-dashboard-wrapper {
-        -webkit-mask-image: linear-gradient(to right, black 88%, transparent 100%);
-        mask-image: linear-gradient(to right, black 88%, transparent 100%);
-    }
+    .stat-item.total { grid-column: span 3; } /* Total gets full width on mobile */
 }

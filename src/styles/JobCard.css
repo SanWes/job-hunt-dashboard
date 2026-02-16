@@ -40,10 +40,10 @@
 }
 
 /* Status Colors for Tabs */
-.applied .folder-tab { background-color: var(--slate-muted); }
-.interviewing .folder-tab, .in-process .folder-tab { background-color: var(--gold-muted); }
-.offer .folder-tab, .offer-received .folder-tab { background-color: var(--sage-green); }
-.rejected .folder-tab, .settled .folder-tab { background-color: var(--error-muted); }
+.filed .folder-tab { background-color: var(--slate-muted); }
+.active .folder-tab { background-color: var(--gold-muted); }
+.secured .folder-tab { background-color: var(--sage-green); }
+.archived .folder-tab { background-color: var(--error-muted); }
 
 /* --- THE INTERIOR --- */
 .file-inner {
