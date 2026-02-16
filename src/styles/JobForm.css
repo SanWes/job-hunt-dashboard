@@ -67,7 +67,7 @@
 
 .ledger-sheet {
     overflow: hidden;
-    padding: 0 40px 40px 40px; /* Padding only shows when expanded */
+    padding: 0 40px 40px 40px; 
 }
 
 .form-branding {
@@ -126,7 +126,10 @@
     resize: none;
 }
 
-/* Custom Select Arrow */
+.select-wrapper {
+    position: relative;
+}
+
 .select-wrapper::after {
     content: "▼";
     font-size: 0.6rem;
@@ -164,7 +167,7 @@
 /* Toast/Error states */
 .success-toast {
     margin-top: 20px;
-    background: var(--sage-green);
+    background: #4caf50; /* Standard green if --sage-green isn't defined */
     color: white;
     padding: 12px;
     font-size: 0.65rem;
@@ -172,4 +175,28 @@
     text-align: center;
     font-weight: 900;
     border-radius: 4px;
+}
+
+/* CHANGE: TACTICAL ERROR STYLING */
+.error-message {
+    color: #b71c1c; /* Authoritative Deep Red */
+    font-family: 'Courier New', monospace; /* Analyst feel */
+    font-size: 0.65rem;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 12px 15px;
+    border-left: 4px solid #b71c1c; /* System alert bar */
+    background: rgba(183, 28, 28, 0.05); /* Subtle tint */
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    animation: tactical-pulse 2s infinite ease-in-out;
+}
+
+/* Alert pulse effect */
+@keyframes tactical-pulse {
+    0% { opacity: 1; border-left-color: #b71c1c; }
+    50% { opacity: 0.8; border-left-color: transparent; }
+    100% { opacity: 1; border-left-color: #b71c1c; }
 }

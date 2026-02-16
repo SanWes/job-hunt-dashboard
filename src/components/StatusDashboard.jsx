@@ -3,7 +3,7 @@ import "../styles/StatusDashboard.css";
 
 const StatusDashboard = ({ jobs, setStatusFilter, activeFilter }) => {
   const stats = [
-    { label: "Total Ledger", count: jobs.length, key: "All", className: "total" },
+    { label: "Total Entries", count: jobs.length, key: "All", className: "total" },
     { label: "Filed", count: jobs.filter(j => j.status === "Filed").length, key: "Filed", className: "filed" },
     { label: "Active", count: jobs.filter(j => j.status === "Active").length, key: "Active", className: "active" },
     { label: "Secured", count: jobs.filter(j => j.status === "Secured").length, key: "Secured", className: "secured" },

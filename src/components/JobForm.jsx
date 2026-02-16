@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react"; // ADDED: useEffect import
 import "../styles/JobForm.css";
 
 const JobForm = ({ onAddJob }) => {
-  const [isOpen, setIsOpen] = useState(false); // Collapsable State
+  const [isOpen, setIsOpen] = useState(false);
   const initialState = {
     company: "",
     position: "",
@@ -16,8 +16,24 @@ const JobForm = ({ onAddJob }) => {
   const [error, setError] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
 
+  // --- CHANGE 1: AUTO-CLEAR ERROR AFTER 5 SECONDS ---
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        setError("");
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+
+    // --- CHANGE 2: CLEAR ERROR WHEN USER STARTS TYPING ---
+    if (error && (name === "company" || name === "position")) {
+      setError("");
+    }
+
     setJobDetails((prev) => ({
       ...prev,
       [name]: name === "notes" ? [value] : value,
@@ -40,32 +56,36 @@ const JobForm = ({ onAddJob }) => {
 
   return (
     <div className={`ledger-form-wrapper ${isOpen ? "is-expanded" : "is-collapsed"}`} id="newjob">
-      {/* Tactical Header Toggle */}
-<div className="form-toggle-header" onClick={() => setIsOpen(!isOpen)}>
-  <div className="header-meta">
-    <span className="system-indicator">{isOpen ? "—" : "+"}</span>
-    <div className="title-stack">
-      <h2 className="ledger-title">NEW ENTRY</h2>
-      <span className="header-status-code">
-        {isOpen ? "SYSTEM ACTIVE // INTAKE MODE" : "SYSTEM READY // STANDBY"}
-      </span>
-    </div>
-  </div>
-  <div className="header-right">
-    <span className="protocol-code">SECURE-LOG-v1.0.4</span>
-  </div>
-</div>
+      <div className="form-toggle-header" onClick={() => setIsOpen(!isOpen)}>
+        <div className="header-meta">
+          <span className="system-indicator">{isOpen ? "—" : "+"}</span>
+          <div className="title-stack">
+            <h2 className="ledger-title">INITIATE REGISTRY</h2>
+            <span className="header-status-code">
+              {isOpen ? "SYSTEM ACTIVE // INTAKE MODE" : "SYSTEM READY // STANDBY"}
+            </span>
+          </div>
+        </div>
+        <div className="header-right">
+          <span className="protocol-code">SECURE-LOG-v1.0.4</span>
+        </div>
+      </div>
 
       <div className="ledger-sheet-container">
         <div className="ledger-sheet">
-          {showSuccess && <div className="success-toast">DATA COMMITTED TO VAULT</div>}
+          {showSuccess && <div className="success-toast">ENTRY COMMITTED TO THE LEDGER</div>}
           
           <div className="form-branding">
-            <p className="ledger-subtitle">LOGBOOK INITIALIZATION // VOLUME I</p>
+            <p className="ledger-subtitle">CENTRALIZED MANIFEST // VOL. I</p>
           </div>
 
           <form onSubmit={handleSubmit} className="ledger-form">
-            {error && <p className="error-message">{error}</p>}
+            {/* --- CHANGE 3: ADDED ONCLICK TO MANUALLY DISMISS --- */}
+            {error && (
+              <p className="error-message" onClick={() => setError("")} style={{ cursor: 'pointer' }}>
+                {error}
+              </p>
+            )}
 
             <div className="ledger-grid">
               <div className="ledger-group">

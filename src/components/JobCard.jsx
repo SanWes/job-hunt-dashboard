@@ -38,7 +38,7 @@ return (
         /* --- EDIT STATE: MODULE INITIALIZATION --- */
         <div className="edit-module">
             <div className="module-header">
-            <span className="mode-tag">EDIT_MODE // DATA_OVERRIDE</span>
+            <span className="mode-tag">EDIT MODE // DATA OVERRIDE</span>
             </div>
             
             <div className="edit-grid">
@@ -68,7 +68,7 @@ return (
                 </select>
             </div>
             <div className="field-group">
-                <label>SOURCE_URL</label>
+                <label>SOURCE LINK</label>
                 <input 
                 type="text" 
                 value={editedJobLink} 
