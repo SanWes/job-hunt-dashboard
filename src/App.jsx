@@ -96,9 +96,9 @@ function App() {
     <div className="App">
       <Header searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
 
+      {/* <br />
       <br />
-      <br />
-      <br />
+      <br /> */}
       <StatusDashboard jobs={jobs} setStatusFilter={setStatusFilter} />
 
       <AboutSection />

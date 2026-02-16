@@ -1,0 +1,132 @@
+/* --- The Dossier Container --- */
+.about-section {
+    max-width: 1000px;
+    margin: 5px auto 20px !important; /* Minimal gap between Dashboard and About */
+    background: rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(62, 39, 35, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- The Interactive Bar --- */
+.about-header {
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.8);
+    transition: all 0.2s ease;
+}
+
+.about-header:hover {
+    background: white;
+}
+
+.header-left, .header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.about-title {
+    margin: 0 !important;
+    font-size: 0.65rem !important;
+    font-weight: 900 !important;
+    letter-spacing: 3px !important;
+    font-family: 'Inter', sans-serif !important;
+    text-transform: uppercase;
+    color: var(--espresso);
+}
+
+.system-status {
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    color: var(--gold-muted);
+    min-width: 20px;
+}
+
+.protocol-code {
+    font-family: 'Courier New', monospace;
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    opacity: 0.7;
+}
+
+/* Tactical LED Indicator */
+.system-led {
+    width: 6px;
+    height: 6px;
+    background: #ccc;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+.system-led.active {
+    background: var(--sage-green);
+    box-shadow: 0 0 8px var(--sage-green);
+}
+
+/* --- Smooth Expansion Logic --- */
+.about-content-wrapper {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.4s ease, opacity 0.3s ease;
+    opacity: 0;
+}
+
+.is-expanded .about-content-wrapper {
+    grid-template-rows: 1fr;
+    opacity: 1;
+}
+
+.about-content {
+    overflow: hidden;
+}
+
+/* --- The Horizontal Track (Carousel) --- */
+.about-track {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    padding: 25px 20px;
+    /* Hide scrollbar but allow swiping */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.about-track::-webkit-scrollbar {
+    display: none;
+}
+
+.about-item {
+    flex: 0 0 280px; /* Fixed width for card consistency */
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    gap: 12px;
+    border: 1px solid rgba(0,0,0,0.05);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+}
+
+.about-icon {
+    font-size: 1.2rem;
+    filter: grayscale(1); /* Muted tactical look */
+}
+
+.item-text strong {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--espresso);
+    display: block;
+    margin-bottom: 4px;
+}
+
+.item-text p {
+    font-size: 0.8rem;
+    line-height: 1.4;
+    color: var(--text-muted);
+    margin: 0;
+}
