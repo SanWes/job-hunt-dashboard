@@ -4,7 +4,7 @@ A production-ready job application registry built with **React**, **Vite**, and 
 
 **THE LEDGER** is a structured, real-time application tracking system designed to centralize opportunity management through a tactical, analyst-driven interface.
 
-🌐 **Live Terminal:** https://myjobhunt.netlify.app  
+🌐 **Live Terminal:** https://job-ledger.netlify.app/
 📦 **Repository:** https://github.com/SanWes/job-hunt-dashboard
 
 ---
