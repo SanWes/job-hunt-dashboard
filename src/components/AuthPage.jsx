@@ -1,112 +1,89 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
-import "./../styles/AuthPage.css"; // Ensure this matches your file name
+import "./../styles/AuthPage.css";
 
 const WelcomePage = ({ onLogin }) => {
     const auth = getAuth();
-    const [showAuth, setShowAuth] = useState(false);
+    const [isOpened, setIsOpened] = useState(false); // Book cover state
     const [isSignup, setIsSignup] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
 
-  // Accessibility: Close on Escape
-    useEffect(() => {
-        const handleEsc = (e) => { if (e.key === "Escape") setShowAuth(false); };
-        window.addEventListener("keydown", handleEsc);
-        return () => window.removeEventListener("keydown", handleEsc);
-    }, []);
-
     const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-    try {
-        if (isSignup) {
-            await createUserWithEmailAndPassword(auth, email, password);
-        } else {
-            await signInWithEmailAndPassword(auth, email, password);
+        e.preventDefault();
+        setError("");
+        try {
+            if (isSignup) {
+                await createUserWithEmailAndPassword(auth, email, password);
+            } else {
+                await signInWithEmailAndPassword(auth, email, password);
+            }
+            onLogin();
+        } catch (err) {
+            setError(err.message.replace("Firebase: ", ""));
         }
-    onLogin();
-    } catch (err) {
-    setError(err.message.replace("Firebase: ", ""));
-    }
-};
+    };
 
-return (
-    <div className="board-container">
-    <main className="cork-board">
-        <h1>THE LEDGER</h1>
-        <p>A structured, real-time application tracking system designed to centralize opportunity management</p>
-
-        <div className="sticky-buttons">
-        <button 
-            className="sticky-note login-note"
-            onClick={() => { setIsSignup(false); setShowAuth(true); }}
-        >
-            <span className="pin">📍</span>
-            <span>Login</span>
-        </button>
-
-        <button 
-            className="sticky-note signup-note"
-            onClick={() => { setIsSignup(true); setShowAuth(true); }}
-        >
-            <span className="pin">📍</span>
-            <span>Sign Up</span>
-        </button>
-        </div>
-    </main>
-
-    {showAuth && (
-        <div className="auth-overlay" onClick={() => setShowAuth(false)}>
-        <div className="auth-card" onClick={(e) => e.stopPropagation()}>
-            <button className="close-btn" onClick={() => setShowAuth(false)}>✕</button>
-            
-            <h2 style={{ marginBottom: "8px" }}>{isSignup ? "Create Account" : "Welcome Back"}</h2>
-            <p style={{ color: "#718096", marginBottom: "24px", fontSize: "0.9rem" }}>
-            {isSignup ? "Join the hunt today." : "Please enter your details."}
-            </p>
-
-            {error && <div style={{ color: "#e53e3e", marginBottom: "16px", fontSize: "0.85rem" }}>{error}</div>}
-
-            <form onSubmit={handleSubmit}>
-            <div className="input-group">
-                <input
-                type="email"
-                placeholder="Email Address"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                />
+    return (
+        <div className={`ledger-auth-wrapper ${isOpened ? "book-opened" : "book-closed"}`}>
+            {/* FRONT COVER - Click to Open */}
+            <div className="book-cover" onClick={() => setIsOpened(true)}>
+                <div className="cover-content">
+                    <div className="embossed-title">THE LEDGER</div>
+                    <p>STRATEGIC INTELLIGENCE TERMINAL</p>
+                    <div className="latch">CLICK TO INITIALIZE</div>
+                </div>
             </div>
-            <div className="input-group">
-                <input
-                type="password"
-                placeholder="Password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                />
-            </div>
-            <button type="submit" className="auth-btn">
-                {isSignup ? "Create Account" : "Sign In"}
-            </button>
-            </form>
 
-            <p style={{ marginTop: "20px", fontSize: "0.9rem", color: "#4a5568" }}>
-            {isSignup ? "Already have an account?" : "Don't have an account?"}{" "}
-            <span 
-                onClick={() => setIsSignup(!isSignup)} 
-                style={{ color: "#2ecc71", cursor: "pointer", fontWeight: "bold" }}
-            >
-                {isSignup ? "Login" : "Sign Up"}
-            </span>
-            </p>
+            {/* THE INTERNAL FORM (Revealed when book opens) */}
+            <main className="auth-container">
+                <div className="auth-card">
+                    <h2 className="ledger-title">{isSignup ? "NEW REGISTRY" : "ACCESS LEDGER"}</h2>
+                    <p className="auth-subtitle">
+                        {isSignup ? "Initialize your credentials." : "Establish secure data link."}
+                    </p>
+
+                    {error && <div className="auth-error-msg">{error}</div>}
+
+                    <form onSubmit={handleSubmit} className="auth-form">
+                        <div className="ledger-group">
+                            <label>IDENTIFIER</label>
+                            <input
+                                type="email"
+                                className="ledger-input"
+                                placeholder="Email Address"
+                                required
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                        </div>
+                        <div className="ledger-group">
+                            <label>PASSCODE</label>
+                            <input
+                                type="password"
+                                className="ledger-input"
+                                placeholder="••••••••"
+                                required
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                        </div>
+                        <button type="submit" className="ledger-submit-btn">
+                            {isSignup ? "CREATE RECORD" : "AUTHORIZE ACCESS"}
+                        </button>
+                    </form>
+
+                    <p className="auth-switch-text">
+                        {isSignup ? "Existing record found?" : "No credentials found?"}{" "}
+                        <span onClick={() => setIsSignup(!isSignup)}>
+                            {isSignup ? "SIGN IN" : "REGISTER"}
+                        </span>
+                    </p>
+                </div>
+            </main>
         </div>
-        </div>
-    )}
-    </div>
-);
+    );
 };
 
 export default WelcomePage;
