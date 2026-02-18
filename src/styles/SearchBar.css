@@ -1,7 +1,7 @@
 /* Container handles the sticky positioning and spacing from the dashboard above */
 .search-bar-wrapper {
 position: sticky;
-top: 100px; /* Adjust based on your header height */
+top: 100px;
 z-index: 100;
 width: 95%;
 max-width: 650px;

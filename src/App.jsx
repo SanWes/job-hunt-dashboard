@@ -45,9 +45,21 @@ function App() {
   }, [user]);
 
   const addJob = async (newJob) => {
+    const archiveDate = new Date().toLocaleDateString('en-US', { 
+      month: 'short', 
+      day: 'numeric', 
+      year: 'numeric' 
+    });
+
+    // Override the incoming date with our formatted version
+    const formattedJob = { 
+      ...newJob, 
+      dateAdded: archiveDate 
+    };
+
     try {
-      const id = await addJobToFirestore(newJob);
-      setJobs((prevJobs) => [...prevJobs, { ...newJob, id }]);
+      const id = await addJobToFirestore(formattedJob);
+      setJobs((prevJobs) => [...prevJobs, { ...formattedJob, id }]);
     } catch (error) {
       console.error("Error adding job:", error);
     }
@@ -63,7 +75,14 @@ function App() {
   };
 
   const editJob = async (id, updatedPosition, updatedCompany, updatedStatus, updatedJobLink, updatedNotes) => {
-    const updatedJob = { position: updatedPosition, company: updatedCompany, status: updatedStatus, jobLink: updatedJobLink, notes: updatedNotes };
+  const lastUpdated = new Date().toLocaleDateString('en-US', { 
+          month: 'short', 
+          day: 'numeric', 
+          year: 'numeric' 
+      });
+
+    const updatedJob = { position: updatedPosition, company: updatedCompany, status: updatedStatus, jobLink: updatedJobLink, notes: updatedNotes, lastUpdated: lastUpdated
+    };
     try {
       await updateJobInFirestore(id, updatedJob);
       setJobs((prevJobs) => prevJobs.map((job) => (job.id === id ? { ...job, ...updatedJob } : job)));

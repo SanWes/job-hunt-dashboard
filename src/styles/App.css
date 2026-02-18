@@ -1,10 +1,11 @@
 /* --- THE LEDGER: CORE ARCHITECTURE --- */
 :root {
+  --espresso: #3e2723;
   --sage-green: #6d8c7d;
   --gold-muted: #d4a373;
   --slate-muted: #718096;
   --error-muted: #e57373;
-  --espresso: #3e2723;
+  --ledger-paper: #fdfaf0;
   --glass-white: rgba(255, 255, 255, 0.95);
   --text-main: #2d1e1a;
   --text-muted: #8c7b6c;

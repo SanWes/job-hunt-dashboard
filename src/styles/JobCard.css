@@ -5,7 +5,7 @@
     max-width: 850px;
     min-height: 280px;
     margin: 30px auto;
-    background: #fdfaf0; /* Vellum texture */
+    background: var(--ledger-paper); 
     border: 1px solid rgba(62, 39, 35, 0.1);
     /* CLEAN ARCHIVE SHADOW */
     box-shadow: 
@@ -25,13 +25,13 @@
 /* --- TACTICAL STATUS STRIP --- */
 .status-strip {
     width: 10px;
-    background: #7a6e6c;
+    background: var(--slate-muted);
     transition: background 0.4s ease;
 }
-.filed .status-strip { background: #7a6e6c; }
-.active .status-strip { background: #d4af37; } /* Gold */
-.secured .status-strip { background: #4a5d4e; } /* Sage */
-.archived .status-strip { background: #a63d40; } /* Crimson */
+.filed .status-strip { background: var(--slate-muted); }
+.active .status-strip { background: var(--gold-muted); } 
+.secured .status-strip { background: var(--sage-green); } 
+.archived .status-strip { background: var(--error-muted); } 
 
 .card-inner {
     flex: 1;
@@ -63,7 +63,7 @@
 .position-title {
     margin: 0;
     font-size: 1.6rem;
-    color: #3e2723;
+    color: var(--espresso);
     font-weight: 800;
 }
 
@@ -71,7 +71,8 @@
     text-align: right;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    align-items: flex-end; /* Keeps dates tucked to the right */
+    gap: 6px;
 }
 
 .date-tag {
@@ -81,13 +82,15 @@
 }
 
 .status-badge {
+    align-self: center; 
+    text-align: center;
     font-size: 0.6rem;
     font-weight: 900;
     letter-spacing: 1px;
     text-transform: uppercase;
     padding: 4px 12px;
     background: rgba(62, 39, 35, 0.05);
-    color: #3e2723;
+    color: var(--espresso);
     border: 1px solid rgba(62, 39, 35, 0.1);
 }
 
@@ -102,7 +105,7 @@
     font-family: 'Courier New', monospace;
     font-size: 0.65rem;
     font-weight: 900;
-    color: #8d6e63;
+    color: var(--text-muted);
     margin-bottom: 15px;
 }
 
@@ -114,7 +117,7 @@
 
 .intel-lines li {
     font-size: 1rem;
-    color: #3e2723;
+    color: var(--espresso);
     line-height: 1.6;
     margin-bottom: 12px;
     padding-left: 20px;
@@ -125,7 +128,7 @@
     content: ">>";
     position: absolute;
     left: 0;
-    color: #d4af37;
+    color: var(--gold-muted);
     font-size: 0.8rem;
     font-weight: bold;
 }
@@ -171,17 +174,17 @@
     font-family: 'Courier New', monospace;
     font-size: 0.6rem;
     font-weight: 900;
-    color: #3e2723;
+    color: var(--espresso);
     letter-spacing: 1px;
     padding: 5px 12px;
-    border: 1px solid #3e2723;
+    border: 1px solid var(--espresso);
     transition: all 0.2s ease;
 }
 
 .origin-link-wrapper:hover .terminal-button {
-    background: #3e2723;
+    background: var(--espresso);
     color: #fdfaf0;
-    box-shadow: 4px 4px 0px #d4af37;
+    box-shadow: 4px 4px 0px var(--gold-muted);
 }
 
 /* --- FOOTER & BUTTONS --- */
@@ -194,7 +197,7 @@
 }
 
 .btn-action {
-    background: #3e2723;
+    background: var(--espresso);
     color: #fdfaf0;
     border: none;
     padding: 12px 24px;
@@ -206,8 +209,8 @@
 }
 
 .btn-action:hover {
-    background: #d4af37;
-    color: #3e2723;
+    background: var(--gold-muted);
+    color: var(--espresso);
 }
 
 /* --- BASE DANGER BUTTON --- */
@@ -249,9 +252,9 @@
 .btn-danger.confirm.shiver:active {
     /* "Smash" effect when clicked */
     transform: scale(0.95);
-    background: #5a1a1c !important; /* Deep blood red */
+    background: #5a1a1c !important; 
     box-shadow: inset 0 3px 10px rgba(0, 0, 0, 0.5);
-    animation: none; /* Stops shaking as it's being "crushed" */
+    animation: none; /* Stop the shiver on click for a moment of impact */
 }
 
 /* --- THE SHIVER ANIMATION --- */
@@ -293,7 +296,7 @@
     border: 1px solid rgba(62, 39, 35, 0.15);
     padding: 10px;
     font-size: 0.9rem;
-    color: #3e2723;
+    color: var(--espresso);
 }
 
 .edit-footer {
@@ -304,7 +307,7 @@
 }
 
 .btn-save {
-    background: #4a5d4e;
+    background: var(--sage-green);
     color: white;
     border: none;
     padding: 12px 20px;
@@ -344,10 +347,10 @@
 
 .btn-cancel:hover {
     background: rgba(62, 39, 35, 0.05); /* Very subtle "paper shadow" fill */
-    border-color: #3e2723; /* Darkens to match the main text */
-    color: #3e2723;
+    border-color: var(--espresso); 
+    color: var(--espresso);
     box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.05);
-    transform: translateY(-1px); /* Slight lift */
+    transform: translateY(-1px); 
 }
 
 .btn-cancel:active {
@@ -373,4 +376,67 @@
 .intel-lines li:has(.placeholder-intel)::before {
     color: rgba(62, 39, 35, 0.2); /* Mutes the >> symbol */
     content: "--"; /* Changes bullet to a dash for empty states */
+}
+
+.meta-block {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 4px; /* Tightens the space between dates */
+}
+
+.update-tag {
+    font-family: 'Courier New', monospace;
+    font-size: 0.55rem; 
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-style: italic;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    animation: stamp-flicker 1.2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    transform-origin: right;
+    will-change: transform, opacity;
+}
+
+/* Gold "Modified" indicator dot */
+.update-tag::before {
+    content: "";
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    background-color: var(--gold-muted);
+    border-radius: 50%;
+    margin-right: 6px;
+}
+
+.date-tag, .update-tag {
+    font-family: 'Courier New', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.date-tag {
+    color: #7a6e6c;
+    opacity: 0.7; 
+}
+
+@keyframes stamp-flicker {
+    0% {
+        opacity: 0;
+        transform: scale(1.5) rotate(5deg);
+        filter: blur(2px);
+    }
+    70% {
+        opacity: 1;
+        transform: scale(0.95) rotate(0deg);
+        filter: blur(0);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
 }

@@ -111,7 +111,11 @@ const JobCard = ({ job, onDelete, onEdit }) => {
                                 <h2 className="position-title">{job.position}</h2>
                             </div>
                             <div className="meta-block">
-                                <span className="date-tag">LOGGED: {job.dateAdded}</span>
+                                <span className="date-tag">ORIGIN: {job.dateAdded}</span>
+                                
+                                {job.lastUpdated && (
+                                    <span className="update-tag">REVISED: {job.lastUpdated}</span>
+                            )}
                                 <span className="status-badge">{job.status}</span>
                             </div>
                         </div>
