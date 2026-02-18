@@ -36,7 +36,7 @@ return (
     <div className="board-container">
     <main className="cork-board">
         <h1>THE LEDGER</h1>
-        <p>Organize your applications, track progress, and land your dream job.</p>
+        <p>A structured, real-time application tracking system designed to centralize opportunity management</p>
 
         <div className="sticky-buttons">
         <button 

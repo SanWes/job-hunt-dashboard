@@ -133,7 +133,7 @@ return (
                     CONFIRM SHRED
                     </button>
                     <button className="btn-cancel" onClick={() => setShowConfirm(false)}>
-                    ABORT
+                    CANCEL
                     </button>
                 </div>
                 ) : (
