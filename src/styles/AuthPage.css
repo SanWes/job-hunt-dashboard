@@ -1,7 +1,7 @@
 /* --- Root Background (The Desk) --- */
 .ledger-auth-wrapper {
     min-height: 100vh;
-    background: radial-gradient(circle, #3d2b1f 0%, #261a12 100%); /* Rich Walnut Wood Desk */
+    background: radial-gradient(circle at 50% 20%, #4e342e 0%, #261a12 100%); /* Warm Walnut with Highlight */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -10,34 +10,32 @@
     position: relative;
 }
 
+/* Wood Grain Overlay */
+.ledger-auth-wrapper::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    opacity: 0.15; 
+    pointer-events: none;
+    background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png');
+    mix-blend-mode: multiply; 
+    z-index: 1;
+}
+
 /* --- The Book Cover (The Overlay) --- */
 .book-cover {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: #4a2c2a; /* Old Leather */
+    background: #4a2c2a; /* Rich Old Leather */
     z-index: 10;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-  box-shadow: inset 0 0 120px rgba(0,0,0,0.4), 0 0 50px rgba(0,0,0,0.5);}
-
-.ledger-auth-wrapper::before {
-    content: "";
-    position: absolute;
-    top: 0; 
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0.2; 
-    pointer-events: none;
-    /* Using a fine-grain wood texture */
-    background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png');
-    /* 'Multiply' makes the dark grain lines sink into your brown background */
-    mix-blend-mode: multiply; 
-    z-index: 1;
+    transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+    box-shadow: inset 0 0 120px rgba(0,0,0,0.5), 0 0 50px rgba(0,0,0,0.5);
 }
 
 /* The "Opening" Animation */
@@ -48,10 +46,11 @@
 
 .cover-content {
     text-align: center;
-    border: 2px solid #d4af37; /* Gold border */
+    border: 2px solid #d4af37;
     padding: 60px;
     color: #d4af37;
     background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(2px);
 }
 
 .embossed-title {
@@ -59,7 +58,7 @@
     font-weight: 900;
     letter-spacing: 12px;
     margin-bottom: 10px;
-    text-shadow: 2px 2px 0px rgba(0,0,0,0.4);
+    text-shadow: 3px 3px 0px rgba(0,0,0,0.6);
 }
 
 .latch {
@@ -73,60 +72,171 @@
 /* --- The Auth Card (Inside the Book) --- */
 .auth-container {
     width: 100%;
-    max-width: 450px;
+    max-width: 480px;
     z-index: 1;
 }
 
 .auth-card {
-    background: #fdfaf0; /* Vellum Paper */
-    padding: 50px;
-    box-shadow: 20px 20px 60px rgba(0,0,0,0.5);
-    border-left: 8px solid #3e2723; /* Book Binding */
-    animation: fadeIn 1.5s ease;
+    background: #fdfaf0; /* High-quality Vellum */
+    padding: 60px 50px;
+    position: relative;
+    
+    /* CLEANER DEPTH: One soft, high-end shadow instead of the stacked lines */
+    box-shadow: 
+        10px 10px 40px rgba(0,0,0,0.3),
+        0 0 100px rgba(0,0,0,0.1) inset; /* Soft inner glow for paper depth */
+
+    /* The Binding: Keep it, but maybe slightly thinner for a sleeker look */
+    border-left: 10px solid #2b1d1a; 
+    border-radius: 2px 8px 8px 2px;
+    
+    /* Animation: Subtle fade and slide without the rotation */
+    animation: slideReveal 1s ease-out;
+    overflow: hidden; 
 }
 
-.ledger-title {
+/* Updated Reveal Animation */
+@keyframes slideReveal {
+    from { 
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to { 
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* --- Ledger Tabs --- */
+.ledger-tabs {
+    display: flex;
+    margin: -60px -50px 40px -50px;
+    background: rgba(0, 0, 0, 0.04);
+}
+
+.ledger-tab {
+    flex: 1;
+    padding: 20px;
+    border: none;
+    background: transparent;
+    color: #5d4037;
     font-family: 'Courier New', monospace;
+    font-size: 0.7rem;
     font-weight: 900;
-    color: #3e2723;
-    letter-spacing: 3px;
-    margin: 0;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    border-bottom: 1px solid rgba(62, 39, 35, 0.1);
 }
 
+.ledger-tab.active {
+    background: #fdfaf0;
+    color: #3e2723;
+    border-bottom: 3px solid #d4af37;
+}
+
+.ledger-tab:not(.active):hover {
+    background: rgba(0, 0, 0, 0.08);
+}
+
+.ledger-tab:first-child {
+    border-right: 1px solid rgba(62, 39, 35, 0.05);
+}
 .auth-subtitle {
     font-size: 0.7rem;
-    color: #7a6e6c;
+    color: #8d6e63;
+    letter-spacing: 1px;
     text-transform: uppercase;
-    margin-bottom: 30px;
+    margin-bottom: 35px;
+    text-align: center;
+}
+
+/* --- Inputs & Labels --- */
+.ledger-group {
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.ledger-group label {
+    font-size: 0.65rem;
+    font-weight: 900;
+    color: #8d6e63;
+    letter-spacing: 2px;
+}
+
+.ledger-input {
+    width: 100%;
+    padding: 12px 0;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(62, 39, 35, 0.2);
+    font-family: inherit;
+    font-size: 1.1rem;
+    color: #3e2723;
+    transition: border-color 0.3s;
+}
+
+.ledger-input:focus {
+    outline: none;
+    border-bottom-color: #d4af37;
+}
+
+/* --- Submit Button (The Wax Seal Style) --- */
+.ledger-submit-btn {
+    margin-top: 20px;
+    width: 100%;
+    padding: 18px;
+    background: #3e2723; 
+    color: #d4af37;
+    border: 1px solid #d4af37;
+    font-weight: 900;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.ledger-submit-btn:hover {
+    background: #d4af37;
+    color: #3e2723;
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
 }
 
 .auth-error-msg {
     color: #b71c1c;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: bold;
     margin-bottom: 15px;
+    text-align: center;
+    font-family: monospace;
 }
 
 .auth-switch-text {
     margin-top: 25px;
     font-size: 0.75rem;
     color: #3e2723;
+    text-align: center;
 }
 
 .auth-switch-text span {
     font-weight: 900;
     cursor: pointer;
     text-decoration: underline;
-    margin-left: 5px;
 }
 
-/* --- Animation Keyframes --- */
+/* --- Animations --- */
 @keyframes pulse {
     0%, 100% { opacity: 0.3; }
-    50% { opacity: 0.8; }
+    50% { opacity: 0.7; }
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
+@keyframes openPage {
+    from { 
+        transform: rotateY(-10deg) translateX(-20px);
+        opacity: 0;
+    }
+    to { 
+        transform: rotateY(0) translateX(0);
+        opacity: 1;
+    }
 }

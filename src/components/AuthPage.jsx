@@ -39,7 +39,24 @@ const WelcomePage = ({ onLogin }) => {
             {/* THE INTERNAL FORM (Revealed when book opens) */}
             <main className="auth-container">
                 <div className="auth-card">
-                    <h2 className="ledger-title">{isSignup ? "NEW REGISTRY" : "ACCESS LEDGER"}</h2>
+                    {/* TACTICAL TABS - Improves UX by making mode selection obvious */}
+                    <div className="ledger-tabs">
+                        <button 
+                            type="button"
+                            className={`ledger-tab ${!isSignup ? 'active' : ''}`} 
+                            onClick={() => { setIsSignup(false); setError(""); }}
+                        >
+                            ACCESS LEDGER
+                        </button>
+                        <button 
+                            type="button"
+                            className={`ledger-tab ${isSignup ? 'active' : ''}`} 
+                            onClick={() => { setIsSignup(true); setError(""); }}
+                        >
+                            NEW REGISTRY
+                        </button>
+                    </div>
+
                     <p className="auth-subtitle">
                         {isSignup ? "Initialize your credentials." : "Establish secure data link."}
                     </p>
@@ -70,13 +87,13 @@ const WelcomePage = ({ onLogin }) => {
                             />
                         </div>
                         <button type="submit" className="ledger-submit-btn">
-                            {isSignup ? "CREATE RECORD" : "AUTHORIZE ACCESS"}
+                            {isSignup ? "INITIALIZE LEDGER" : "AUTHORIZE ACCESS"}
                         </button>
                     </form>
 
                     <p className="auth-switch-text">
                         {isSignup ? "Existing record found?" : "No credentials found?"}{" "}
-                        <span onClick={() => setIsSignup(!isSignup)}>
+                        <span onClick={() => { setIsSignup(!isSignup); setError(""); }}>
                             {isSignup ? "SIGN IN" : "REGISTER"}
                         </span>
                     </p>
