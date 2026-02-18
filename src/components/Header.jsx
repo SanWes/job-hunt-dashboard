@@ -3,8 +3,7 @@ import "../styles/Header.css";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/firebase";
 
-import LogoIMG from "/assets/LedgerLogo.png";
-import OneLogo from "/assets/OneLogo.png";
+import OneLogo from "/assets/LedgerLogo.png";
 
 const Header = () => {
   const handleLogout = async () => {
