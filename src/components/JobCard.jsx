@@ -15,7 +15,6 @@ const JobCard = ({ job, onDelete, onEdit }) => {
         setEditedNotes(Array.isArray(job.notes) ? job.notes : []);
     }, [job.notes]);
 
-    // PREVENTS 404: Ensures links have https:// if user forgot to type it
     const formatUrl = (url) => {
         if (!url) return "#";
         const protocolHeader = /^(http|https):\/\//i;
@@ -37,12 +36,10 @@ const JobCard = ({ job, onDelete, onEdit }) => {
 
     return (
         <div className={`ledger-card ${statusClass} ${isEditing ? "is-editing" : ""}`}>
-            {/* TACTICAL STATUS STRIP */}
             <div className="status-strip"></div>
 
             <div className="card-inner">
                 {isEditing ? (
-                    /* --- EDIT STATE: DATA OVERRIDE --- */
                     <div className="edit-module">
                         <div className="module-header">
                             <span className="mode-tag">EDIT MODE // DATA OVERRIDE</span>
@@ -54,7 +51,8 @@ const JobCard = ({ job, onDelete, onEdit }) => {
                                 <input 
                                     type="text" 
                                     value={editedCompany} 
-                                    onChange={(e) => setEditedCompany(e.target.value)} 
+                                    onChange={(e) => setEditedCompany(e.target.value)}
+                                    maxLength={50} // Limit organization name
                                 />
                             </div>
                             <div className="field-group">
@@ -62,7 +60,8 @@ const JobCard = ({ job, onDelete, onEdit }) => {
                                 <input 
                                     type="text" 
                                     value={editedPosition} 
-                                    onChange={(e) => setEditedPosition(e.target.value)} 
+                                    onChange={(e) => setEditedPosition(e.target.value)}
+                                    maxLength={80} 
                                 />
                             </div>
                             <div className="field-group">
@@ -93,6 +92,7 @@ const JobCard = ({ job, onDelete, onEdit }) => {
                                     value={note} 
                                     onChange={(e) => handleNoteChange(index, e.target.value)} 
                                     rows={3}
+                                    maxLength={500} // Prevent infinite notes
                                 />
                             ))}
                         </div>
@@ -103,19 +103,19 @@ const JobCard = ({ job, onDelete, onEdit }) => {
                         </div>
                     </div>
                 ) : (
-                    /* --- VIEW STATE: DATA READOUT --- */
                     <div className="view-module">
                         <div className="view-header">
-                            <div className="title-block">
+                            {/* NEW: header-main provides the 'min-width: 0' anchor for wrapping */}
+                            <div className="header-main">
                                 <span className="entity-label">{job.company}</span>
                                 <h2 className="position-title">{job.position}</h2>
                             </div>
+                            
                             <div className="meta-block">
                                 <span className="date-tag">ORIGIN: {job.dateAdded}</span>
-                                
                                 {job.lastUpdated && (
                                     <span className="update-tag">REVISED: {job.lastUpdated}</span>
-                            )}
+                                )}
                                 <span className="status-badge">{job.status}</span>
                             </div>
                         </div>
@@ -123,16 +123,15 @@ const JobCard = ({ job, onDelete, onEdit }) => {
                         <div className="view-body">
                             <div className="intel-section">
                                 <span className="section-label">STRATEGIC OBSERVATIONS</span>
-<ul className="intel-lines">
-    {job.notes.map((n, i) => (
-        <li key={i}>
-            {n ? n : <span className="placeholder-intel">PENDING DATA // NO RECORD FOUND</span>}
-        </li>
-    ))}
-</ul>
+                                <ul className="intel-lines">
+                                    {job.notes.map((n, i) => (
+                                        <li key={i}>
+                                            {n ? n : <span className="placeholder-intel">PENDING DATA // NO RECORD FOUND</span>}
+                                        </li>
+                                    ))}
+                                </ul>
                             </div>
 
-                            {/* INTEL ORIGIN: Visual Link Tracker */}
                             {job.jobLink && (
                                 <div className="intel-origin">
                                     <div className="origin-header">
