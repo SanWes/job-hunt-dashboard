@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"; // ADDED: useEffect import
+import React, { useState, useEffect } from "react";
 import "../styles/JobForm.css";
 
 const JobForm = ({ onAddJob }) => {
@@ -8,32 +8,30 @@ const JobForm = ({ onAddJob }) => {
     position: "",
     status: "Filed",
     jobLink: "",
-    notes: [""], 
-    dateAdded: new Date().toLocaleDateString(),
+    notes: [""],
+    dateAdded: new Date().toLocaleDateString('en-US', { 
+      month: 'short', 
+      day: 'numeric', 
+      year: 'numeric' 
+    }),
   };
 
   const [jobDetails, setJobDetails] = useState(initialState);
   const [error, setError] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
 
-  // --- CHANGE 1: AUTO-CLEAR ERROR AFTER 5 SECONDS ---
   useEffect(() => {
     if (error) {
-      const timer = setTimeout(() => {
-        setError("");
-      }, 5000);
+      const timer = setTimeout(() => setError(""), 5000);
       return () => clearTimeout(timer);
     }
   }, [error]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-
-    // --- CHANGE 2: CLEAR ERROR WHEN USER STARTS TYPING ---
     if (error && (name === "company" || name === "position")) {
       setError("");
     }
-
     setJobDetails((prev) => ({
       ...prev,
       [name]: name === "notes" ? [value] : value,
@@ -46,9 +44,7 @@ const JobForm = ({ onAddJob }) => {
       setError("CRITICAL: ENTITY AND FUNCTION REQUIRED.");
       return;
     }
-
-    setError("");
-    onAddJob({ ...jobDetails, id: Date.now() });
+    onAddJob({ ...jobDetails });
     setShowSuccess(true);
     setJobDetails(initialState);
     setTimeout(() => setShowSuccess(false), 5000);
@@ -56,14 +52,18 @@ const JobForm = ({ onAddJob }) => {
 
   return (
     <div className={`ledger-form-wrapper ${isOpen ? "is-expanded" : "is-collapsed"}`} id="newjob">
+      {/* --- REFINED HEADER --- */}
       <div className="form-toggle-header" onClick={() => setIsOpen(!isOpen)}>
         <div className="header-meta">
           <span className="system-indicator">{isOpen ? "—" : "+"}</span>
           <div className="title-stack">
             <h2 className="ledger-title">INITIATE REGISTRY</h2>
-            <span className="header-status-code">
-              {isOpen ? "SYSTEM ACTIVE // INTAKE MODE" : "SYSTEM READY // STANDBY"}
-            </span>
+            <div className="status-line">
+              <span className="status-dot"></span>
+              <span className="header-status-code">
+                {isOpen ? "INTAKE MODE // ACTIVE" : "STANDBY // READY"}
+              </span>
+            </div>
           </div>
         </div>
         <div className="header-right">
@@ -71,18 +71,18 @@ const JobForm = ({ onAddJob }) => {
         </div>
       </div>
 
+      {/* --- SMOOTH EXPANSION CONTAINER --- */}
       <div className="ledger-sheet-container">
         <div className="ledger-sheet">
           {showSuccess && <div className="success-toast">ENTRY COMMITTED TO THE LEDGER</div>}
           
           <div className="form-branding">
-            <p className="ledger-subtitle">CENTRALIZED MANIFEST // VOL. I</p>
+            <p className="ledger-subtitle">CENTRALIZED DATA // VOL. I</p>
           </div>
 
           <form onSubmit={handleSubmit} className="ledger-form">
-            {/* --- CHANGE 3: ADDED ONCLICK TO MANUALLY DISMISS --- */}
             {error && (
-              <p className="error-message" onClick={() => setError("")} style={{ cursor: 'pointer' }}>
+              <p className="error-message" onClick={() => setError("")}>
                 {error}
               </p>
             )}

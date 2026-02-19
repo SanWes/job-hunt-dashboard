@@ -80,6 +80,17 @@
     opacity: 1;
 }
 
+/* Add a subtle pulse to the gold [+] so it looks like it's waiting for input: */
+.is-collapsed .system-status {
+    animation: pulse-attention 2s infinite;
+}
+
+@keyframes pulse-attention {
+    0% { opacity: 1; }
+    50% { opacity: 0.4; transform: scale(1.1); }
+    100% { opacity: 1; }
+}
+
 .about-content {
     overflow: hidden;
 }

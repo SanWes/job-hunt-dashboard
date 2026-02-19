@@ -22,7 +22,8 @@ function App() {
   const [user, setUser] = useState(null);
   const [jobs, setJobs] = useState([]);
   const [statusFilter, setStatusFilter] = useState("All");
-  const [searchTerm, setSearchTerm] = useState(""); // Shared Search State
+  const [searchTerm, setSearchTerm] = useState(""); 
+  
   
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -180,3 +181,11 @@ function App() {
 }
 
 export default App;
+
+
+/* Interview with Noah March 4th, 2026 on Zoom. Check email for links. 200k Salary, benefits, Hybrid role out of Austin Texas Base.
+
+224K Salary, Hybrid, San Antonio, Health Dental Retirement, 6 Week Paid Vacation
+
+*/ 
+
