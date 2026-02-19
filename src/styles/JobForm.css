@@ -211,3 +211,49 @@
     color: var(--text-muted);
     opacity: 0.7;
 }
+
+/* --- SUCCESS TOAST: THE STAMP OF APPROVAL --- */
+.success-toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: var(--sage-green); /* Using your existing success color */
+    color: white;
+    padding: 15px 25px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.75rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    
+    /* DOSSIER LOOK: Rough borders and depth */
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 
+        5px 5px 0px rgba(0, 0, 0, 0.2),
+        0 0 15px rgba(107, 142, 35, 0.4); /* Glow matching sage-green */
+    
+    z-index: 1000;
+    pointer-events: none;
+    
+    /* ANIMATION: The "Inked Stamp" Effect */
+    animation: stamp-in 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Subtle decorative "check" or "authorized" icon */
+.success-toast::before {
+    content: "[ AUTHORIZED ] ";
+    opacity: 0.7;
+}
+
+@keyframes stamp-in {
+    0% {
+        transform: scale(1.5) rotate(5deg);
+        opacity: 0;
+        filter: blur(4px);
+    }
+    100% {
+        transform: scale(1) rotate(-2deg); /* Slight tilt for that manual stamp look */
+        opacity: 1;
+        filter: blur(0);
+    }
+}
