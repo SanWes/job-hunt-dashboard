@@ -57,7 +57,7 @@ const JobForm = ({ onAddJob }) => {
         <div className="header-meta">
           <span className="system-indicator">{isOpen ? "—" : "+"}</span>
           <div className="title-stack">
-            <h2 className="ledger-title">INITIATE REGISTRY</h2>
+            <h2 className="ledger-title">File new intel</h2>
             <div className="status-line">
               <span className="status-dot"></span>
               <span className="header-status-code">
