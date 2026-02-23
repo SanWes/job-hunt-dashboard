@@ -159,11 +159,13 @@
     padding: 30px;
     transition: right 0.4s ease;
     visibility: hidden;
+    pointer-events: none;
   }
 
   .nav-toggle:checked ~ .nav-and-actions {
     right: 0;
     visibility: visible;
+    pointer-events: auto;
   }
 
   .header-nav { 
