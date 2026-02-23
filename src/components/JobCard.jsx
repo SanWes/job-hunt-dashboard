@@ -126,7 +126,9 @@ const JobCard = ({ job, onDelete, onEdit }) => {
                                 <ul className="intel-lines">
                                     {job.notes.map((n, i) => (
                                         <li key={i}>
-                                            {n ? n : <span className="placeholder-intel">PENDING DATA // NO RECORD FOUND</span>}
+                                            {n ? 
+                                            // React Markdown to be implemented here in the future for better formatting of notes
+                                            n : <span className="placeholder-intel">PENDING DATA // NO RECORD FOUND</span>}
                                         </li>
                                     ))}
                                 </ul>

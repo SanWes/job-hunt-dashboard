@@ -5,9 +5,8 @@
     max-width: 850px;
     min-height: 280px;
     margin: 30px auto;
-    background: var(--ledger-paper); 
+    background: var(--ledger-paper);
     border: 1px solid rgba(62, 39, 35, 0.1);
-    /* CLEAN ARCHIVE SHADOW */
     box-shadow: 
         10px 10px 40px rgba(0,0,0,0.15),
         0 0 100px rgba(0,0,0,0.05) inset;
@@ -27,6 +26,7 @@
     width: 10px;
     background: var(--slate-muted);
     transition: background 0.4s ease;
+    flex-shrink: 0;
 }
 .filed .status-strip { background: var(--slate-muted); }
 .active .status-strip { background: var(--gold-muted); } 
@@ -38,6 +38,7 @@
     padding: 35px 45px;
     display: flex;
     flex-direction: column;
+    min-width: 0;
 }
 
 /* --- VIEW HEADER --- */
@@ -51,10 +52,9 @@
     gap: 20px;
 }
 
-.title-block {
-    /* FIX: Allows this container to be smaller than the text it holds */
+.header-main {
     flex: 1;
-    min-width: 0; 
+    min-width: 0;
 }
 
 .position-title {
@@ -62,26 +62,10 @@
     font-size: 1.6rem;
     color: var(--espresso);
     font-weight: 800;
-    /* FIX: Forces text to wrap to next line instead of widening the card */
     white-space: normal;
     overflow-wrap: break-word;
     word-break: break-word;
-}
-
-.meta-block {
-    text-align: right;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 6px;
-    /* FIX: Prevents the date section from being squished by long titles */
-    flex-shrink: 0;
-}
-
-/* Fix for Edit Mode inputs pushing the card width */
-.edit-module input {
-    width: 100%;
-    box-sizing: border-box; /* Ensures padding doesn't add to width */
+    line-height: 1.2;
 }
 
 .entity-label {
@@ -94,14 +78,29 @@
     margin-bottom: 4px;
 }
 
-.date-tag {
+.meta-block {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.date-tag, .update-tag {
     font-family: 'Courier New', monospace;
-    font-size: 0.65rem;
+    font-size: 0.6rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.date-tag {
     color: #7a6e6c;
+    opacity: 0.7;
 }
 
 .status-badge {
-    align-self: center; 
+    margin-top: 4px;
     text-align: center;
     font-size: 0.6rem;
     font-weight: 900;
@@ -152,7 +151,7 @@
     font-weight: bold;
 }
 
-/* --- INTEL ORIGIN (The Link) --- */
+/* --- INTEL ORIGIN (Link Section) --- */
 .intel-origin {
     padding: 12px 15px;
     background: rgba(0, 0, 0, 0.03);
@@ -176,6 +175,7 @@
     align-items: center;
     text-decoration: none;
     gap: 15px;
+    width: 100%;
 }
 
 .coordinate-text {
@@ -183,12 +183,9 @@
     font-size: 0.75rem;
     color: #5d4037;
     opacity: 0.8;
-    display: block;            /* Ensures it respects width */
-    word-break: break-all;     /* Forces the URL to wrap mid-character if needed */
+    display: block;
+    word-break: break-all;
     white-space: normal;
-    /* white-space: nowrap;
-    overflow: hidden; */
-    text-overflow: ellipsis;
     max-width: 65%;
 }
 
@@ -201,91 +198,13 @@
     padding: 5px 12px;
     border: 1px solid var(--espresso);
     transition: all 0.2s ease;
+    white-space: nowrap;
 }
 
 .origin-link-wrapper:hover .terminal-button {
     background: var(--espresso);
     color: #fdfaf0;
     box-shadow: 4px 4px 0px var(--gold-muted);
-}
-
-/* --- FOOTER & BUTTONS --- */
-.view-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px dashed rgba(62, 39, 35, 0.1);
-    padding-top: 25px;
-}
-
-.btn-action {
-    background: var(--espresso);
-    color: #fdfaf0;
-    border: none;
-    padding: 12px 24px;
-    font-size: 0.65rem;
-    font-weight: 900;
-    letter-spacing: 2px;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.btn-action:hover {
-    background: var(--gold-muted);
-    color: var(--espresso);
-}
-
-/* --- BASE DANGER BUTTON --- */
-.btn-danger {
-    background: transparent;
-    color: #a63d40;
-    border: 1px solid #a63d40;
-    padding: 10px 20px;
-    font-size: 0.6rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.btn-danger:hover {
-    background: rgba(166, 61, 64, 0.05);
-    box-shadow: 0 2px 8px rgba(166, 61, 64, 0.2);
-}
-
-/* --- THE CONFIRM SHRED (SHIVER) STATE --- */
-.btn-danger.confirm.shiver {
-    background: #a63d40 !important;
-    color: white !important;
-    border: 1px solid transparent;
-    /* Subtle vibration while waiting */
-    animation: shred-shiver 0.4s infinite linear;
-}
-
-.btn-danger.confirm.shiver:hover {
-    /* Speed up the vibration on hover to show "System Critical" status */
-    animation: shred-shiver 0.15s infinite linear;
-    background: #c62828 !important; /* Brighter red */
-    box-shadow: 0 0 15px rgba(198, 40, 40, 0.4);
-    transform: scale(1.02);
-}
-
-.btn-danger.confirm.shiver:active {
-    /* "Smash" effect when clicked */
-    transform: scale(0.95);
-    background: #5a1a1c !important; 
-    box-shadow: inset 0 3px 10px rgba(0, 0, 0, 0.5);
-    animation: none; /* Stop the shiver on click for a moment of impact */
-}
-
-/* --- THE SHIVER ANIMATION --- */
-@keyframes shred-shiver {
-    0% { transform: translate(0, 0); }
-    25% { transform: translate(1px, -1px) rotate(0.2deg); }
-    50% { transform: translate(-1px, 1px) rotate(-0.2deg); }
-    75% { transform: translate(1px, 1px) rotate(0.2deg); }
-    100% { transform: translate(0, 0); }
 }
 
 /* --- EDIT MODULE --- */
@@ -319,6 +238,7 @@
     padding: 10px;
     font-size: 0.9rem;
     color: var(--espresso);
+    box-sizing: border-box;
 }
 
 .edit-footer {
@@ -326,139 +246,143 @@
     gap: 15px;
     justify-content: flex-end;
     margin-top: 20px;
+    border-top: 1px dashed rgba(62, 39, 35, 0.1);
+    padding-top: 20px;
 }
 
+/* --- MASTER BUTTON STYLES & ANIMATIONS --- */
+
+/* MODIFY ENTRY (Action) */
+.btn-action {
+    background: var(--espresso);
+    color: #fdfaf0;
+    border: none;
+    padding: 12px 24px;
+    font-size: 0.65rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-transform: uppercase;
+}
+
+.btn-action:hover {
+    background: var(--gold-muted);
+    color: var(--espresso);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(197, 160, 89, 0.3);
+}
+
+/* SHRED FILE (Danger) */
+.btn-danger {
+    background: transparent;
+    color: #a63d40;
+    border: 1px solid #a63d40;
+    padding: 10px 20px;
+    font-size: 0.6rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-danger:hover {
+    background: rgba(166, 61, 64, 0.08);
+    box-shadow: 0 0 10px rgba(166, 61, 64, 0.15);
+    transform: scale(1.02);
+}
+
+/* COMMIT CHANGES (Save) */
 .btn-save {
     background: var(--sage-green);
     color: white;
     border: none;
-    padding: 12px 20px;
-    font-weight: 900;
+    padding: 12px 24px;
     font-size: 0.65rem;
+    font-weight: 900;
+    letter-spacing: 2px;
     cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
 }
 
-/* SHRED SHIVER ANIMATION */
+.btn-save:hover {
+    background: #3e5c4a;
+    box-shadow: 4px 4px 0px var(--espresso);
+    transform: translate(-2px, -2px);
+}
+
+/* CANCEL (Reset) */
+.btn-cancel {
+    background: transparent;
+    border: 1px solid rgba(62, 39, 35, 0.3);
+    color: #7a6e6c;
+    padding: 11px 23px;
+    font-size: 0.65rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-cancel:hover {
+    background: rgba(62, 39, 35, 0.05);
+    border-color: var(--espresso);
+    color: var(--espresso);
+    transform: translateY(-1px);
+}
+
+/* --- VIEW FOOTER --- */
+.view-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px dashed rgba(62, 39, 35, 0.1);
+    padding-top: 25px;
+    gap: 15px;
+}
+
+/* --- SHRED CONFIRM ANIMATION --- */
 @keyframes shred-shiver {
-    0% { transform: translateX(0); }
-    25% { transform: translateX(2px) rotate(0.5deg); }
-    50% { transform: translateX(-2px) rotate(-0.5deg); }
-    100% { transform: translateX(0); }
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(1px, -1px) rotate(0.2deg); }
+    50% { transform: translate(-1px, 1px) rotate(-0.2deg); }
+    100% { transform: translate(0, 0); }
 }
 
 .btn-danger.confirm.shiver {
     background: #a63d40 !important;
     color: white !important;
-    animation: shred-shiver 0.4s infinite;
+    animation: shred-shiver 0.2s infinite linear;
 }
 
-.btn-cancel {
-    background: transparent;
-    border: 1px solid rgba(62, 39, 35, 0.2);
-    color: #7a6e6c;
-    padding: 10px 20px;
-    font-size: 0.6rem;
-    font-weight: 900;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-}
+/* --- MOBILE RESPONSIVENESS (STACKING RULES) --- */
+@media (max-width: 600px) {
+    .card-inner { padding: 20px; }
+    .view-header { flex-direction: column; gap: 15px; }
+    .meta-block { text-align: left; align-items: flex-start; width: 100%; }
+    
+    .origin-link-wrapper { flex-direction: column; align-items: stretch; }
+    .coordinate-text { max-width: 100%; }
+    .terminal-button { width: 100%; text-align: center; }
 
-.btn-cancel:hover {
-    background: rgba(62, 39, 35, 0.05); /* Very subtle "paper shadow" fill */
-    border-color: var(--espresso); 
-    color: var(--espresso);
-    box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.05);
-    transform: translateY(-1px); 
-}
-
-.btn-cancel:active {
-    background: rgba(62, 39, 35, 0.1);
-    transform: translateY(0); /* Resets on click for a "button press" feel */
-}
-
-/* --- EMPTY STATE STYLING --- */
-.placeholder-intel {
-    font-family: 'Courier New', monospace;
-    font-size: 0.85rem;
-    color: #8d6e63;
-    opacity: 0.5;
-    font-style: italic;
-    letter-spacing: 1px;
-    /* Makes it look like it's waiting for input */
-    border-bottom: 1px solid rgba(141, 110, 99, 0.2); 
-    display: inline-block;
-    padding-bottom: 2px;
-}
-
-/* Optional: Change the bullet point color for empty lines */
-.intel-lines li:has(.placeholder-intel)::before {
-    color: rgba(62, 39, 35, 0.2); /* Mutes the >> symbol */
-    content: "--"; /* Changes bullet to a dash for empty states */
-}
-
-.meta-block {
-    text-align: right;
-    display: flex;
-    flex-direction: column;
-    gap: 4px; /* Tightens the space between dates */
-}
-
-.update-tag {
-    font-family: 'Courier New', monospace;
-    font-size: 0.55rem; 
-    font-weight: 700;
-    color: var(--text-muted);
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    font-style: italic;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    animation: stamp-flicker 1.2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
-    transform-origin: right;
-    will-change: transform, opacity;
-}
-
-/* Gold "Modified" indicator dot */
-.update-tag::before {
-    content: "";
-    display: inline-block;
-    width: 5px;
-    height: 5px;
-    background-color: var(--gold-muted);
-    border-radius: 50%;
-    margin-right: 6px;
-}
-
-.date-tag, .update-tag {
-    font-family: 'Courier New', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
-
-.date-tag {
-    color: #7a6e6c;
-    opacity: 0.7; 
-}
-
-@keyframes stamp-flicker {
-    0% {
-        opacity: 0;
-        transform: scale(1.5) rotate(5deg);
-        filter: blur(2px);
+    .view-footer, .edit-footer {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
     }
-    70% {
-        opacity: 1;
-        transform: scale(0.95) rotate(0deg);
-        filter: blur(0);
+
+    .btn-action, .btn-danger, .btn-cancel, .btn-save {
+        width: 100%;
+        text-align: center;
     }
-    100% {
-        opacity: 1;
-        transform: scale(1);
+
+    .shred-confirm-group {
+        flex-direction: column;
+        width: 100%;
     }
+
+    .edit-grid { grid-template-columns: 1fr; }
 }
