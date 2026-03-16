@@ -36,7 +36,7 @@ function App() {
     if (!user) return;
     const fetchJobs = async () => {
       try {
-        const jobData = await getJobs();
+        const jobData = await getJobs(user.uid);
         setJobs(jobData);
       } catch (error) {
         console.error("Error fetching jobs:", error);
@@ -59,7 +59,7 @@ function App() {
     };
 
     try {
-      const id = await addJobToFirestore(formattedJob);
+      const id = await addJobToFirestore(formattedJob, user.uid);
       setJobs((prevJobs) => [...prevJobs, { ...formattedJob, id }]);
     } catch (error) {
       console.error("Error adding job:", error);
@@ -68,7 +68,7 @@ function App() {
 
   const deleteJob = async (jobId) => {
     try {
-      await deleteJobFromFirestore(jobId);
+      await deleteJobFromFirestore(jobId, user.uid);
       setJobs((prevJobs) => prevJobs.filter((job) => job.id !== jobId));
     } catch (error) {
       console.error("Error deleting job:", error);
@@ -85,7 +85,7 @@ function App() {
     const updatedJob = { position: updatedPosition, company: updatedCompany, status: updatedStatus, jobLink: updatedJobLink, notes: updatedNotes, lastUpdated: lastUpdated
     };
     try {
-      await updateJobInFirestore(id, updatedJob);
+      await updateJobInFirestore(id, updatedJob, user.uid);
       setJobs((prevJobs) => prevJobs.map((job) => (job.id === id ? { ...job, ...updatedJob } : job)));
     } catch (error) {
       console.error("Error updating job:", error);
@@ -183,9 +183,5 @@ function App() {
 export default App;
 
 
-/* Interview with Noah March 4th, 2026 on Zoom. Check email for links. 200k Salary, benefits, Hybrid role out of Austin Texas Base.
 
-224K Salary, Hybrid, San Antonio, Health Dental Retirement, 6 Week Paid Vacation
-
-*/ 
 
