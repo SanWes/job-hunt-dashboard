@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../styles/JobCard.css";
+import { JOB_STATUSES } from "../utils/constants";
 
 const JobCard = ({ job, onDelete, onEdit }) => {
     const [isEditing, setIsEditing] = useState(false);
@@ -9,10 +10,10 @@ const JobCard = ({ job, onDelete, onEdit }) => {
     const [editedCompany, setEditedCompany] = useState(job.company);
     const [editedStatus, setEditedStatus] = useState(job.status);
     const [editedJobLink, setEditedJobLink] = useState(job.jobLink);
-    const [editedNotes, setEditedNotes] = useState(Array.isArray(job.notes) ? job.notes : []);
+    const [editedNotes, setEditedNotes] = useState(Array.isArray(job.notes) ? job.notes : [job.notes || ""]);
 
     useEffect(() => {
-        setEditedNotes(Array.isArray(job.notes) ? job.notes : []);
+        setEditedNotes(Array.isArray(job.notes) ? job.notes : [job.notes || ""]);
     }, [job.notes]);
 
     const formatUrl = (url) => {
@@ -67,10 +68,9 @@ const JobCard = ({ job, onDelete, onEdit }) => {
                             <div className="field-group">
                                 <label>STATUS</label>
                                 <select value={editedStatus} onChange={(e) => setEditedStatus(e.target.value)}>
-                                    <option value="Filed">Filed</option>
-                                    <option value="Active">Active</option>
-                                    <option value="Secured">Secured</option>
-                                    <option value="Archived">Archived</option>
+                                    {JOB_STATUSES.map((status) => (
+                                        <option key={status} value={status}>{status}</option>
+                                    ))}
                                 </select>
                             </div>
                             <div className="field-group">

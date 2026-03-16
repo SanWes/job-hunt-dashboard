@@ -31,3 +31,27 @@
 ## Data Migration
 - [X] Wipe existing `/jobs` collection (as requested)
 - [X] Confirm clean slate for new architecture
+
+## Code Review Optimization Sprint
+
+### Phase 1: Critical Stability
+
+- [X] Add guard clauses for user.uid in all Firebase CRUD operations.
+
+- [X] Implement isSubscribed cleanup in the useEffect job fetcher.
+
+- [X] Add environment variable validation in firebase.js.
+
+### Phase 2: Data & Logic Integrity
+
+- [X] Standardize Notes as arrays in both JobForm and JobCard.
+
+- [X] Create a src/utils/formatters.js for global date formatting.
+
+- [X] Move status values (Active, Applied, etc.) to a src/utils/constants.js file.
+
+### Phase 3: React Performance & UI
+
+- [X] Wrap the job filtering logic in useMemo to optimize re-renders.
+
+- [X] Implement a basic ErrorBoundary component to wrap the main App content.

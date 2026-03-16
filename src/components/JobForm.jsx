@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from "react";
 import "../styles/JobForm.css";
+import { JOB_STATUSES, DEFAULT_STATUS } from "../utils/constants";
+import { formatArchiveDate } from "../utils/formatters";
 
 const JobForm = ({ onAddJob }) => {
   const [isOpen, setIsOpen] = useState(false);
   const initialState = {
     company: "",
     position: "",
-    status: "Filed",
+    status: DEFAULT_STATUS,
     jobLink: "",
     notes: [""],
-    dateAdded: new Date().toLocaleDateString('en-US', { 
-      month: 'short', 
-      day: 'numeric', 
-      year: 'numeric' 
-    }),
+    dateAdded: formatArchiveDate(),
   };
 
   const [jobDetails, setJobDetails] = useState(initialState);
@@ -126,10 +124,9 @@ const JobForm = ({ onAddJob }) => {
                     value={jobDetails.status} 
                     onChange={handleInputChange}
                   >
-                    <option value="Filed">Filed</option>
-                    <option value="Active">Active</option>
-                    <option value="Secured">Secured</option>
-                    <option value="Archived">Archived</option>
+                    {JOB_STATUSES.map((status) => (
+                      <option key={status} value={status}>{status}</option>
+                    ))}
                   </select>
                 </div>
               </div>
