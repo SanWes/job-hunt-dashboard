@@ -1,7 +1,9 @@
 import React from "react";
 import "../styles/StatusDashboard.css";
 
-const StatusDashboard = ({ jobs, setStatusFilter, activeFilter }) => {
+const StatusDashboard = ({ jobs, setStatusFilter, activeFilter, user }) => {
+  const displayName = user?.displayName || "Agent";
+  
   const stats = [
     { label: "Total Entries", count: jobs.length, key: "All", className: "total" },
     { label: "Filed", count: jobs.filter(j => j.status === "Filed").length, key: "Filed", className: "filed" },
@@ -22,6 +24,7 @@ const StatusDashboard = ({ jobs, setStatusFilter, activeFilter }) => {
   return (
     <div className="status-dashboard-wrapper">
       <div className="dashboard-label">Strategic Intelligence Overview</div>
+      <h1 className="welcome-greeting">Welcome, {displayName}!</h1>
       <div className="status-dashboard">
         {stats.map((stat) => (
           <div 

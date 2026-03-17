@@ -55,3 +55,31 @@
 - [X] Wrap the job filtering logic in useMemo to optimize re-renders.
 
 - [X] Implement a basic ErrorBoundary component to wrap the main App content.
+
+## Phase 4: User Personalization
+
+### Task 1: Form Validation (Industry Standards)
+
+- [X] Implement username validation: 3-15 characters, alphanumeric/underscores only.
+
+- [X] Implement email validation with standard regex check.
+
+- [X] Implement password validation: Minimum 8 characters, including at least one number and one special character.
+
+- [X] Display clear error messages in the UI if validation fails.
+
+### Task 2: Registration Logic
+
+- [X] Add username text input to the Signup form.
+
+- [X] Modify signup function to use updateProfile to set displayName.
+
+- [X] Create Firestore user document using uid as Doc ID with username, email, and createdAt: serverTimestamp().
+
+- [X] Wrap calls in try/catch block handling Firebase-specific errors.
+
+### Task 3: Dashboard Greeting
+
+- [X] Retrieve displayName from auth state in Dashboard.
+
+- [X] Display: <h1>Welcome, [Username]!</h1> greeting.

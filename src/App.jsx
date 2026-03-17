@@ -141,7 +141,7 @@ function App() {
         {/* <br />
         <br />
         <br /> */}
-        <StatusDashboard jobs={jobs} setStatusFilter={setStatusFilter} />
+        <StatusDashboard jobs={jobs} setStatusFilter={setStatusFilter} user={user} />
 
         <AboutSection />
 

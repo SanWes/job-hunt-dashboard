@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { createUserDocument } from "../firebase/userHelpers";
+import { validateUsername, validateEmail, validatePassword } from "../utils/validators";
 import "./../styles/AuthPage.css";
 
 const WelcomePage = ({ onLogin }) => {
@@ -8,20 +10,79 @@ const WelcomePage = ({ onLogin }) => {
     const [isSignup, setIsSignup] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [username, setUsername] = useState("");
     const [error, setError] = useState("");
+
+    const validateForm = () => {
+        const emailError = validateEmail(email);
+        const passwordError = validatePassword(password);
+        
+        if (emailError) {
+            setError(emailError);
+            return false;
+        }
+        
+        if (passwordError) {
+            setError(passwordError);
+            return false;
+        }
+        
+        if (isSignup) {
+            const usernameError = validateUsername(username);
+            if (usernameError) {
+                setError(usernameError);
+                return false;
+            }
+        }
+        
+        return true;
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
+        
+        if (!validateForm()) {
+            return;
+        }
+        
         try {
             if (isSignup) {
-                await createUserWithEmailAndPassword(auth, email, password);
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+                
+                // Update profile with display name
+                await updateProfile(user, {
+                    displayName: username
+                });
+                
+                // Create user document in Firestore
+                await createUserDocument(user.uid, {
+                    username: username,
+                    email: email
+                });
+                
             } else {
                 await signInWithEmailAndPassword(auth, email, password);
             }
             onLogin();
         } catch (err) {
-            setError(err.message.replace("Firebase: ", ""));
+            let errorMessage = err.message.replace("Firebase: ", "");
+            
+            // Handle specific Firebase errors
+            if (err.code === 'auth/email-already-in-use') {
+                errorMessage = 'This email is already registered. Please sign in.';
+            } else if (err.code === 'auth/weak-password') {
+                errorMessage = 'Password is too weak. Please choose a stronger password.';
+            } else if (err.code === 'auth/invalid-email') {
+                errorMessage = 'Invalid email address.';
+            } else if (err.code === 'auth/user-not-found') {
+                errorMessage = 'No account found with this email.';
+            } else if (err.code === 'auth/wrong-password') {
+                errorMessage = 'Incorrect password.';
+            }
+            
+            setError(errorMessage);
         }
     };
 
@@ -64,6 +125,19 @@ const WelcomePage = ({ onLogin }) => {
                     {error && <div className="auth-error-msg">{error}</div>}
 
                     <form onSubmit={handleSubmit} className="auth-form">
+                        {isSignup && (
+                            <div className="ledger-group">
+                                <label>USERNAME</label>
+                                <input
+                                    type="text"
+                                    className="ledger-input"
+                                    placeholder="Choose a username"
+                                    required
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                />
+                            </div>
+                        )}
                         <div className="ledger-group">
                             <label>IDENTIFIER</label>
                             <input
@@ -93,7 +167,7 @@ const WelcomePage = ({ onLogin }) => {
 
                     <p className="auth-switch-text">
                         {isSignup ? "Existing record found?" : "No credentials found?"}{" "}
-                        <span onClick={() => { setIsSignup(!isSignup); setError(""); }}>
+                        <span onClick={() => { setIsSignup(!isSignup); setError(""); setUsername(""); }}>
                             {isSignup ? "SIGN IN" : "REGISTER"}
                         </span>
                     </p>
