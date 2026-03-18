@@ -23,7 +23,6 @@ const Header = ({ searchTerm, setSearchTerm, onGuestLogin, user, isGuest, onSett
     try {
       if (isGuest) {
         onGuestLogout();
-        navigate("/");
         return;
       } else {
         await signOut(auth);
@@ -56,7 +55,7 @@ const Header = ({ searchTerm, setSearchTerm, onGuestLogin, user, isGuest, onSett
           <h1 className="ledger-title">THE LEDGER</h1>
         </div>
 
-        {/* 3. Attach the ref to the checkbox */}
+        {/* 3. Attach ref to checkbox */}
         <input 
           type="checkbox" 
           id="nav-toggle" 
@@ -111,6 +110,7 @@ const Header = ({ searchTerm, setSearchTerm, onGuestLogin, user, isGuest, onSett
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="search-input"
+              style={{ color: '#1a1a1a' }}
             />
           </div>
 

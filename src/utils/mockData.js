@@ -32,7 +32,7 @@ export const GUEST_MOCK_JOBS = [
     id: "guest-4",
     company: "Scale AI",
     position: "Software Engineer, RLHF",
-    status: "Interviewing",
+    status: "Active",
     dateAdded: "Mar 12, 2026",
     jobLink: "https://scale.com/careers",
     notes: ["Completed initial screening.", "Hiring manager mentioned Python/Node.js stack."]
@@ -59,7 +59,7 @@ export const GUEST_MOCK_JOBS = [
     id: "guest-7",
     company: "Datadog",
     position: "Full Stack Engineer",
-    status: "Rejected",
+    status: "Archived",
     dateAdded: "Feb 28, 2026",
     jobLink: "https://datadoghq.com/careers",
     notes: ["Great feedback, but they went with an internal candidate."]

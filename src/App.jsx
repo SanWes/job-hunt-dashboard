@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { auth } from "./firebase/firebase";
 import Header from "./components/Header";
 import StatusDashboard from "./components/StatusDashboard";
@@ -145,11 +145,12 @@ const AuthenticatedLayout = ({ user, isGuest, jobs, setJobs, statusFilter, setSt
 
 function App() {
   const [user, setUser] = useState(null);
+  const [isGuest, setIsGuest] = useState(false); 
   const [jobs, setJobs] = useState([]);
   const [statusFilter, setStatusFilter] = useState("All");
-  const [searchTerm, setSearchTerm] = useState(""); 
-  const [isGuest, setIsGuest] = useState(false); 
+  const [searchTerm, setSearchTerm] = useState("");
   const [showSettings, setShowSettings] = useState(false);
+  const navigate = useNavigate();
   
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -176,10 +177,12 @@ function App() {
   useEffect(() => {
     if (isGuest) {
       sessionStorage.setItem('guestMode', 'true');
+      sessionStorage.setItem('guestJobs', JSON.stringify(jobs));
     } else {
       sessionStorage.removeItem('guestMode');
+      sessionStorage.removeItem('guestJobs');
     }
-  }, [isGuest]);
+  }, [isGuest, jobs]);
 
   useEffect(() => {
     if (!user) return;
@@ -207,20 +210,25 @@ function App() {
   }, [user]);
 
   const handleGuestLogin = () => {
+    const savedGuestJobs = sessionStorage.getItem('guestJobs');
+    const jobsToLoad = savedGuestJobs ? JSON.parse(savedGuestJobs) : GUEST_MOCK_JOBS;
+    
     setUser({
       uid: 'guest-user',
       email: 'guest@theledger.com',
       displayName: 'Guest Ledger'
     });
-    setJobs(GUEST_MOCK_JOBS);
+    setJobs(jobsToLoad);
     setIsGuest(true);
   };
 
   const handleGuestLogout = () => {
     sessionStorage.removeItem('guestMode');
+    sessionStorage.removeItem('guestJobs');
     setIsGuest(false);
     setUser(null);
     setJobs([]);
+    navigate("/");
   };
 
   const resetGuestData = () => {
