@@ -1,13 +1,15 @@
-import React, { useState, useEffect, useMemo } from "react";
-import JobList from "./components/JobList";
-import JobForm from "./components/JobForm";
+import React, { useState, useEffect } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { auth } from "./firebase/firebase";
 import Header from "./components/Header";
-import Footer from "./components/Footer";
-import AuthPage from "./components/AuthPage";
 import StatusDashboard from "./components/StatusDashboard";
+import JobForm from "./components/JobForm";
+import JobList from "./components/JobList";
+import Settings from "./components/Settings";
 import AboutSection from "./components/AboutSection";
+import AuthPage from "./components/AuthPage";
 import ErrorBoundary from "./components/ErrorBoundary";
-import { JOB_STATUSES } from "./utils/constants";
+import { GUEST_MOCK_JOBS, JOB_STATUSES } from "./utils/mockData";
 import { formatArchiveDate, formatLastUpdated } from "./utils/formatters";
 
 import {
@@ -18,19 +20,144 @@ import {
 } from "./firebase/firebaseHelpers";
 
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "./firebase/firebase";
 import SearchBar from "./components/SearchBar";
+
+const AuthenticatedLayout = ({ user, isGuest, jobs, setJobs, statusFilter, setStatusFilter, searchTerm, setSearchTerm, showSettings, setShowSettings, handleGuestLogin, resetGuestData }) => (
+  <>
+    <Header 
+      searchTerm={searchTerm} 
+      setSearchTerm={setSearchTerm} 
+      onGuestLogin={handleGuestLogin} 
+      user={user}
+      isGuest={isGuest}
+      onSettingsOpen={() => setShowSettings(true)}
+    />
+
+    <StatusDashboard jobs={jobs} setStatusFilter={setStatusFilter} user={user} />
+    
+    {isGuest && (
+      <div className="guest-controls">
+        <button onClick={resetGuestData} className="reset-demo-btn">
+          Reset Demo Data
+        </button>
+      </div>
+    )}
+    
+    {showSettings && (
+      <div className="settings-modal">
+        <div className="modal-backdrop" onClick={() => setShowSettings(false)}></div>
+        <div className="settings-modal-content">
+          <Settings user={user} />
+          <button onClick={() => setShowSettings(false)} className="modal-close-btn">
+            Close
+          </button>
+        </div>
+      </div>
+    )}
+    
+    <AboutSection />
+
+    <section id="newjob" className="section-card">
+      <JobForm onAddJob={(newJob) => {
+        const formattedJob = { ...newJob, dateAdded: formatArchiveDate() };
+        if (isGuest) {
+          const newJobWithId = { ...formattedJob, id: Date.now().toString() };
+          setJobs((prevJobs) => [...prevJobs, newJobWithId]);
+          return;
+        }
+        addJobToFirestore(formattedJob, user.uid).then(id => {
+          setJobs((prevJobs) => [...prevJobs, { ...formattedJob, id }]);
+        });
+      }} />
+    </section>
+
+    <section id="joblist" className="section-card">
+      <div className="filter-container">
+        <span>Filter by Status:</span>
+        <div className="button-row">
+          {JOB_STATUSES.map((status) => (
+            <button
+              key={status}
+              onClick={() => setStatusFilter(status)}
+              className={`filter-button ${status.toLowerCase()} ${statusFilter === status ? "is-focused" : ""}`}
+            >
+              {status}
+            </button>
+          ))}
+        </div>
+      </div> 
+      
+      <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      
+      {jobs.filter((job) => {
+        const matchesStatus = statusFilter === "All" || job.status === statusFilter;
+        const matchesSearch = 
+          job.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          job.position.toLowerCase().includes(searchTerm.toLowerCase());
+        return matchesStatus && matchesSearch;
+      }).length > 0 ? (
+        <JobList 
+          jobs={jobs.filter((job) => {
+            const matchesStatus = statusFilter === "All" || job.status === statusFilter;
+            const matchesSearch = 
+              job.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              job.position.toLowerCase().includes(searchTerm.toLowerCase());
+            return matchesStatus && matchesSearch;
+          })} 
+          onDelete={(jobId) => {
+            if (isGuest) {
+              setJobs((prevJobs) => prevJobs.filter((job) => job.id !== jobId));
+              return;
+            }
+            deleteJobFromFirestore(jobId, user.uid).then(() => {
+              setJobs((prevJobs) => prevJobs.filter((job) => job.id !== jobId));
+            });
+          }} 
+          onEdit={(id, updatedPosition, updatedCompany, updatedStatus, updatedJobLink, updatedNotes) => {
+            const updatedJob = { 
+              position: updatedPosition, 
+              company: updatedCompany, 
+              status: updatedStatus, 
+              jobLink: updatedJobLink, 
+              notes: updatedNotes, 
+              lastUpdated: formatLastUpdated()
+            };
+            if (isGuest) {
+              setJobs((prevJobs) => prevJobs.map((job) => (job.id === id ? { ...job, ...updatedJob } : job)));
+              return;
+            }
+            updateJobInFirestore(id, updatedJob, user.uid).then(() => {
+              setJobs((prevJobs) => prevJobs.map((job) => (job.id === id ? { ...job, ...updatedJob } : job)));
+            });
+          }} 
+        />
+      ) : (
+        <div className="empty-ledger-state">
+          <div className="empty-icon">{searchTerm ? "🔍" : "🖋️"}</div>
+          <h3>{searchTerm ? "No Matches Found" : "The Ledger is Empty"}</h3>
+          <p>{searchTerm ? "Adjust your search to find a record." : "Every great career move begins with a single entry."}</p>
+        </div>
+      )}
+    </section>
+  </>
+);
 
 function App() {
   const [user, setUser] = useState(null);
   const [jobs, setJobs] = useState([]);
   const [statusFilter, setStatusFilter] = useState("All");
   const [searchTerm, setSearchTerm] = useState(""); 
-  
+  const [isGuest, setIsGuest] = useState(false); 
+  const [showSettings, setShowSettings] = useState(false);
   
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      if (currentUser?.email === 'guest@theledger.com') {
+        setIsGuest(true);
+      } else {
+        setIsGuest(false);
+      }
     });
     return unsubscribe;
   }, []);
@@ -60,144 +187,52 @@ function App() {
     };
   }, [user]);
 
-  const addJob = async (newJob) => {
-    if (!user || !user.uid) {
-      throw new Error('User must be authenticated to add jobs');
-    }
-    
-    const formattedJob = { 
-      ...newJob, 
-      dateAdded: formatArchiveDate()
-    };
-
-    try {
-      const id = await addJobToFirestore(formattedJob, user.uid);
-      setJobs((prevJobs) => [...prevJobs, { ...formattedJob, id }]);
-    } catch (error) {
-      console.error("Error adding job:", error);
-    }
-  };
-
-  const deleteJob = async (jobId) => {
-    if (!user || !user.uid) {
-      throw new Error('User must be authenticated to delete jobs');
-    }
-    
-    try {
-      await deleteJobFromFirestore(jobId, user.uid);
-      setJobs((prevJobs) => prevJobs.filter((job) => job.id !== jobId));
-    } catch (error) {
-      console.error("Error deleting job:", error);
-    }
-  };
-
-  const editJob = async (id, updatedPosition, updatedCompany, updatedStatus, updatedJobLink, updatedNotes) => {
-    if (!user || !user.uid) {
-      throw new Error('User must be authenticated to edit jobs');
-    }
-    
-    const updatedJob = { 
-      position: updatedPosition, 
-      company: updatedCompany, 
-      status: updatedStatus, 
-      jobLink: updatedJobLink, 
-      notes: updatedNotes, 
-      lastUpdated: formatLastUpdated()
-    };
-    try {
-      await updateJobInFirestore(id, updatedJob, user.uid);
-      setJobs((prevJobs) => prevJobs.map((job) => (job.id === id ? { ...job, ...updatedJob } : job)));
-    } catch (error) {
-      console.error("Error updating job:", error);
-    }
-  };
-
-  const displayJobs = useMemo(() => {
-    return jobs.filter((job) => {
-      const matchesStatus = statusFilter === "All" || job.status === statusFilter;
-      const matchesSearch = 
-        job.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        job.position.toLowerCase().includes(searchTerm.toLowerCase());
-      return matchesStatus && matchesSearch;
+  const handleGuestLogin = () => {
+    setUser({
+      uid: 'guest-user',
+      email: 'guest@theledger.com',
+      displayName: 'Guest Ledger'
     });
-  }, [jobs, statusFilter, searchTerm]);
-  
-  if (!user) {
-    return <AuthPage onLogin={() => setUser(auth.currentUser)} />;
-  }
+    setJobs(GUEST_MOCK_JOBS);
+    setIsGuest(true);
+  };
 
-  const scrollToForm = () => {
-      const formElement = document.getElementById("newjob");
-      if (formElement) {
-        formElement.scrollIntoView({ behavior: "smooth" });
-      }
-    };
+  const resetGuestData = () => {
+    setJobs(GUEST_MOCK_JOBS);
+  };
 
   return (
     <ErrorBoundary>
       <div className="App">
-        <Header searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-
-        {/* <br />
-        <br />
-        <br /> */}
-        <StatusDashboard jobs={jobs} setStatusFilter={setStatusFilter} user={user} />
-
-        <AboutSection />
-
-        <section id="newjob" className="section-card">
-          <JobForm onAddJob={addJob} />
-        </section>
-
-        <section id="joblist" className="section-card">
-          <div className="filter-container">
-          
-            <span>Filter by Status:</span>
-            <div className="button-row">
-  {JOB_STATUSES.map((status) => (
-    <button
-      key={status}
-      onClick={() => setStatusFilter(status)}
-      className={`filter-button ${status.toLowerCase()} ${statusFilter === status ? "is-focused" : ""}`}
-    >
-      {status}
-    </button>
-  ))}
-</div>
-          </div> 
-          
-          <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-          
-          {displayJobs.length > 0 ? (
-            <JobList 
-              jobs={displayJobs} 
-              onDelete={deleteJob} 
-              onEdit={editJob} 
-            />
-          ) : (
-            <div className="empty-ledger-state">
-              <div className="empty-icon">{searchTerm ? "🔍" : "🖋️"}</div>
-              <h3>{searchTerm ? "No Matches Found" : "The Ledger is Empty"}</h3>
-              <p>{searchTerm ? "Adjust your search to find a record." : "Every great career move begins with a single entry."}</p>
-              
-              {searchTerm ? (
-                <button onClick={() => setSearchTerm("")} className="reset-filter-btn">
-                  Clear Search
-                </button>
-              ) : statusFilter !== "All" ? (
-                <button onClick={() => setStatusFilter("All")} className="reset-filter-btn">
-                  Back to Full Ledger
-                </button>
-              ) : (
-                <button onClick={scrollToForm} className="reset-filter-btn">
-                  Initialize First Entry
-                </button>
-              )}
-            </div>
-          )}
-        </section>
-
-        <Footer />
+        <Routes>
+          <Route 
+            path="/" 
+            element={
+              user ? <Navigate to="/dashboard" replace /> : <AuthPage onLogin={() => setUser(auth.currentUser)} onGuestLogin={handleGuestLogin} />
+            } 
+          />
+          <Route 
+            path="/dashboard" 
+            element={
+              user ? (
+                <AuthenticatedLayout 
+                  user={user}
+                  isGuest={isGuest}
+                  jobs={jobs}
+                  setJobs={setJobs}
+                  statusFilter={statusFilter}
+                  setStatusFilter={setStatusFilter}
+                  searchTerm={searchTerm}
+                  setSearchTerm={setSearchTerm}
+                  showSettings={showSettings}
+                  setShowSettings={setShowSettings}
+                  handleGuestLogin={handleGuestLogin}
+                  resetGuestData={resetGuestData}
+                />
+              ) : <Navigate to="/" replace />
+            } 
+          />
+        </Routes>
       </div>
     </ErrorBoundary>
   );

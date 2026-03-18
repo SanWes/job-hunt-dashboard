@@ -19,6 +19,16 @@
     display: block; 
 }
 
+.welcome-subtitle {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-align: right;
+  margin-bottom: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
 .status-dashboard {
     display: flex;
     gap: 15px;

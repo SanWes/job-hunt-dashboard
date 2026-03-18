@@ -18,19 +18,17 @@
 
 .header-container {
   display: grid;
-  /* 3 Columns: Left(1fr), Center(auto), Right(1fr) ensures perfect centering */
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   padding: 10px 24px;
 }
 
-/* --- LOGO & BRAND (Centered) --- */
+/* --- LOGO & BRAND (Left) --- */
 .brand-group {
-  grid-column: 2; /* Explicitly placed in the middle column */
+  grid-column: 1;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: 15px;
 }
 
 .logo-wrapper {
@@ -43,6 +41,7 @@
   align-items: center;
   justify-content: center;
   overflow: hidden; 
+  cursor: pointer;
 }
 
 .logo-wrapper img {
@@ -54,7 +53,7 @@
 
 .ledger-title {
   font-family: 'Inter', sans-serif;
-  font-size: 1.1rem; /* Slightly smaller for better fit */
+  font-size: 1.1rem;
   font-weight: 900;
   letter-spacing: 4px;
   color: #ffffff; 
@@ -67,9 +66,9 @@
 .nav-toggle { display: none; }
 
 .burger-label {
-  grid-column: 3; /* Placed in the right column */
+  grid-column: 3;
   justify-self: end;
-  display: none; /* Hidden on Desktop */
+  display: none;
   cursor: pointer;
   padding: 10px;
   z-index: 4000;
@@ -100,14 +99,18 @@
 
 /* --- DESKTOP NAVIGATION --- */
 .nav-and-actions {
-  grid-column: 3; /* Placed in the right column */
+  grid-column: 3;
   justify-self: end;
   display: flex;
   align-items: center;
   gap: 20px;
 }
 
-.header-nav { display: flex; gap: 15px; }
+.header-nav { 
+  display: flex; 
+  gap: 15px; 
+  align-items: center;
+}
 
 .nav-link {
   text-decoration: none;
@@ -137,6 +140,81 @@
   font-weight: 900;
   text-transform: uppercase;
   cursor: pointer;
+  margin-left: 10px;
+}
+
+.search-container {
+  position: relative;
+  flex: 0 1 300px;
+  max-width: 250px;
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 15px;
+  background: #1a1614;
+  border: 1px solid rgba(243, 156, 18, 0.3);
+  border-radius: 6px;
+  color: white;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #f39c12;
+  box-shadow: 0 0 10px rgba(243, 156, 18, 0.2);
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.welcome-message {
+  color: rgba(243, 156, 18, 0.8);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-right: 20px;
+  white-space: nowrap;
+}
+
+.reset-demo-btn {
+  background: transparent;
+  border: 1px solid rgba(243, 156, 18, 0.5);
+  color: rgba(243, 156, 18, 0.8);
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+
+.reset-demo-btn:hover {
+  background: rgba(243, 156, 18, 0.1);
+  border-color: #f39c12;
+  color: #f39c12;
+}
+
+.guest-login-btn {
+  background: #6c757d;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  margin-left: 10px;
+}
+
+.guest-login-btn:hover {
+  background: #5a6268;
 }
 
 /* --- MOBILE RESPONSIVE --- */

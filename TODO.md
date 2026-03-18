@@ -83,3 +83,91 @@
 - [X] Retrieve displayName from auth state in Dashboard.
 
 - [X] Display: <h1>Welcome, [Username]!</h1> greeting.
+
+## Phase 5: Sandbox & Profile Management
+
+### Task 1: Guest Sandbox & Security
+
+- [X] Use GUEST_MOCK_JOBS from src/utils/mockData.js.
+
+- [X] Implement handleGuestLogin and resetGuestData (batch-delete/insert).
+
+- [X] CRITICAL: In Settings UI, disable or hide "Change Username" and "Change Password" options if logged-in user is guest@theledger.com to prevent account lockout.
+
+- [X] Enable full CRUD operations for guest users (Add, Edit, Delete jobs).
+
+- [X] Guest operations use local state only (no Firebase calls).
+
+- [X] Reset button remains the only way to restore mock data state.
+
+- [X] Fix guest delete bug to target only specific job ID.
+
+### Task 2: Profile Management (For Regular Users)
+
+- [X] Create a "Settings" section for updating Username and Password.
+
+- [X] Use updateProfile for username and updatePassword for password.
+
+- [X] Implement validation (8+ chars, 1 number, 1 special char).
+
+- [X] Apply existing app styles to Settings component with glass morphism effect.
+
+- [X] Guest users see message to create account for profile access.
+
+- [X] Convert Settings to modal/slide-over panel triggered from navigation.
+
+### Task 3: Forgot Password (Login Page)
+
+- [X] Add a "Forgot Password?" link on the Login form.
+
+- [X] When clicked, it should prompt for an email and call sendPasswordResetEmail from firebase/auth.
+
+- [X] Show a success message: "Check your inbox for a reset link!"
+
+- [X] Style Forgot Password modal to match ledger theme with proper typography.
+
+- [X] Handle Firebase auth errors appropriately.
+
+### Task 4: Dashboard & UI
+
+- [X] Add a "Reset Demo Data" button ONLY for the guest.
+
+- [X] Shrink the "Welcome" message if jobs.length > 0.
+
+- [X] Fix welcome message logic: subtle right-aligned subtitle when jobs exist.
+
+- [X] Use position and dateAdded (String format).
+
+- [X] Functional logic only (no CSS).
+
+- [X] Reset button immediately reflects 4 mock jobs without manual refresh.
+
+- [X] Guest login button integrated into header with search functionality.
+
+- [X] All linting errors resolved for clean codebase.
+
+### Task 5: Final UI/UX Refinements
+
+- [X] Implement conditional navbar rendering (Guest Login vs Reset Demo vs Settings).
+
+- [X] Add Settings link to navigation for regular users.
+
+- [X] Move welcome message to navbar (desktop) and hamburger top (mobile).
+
+- [X] Refine search bar styling with darker background and gold focus border.
+
+- [X] Apply gold-outline aesthetic to all navigation buttons.
+
+- [X] Guest users see disabled Save buttons with restriction notice in Settings modal.
+
+- [X] Remove large Settings section from main page.
+
+- [X] Maintain Strategic Intelligence Overview as primary focal point.
+
+- [X] Fix logout redirect to landing page after signOut.
+
+- [X] Fix navbar layout with proper flexbox alignment.
+
+- [X] Add logo click functionality for dashboard navigation.
+
+- [X] Ensure proper route protection after logout.

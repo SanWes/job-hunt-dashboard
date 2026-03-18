@@ -24,7 +24,11 @@ const StatusDashboard = ({ jobs, setStatusFilter, activeFilter, user }) => {
   return (
     <div className="status-dashboard-wrapper">
       <div className="dashboard-label">Strategic Intelligence Overview</div>
-      <h1 className="welcome-greeting">Welcome, {displayName}!</h1>
+      {jobs.length > 0 && (
+        <div className="welcome-subtitle">
+          Welcome, {displayName}
+        </div>
+      )}
       <div className="status-dashboard">
         {stats.map((stat) => (
           <div 

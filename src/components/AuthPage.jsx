@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, sendPasswordResetEmail } from "firebase/auth";
 import { createUserDocument } from "../firebase/userHelpers";
 import { validateUsername, validateEmail, validatePassword } from "../utils/validators";
 import "./../styles/AuthPage.css";
 
-const WelcomePage = ({ onLogin }) => {
+const AuthPage = ({ onLogin, onGuestLogin }) => {
     const auth = getAuth();
     const [isOpened, setIsOpened] = useState(false); // Book cover state
     const [isSignup, setIsSignup] = useState(false);
@@ -12,6 +12,30 @@ const WelcomePage = ({ onLogin }) => {
     const [password, setPassword] = useState("");
     const [username, setUsername] = useState("");
     const [error, setError] = useState("");
+    const [showForgotPassword, setShowForgotPassword] = useState(false);
+    const [resetEmail, setResetEmail] = useState("");
+    const [resetSuccess, setResetSuccess] = useState(false);
+
+    const handleForgotPassword = async () => {
+        setError("");
+        if (!resetEmail) {
+            setError('Please enter your email address');
+            return;
+        }
+        
+        const emailError = validateEmail(resetEmail);
+        if (emailError) {
+            setError(emailError);
+            return;
+        }
+        
+        try {
+            await sendPasswordResetEmail(auth, resetEmail);
+            setResetSuccess(true);
+        } catch (err) {
+            setError(err.message.replace('Firebase: ', ''));
+        }
+    };
 
     const validateForm = () => {
         const emailError = validateEmail(email);
@@ -123,48 +147,102 @@ const WelcomePage = ({ onLogin }) => {
                     </p>
 
                     {error && <div className="auth-error-msg">{error}</div>}
-
-                    <form onSubmit={handleSubmit} className="auth-form">
-                        {isSignup && (
-                            <div className="ledger-group">
-                                <label>USERNAME</label>
-                                <input
-                                    type="text"
-                                    className="ledger-input"
-                                    placeholder="Choose a username"
-                                    required
-                                    value={username}
-                                    onChange={(e) => setUsername(e.target.value)}
-                                />
+                    
+                    {resetSuccess ? (
+                        <div className="auth-success-msg">
+                            Check your inbox for a reset link!
+                        </div>
+                    ) : (
+                        <>
+                            {!isSignup && (
+                                <div className="forgot-password-link">
+                                    <span onClick={() => setShowForgotPassword(true)}>
+                                        Forgot Password?
+                                    </span>
+                                </div>
+                            )}
+                            
+                            <form onSubmit={handleSubmit} className="auth-form">
+                                {isSignup && (
+                                    <div className="ledger-group">
+                                        <label>USERNAME</label>
+                                        <input
+                                            type="text"
+                                            className="ledger-input"
+                                            placeholder="Choose a username"
+                                            required
+                                            value={username}
+                                            onChange={(e) => setUsername(e.target.value)}
+                                        />
+                                    </div>
+                                )}
+                                <div className="ledger-group">
+                                    <label>IDENTIFIER</label>
+                                    <input
+                                        type="email"
+                                        className="ledger-input"
+                                        placeholder="Email Address"
+                                        required
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                    />
+                                </div>
+                                <div className="ledger-group">
+                                    <label>PASSCODE</label>
+                                    <input
+                                        type="password"
+                                        className="ledger-input"
+                                        placeholder="••••••••"
+                                        required
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                    />
+                                </div>
+                                <button type="submit" className="ledger-submit-btn">
+                                    {isSignup ? "INITIALIZE LEDGER" : "AUTHORIZE ACCESS"}
+                                </button>
+                                {!isSignup && (
+                                    <button type="button" className="ledger-guest-btn" onClick={onGuestLogin}>
+                                        GUEST ACCESS (DEMO MODE)
+                                    </button>
+                                )}
+                            </form>
+                        </>
+                    )}
+                    
+                    {showForgotPassword && (
+                        <div className="forgot-password-modal">
+                            <div className="modal-content ledger-card">
+                                <h3 className="modal-title">Reset Password</h3>
+                                <p className="modal-subtitle">Enter your email address to receive a password reset link.</p>
+                                <div className="ledger-group">
+                                    <label>EMAIL ADDRESS</label>
+                                    <input
+                                        type="email"
+                                        className="ledger-input"
+                                        placeholder="Email Address"
+                                        required
+                                        value={resetEmail}
+                                        onChange={(e) => setResetEmail(e.target.value)}
+                                    />
+                                </div>
+                                <div className="button-group">
+                                    <button onClick={handleForgotPassword} className="ledger-submit-btn">
+                                        SEND RESET EMAIL
+                                    </button>
+                                    <button onClick={() => { setShowForgotPassword(false); setResetEmail(""); setResetSuccess(false); }} className="ledger-cancel-btn">
+                                        CANCEL
+                                    </button>
+                                </div>
+                                {resetSuccess && (
+                                    <div className="auth-success-msg">
+                                        Check your inbox for a reset link!
+                                    </div>
+                                )}
                             </div>
-                        )}
-                        <div className="ledger-group">
-                            <label>IDENTIFIER</label>
-                            <input
-                                type="email"
-                                className="ledger-input"
-                                placeholder="Email Address"
-                                required
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
                         </div>
-                        <div className="ledger-group">
-                            <label>PASSCODE</label>
-                            <input
-                                type="password"
-                                className="ledger-input"
-                                placeholder="••••••••"
-                                required
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                        </div>
-                        <button type="submit" className="ledger-submit-btn">
-                            {isSignup ? "INITIALIZE LEDGER" : "AUTHORIZE ACCESS"}
-                        </button>
-                    </form>
-
+                    )}
+                    
                     <p className="auth-switch-text">
                         {isSignup ? "Existing record found?" : "No credentials found?"}{" "}
                         <span onClick={() => { setIsSignup(!isSignup); setError(""); setUsername(""); }}>
@@ -177,4 +255,4 @@ const WelcomePage = ({ onLogin }) => {
     );
 };
 
-export default WelcomePage;
+export default AuthPage;
