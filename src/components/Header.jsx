@@ -110,7 +110,7 @@ const Header = ({ searchTerm, setSearchTerm, onGuestLogin, user, isGuest, onSett
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="search-input"
-              style={{ color: '#1a1a1a' }}
+              style={{ color: '#000000', backgroundColor: '#ffffff' }}
             />
           </div>
 

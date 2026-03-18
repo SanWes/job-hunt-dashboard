@@ -22,7 +22,7 @@ import {
 import { onAuthStateChanged } from "firebase/auth";
 import SearchBar from "./components/SearchBar";
 
-const AuthenticatedLayout = ({ user, isGuest, jobs, setJobs, statusFilter, setStatusFilter, searchTerm, setSearchTerm, showSettings, setShowSettings, handleGuestLogin, resetGuestData }) => (
+const AuthenticatedLayout = ({ user, isGuest, jobs, setJobs, statusFilter, setStatusFilter, searchTerm, setSearchTerm, showSettings, setShowSettings, handleGuestLogin, resetGuestData, onGuestLogout }) => (
   <>
     <Header 
       searchTerm={searchTerm} 
@@ -31,6 +31,7 @@ const AuthenticatedLayout = ({ user, isGuest, jobs, setJobs, statusFilter, setSt
       user={user}
       isGuest={isGuest}
       onSettingsOpen={() => setShowSettings(true)}
+      onGuestLogout={onGuestLogout}
     />
 
     <StatusDashboard jobs={jobs} setStatusFilter={setStatusFilter} user={user} />
@@ -115,7 +116,6 @@ const AuthenticatedLayout = ({ user, isGuest, jobs, setJobs, statusFilter, setSt
           }} 
           onEdit={(id, updatedPosition, updatedCompany, updatedStatus, updatedJobLink, updatedNotes) => {
             const updatedJob = { 
-              id: String(id),
               position: updatedPosition, 
               company: updatedCompany, 
               status: updatedStatus, 
@@ -124,11 +124,11 @@ const AuthenticatedLayout = ({ user, isGuest, jobs, setJobs, statusFilter, setSt
               lastUpdated: formatLastUpdated()
             };
             if (isGuest) {
-              setJobs((prevJobs) => prevJobs.map((job) => String(job.id) === String(id) ? updatedJob : job));
+              setJobs((prevJobs) => prevJobs.map((job) => String(job.id) === String(id) ? { ...job, ...updatedJob } : job));
               return;
             }
             updateJobInFirestore(id, updatedJob, user.uid).then(() => {
-              setJobs((prevJobs) => prevJobs.map((job) => String(job.id) === String(id) ? updatedJob : job));
+              setJobs((prevJobs) => prevJobs.map((job) => String(job.id) === String(id) ? { ...job, ...updatedJob } : job));
             });
           }} 
         />
