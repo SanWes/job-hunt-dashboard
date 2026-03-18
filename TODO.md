@@ -1,22 +1,49 @@
-# User-Centric Sub-collection Migration TODO
+# 🎯 CURRENT MISSION (Active/In-Progress Tasks)
 
-## firebaseHelpers.js Updates
-- [X] Update `getJobs` function signature to accept `userId`
-- [X] Update `getJobs` collection path to `/users/${userId}/jobs`
-- [X] Update `addJob` function signature to accept `userId`
-- [X] Update `addJob` collection path to `/users/${userId}/jobs`
-- [X] Update `updateJob` function signature to accept `userId`
-- [X] Update `updateJob` document path to `/users/${userId}/jobs/${id}`
-- [X] Update `deleteJob` function signature to accept `userId`
-- [X] Update `deleteJob` document path to `/users/${userId}/jobs/${id}`
+*All current Phase 6 tasks completed. Ready for next development phase.*
 
-## App.jsx Integration Updates
-- [X] Update `getJobs()` call to `getJobs(user.uid)` in useEffect
-- [X] Update `addJobToFirestore(formattedJob)` to `addJobToFirestore(formattedJob, user.uid)`
-- [X] Update `deleteJobFromFirestore(jobId)` to `deleteJobFromFirestore(jobId, user.uid)`
-- [X] Update `updateJobInFirestore(id, updatedJob)` to `updateJobInFirestore(id, updatedJob, user.uid)`
+# ✅ COMPLETED ENTRIES (Archived/Finished Tasks)
 
-## Security Rules Implementation
+## Phase 1: Core Foundation
+- [X] Firebase Authentication setup
+- [X] Firestore database structure
+- [X] Basic CRUD operations for jobs
+- [X] User authentication flow
+
+## Phase 2: User Interface
+- [X] React Router navigation
+- [X] Responsive design implementation
+- [X] Component architecture
+- [X] Basic styling and layout
+
+## Phase 3: Data Management
+- [X] Job form validation
+- [X] Search and filter functionality
+- [X] Status dashboard
+- [X] Error handling
+
+## Phase 4: User Personalization
+- [X] Form validation (username, email, password)
+- [X] Profile management settings
+- [X] Forgot password functionality
+- [X] ErrorBoundary component implementation
+
+## Phase 5: Sandbox & Profile Management
+- [X] Guest sandbox with mock data
+- [X] Profile management for regular users
+- [X] Settings modal implementation
+- [X] UI/UX refinements and styling
+
+## Phase 6: Guest Mode Bug Fixes
+- [X] Guest logout functionality
+- [X] Session persistence across refreshes
+- [X] Deletion bug fixes
+- [X] Code stability and linting
+
+## User-Centric Sub-collection Migration
+- [X] Update firebaseHelpers.js functions for userId parameters
+- [X] Update App.jsx integration with user-specific collections
+- [X] Security rules implementation planning
 - [X] Create `firestore.rules` file with user isolation rules
 - [X] Deploy security rules to Firebase project
 - [X] Test multi-user data isolation
@@ -101,6 +128,10 @@
 - [X] Reset button remains the only way to restore mock data state.
 
 - [X] Fix guest delete bug to target only specific job ID.
+
+- [X] **COMPLETED**: Fix Guest Logout - Add handleGuestLogout function and pass to Header component.
+
+- [X] **COMPLETED**: Fix Guest Session Persistence - Add sessionStorage logic for guest mode.
 
 ### Task 2: Profile Management (For Regular Users)
 

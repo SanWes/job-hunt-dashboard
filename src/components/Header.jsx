@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 import OneLogo from "/assets/LedgerLogo.png";
 
-const Header = ({ searchTerm, setSearchTerm, onGuestLogin, user, isGuest, onSettingsOpen }) => {
+const Header = ({ searchTerm, setSearchTerm, onGuestLogin, user, isGuest, onSettingsOpen, onGuestLogout }) => {
   const navigate = useNavigate();
   
   // 1. Create a reference to checkbox
@@ -21,7 +21,13 @@ const Header = ({ searchTerm, setSearchTerm, onGuestLogin, user, isGuest, onSett
 
   const handleLogout = async () => {
     try {
-      await signOut(auth);
+      if (isGuest) {
+        onGuestLogout();
+        navigate("/");
+        return;
+      } else {
+        await signOut(auth);
+      }
       closeMenu();
       navigate("/");
     } catch (error) {

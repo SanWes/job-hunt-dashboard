@@ -106,15 +106,16 @@ const AuthenticatedLayout = ({ user, isGuest, jobs, setJobs, statusFilter, setSt
           })} 
           onDelete={(jobId) => {
             if (isGuest) {
-              setJobs((prevJobs) => prevJobs.filter((job) => job.id !== jobId));
+              setJobs((prevJobs) => prevJobs.filter((job) => String(job.id) !== String(jobId)));
               return;
             }
             deleteJobFromFirestore(jobId, user.uid).then(() => {
-              setJobs((prevJobs) => prevJobs.filter((job) => job.id !== jobId));
+              setJobs((prevJobs) => prevJobs.filter((job) => String(job.id) !== String(jobId)));
             });
           }} 
           onEdit={(id, updatedPosition, updatedCompany, updatedStatus, updatedJobLink, updatedNotes) => {
             const updatedJob = { 
+              id: String(id),
               position: updatedPosition, 
               company: updatedCompany, 
               status: updatedStatus, 
@@ -123,11 +124,11 @@ const AuthenticatedLayout = ({ user, isGuest, jobs, setJobs, statusFilter, setSt
               lastUpdated: formatLastUpdated()
             };
             if (isGuest) {
-              setJobs((prevJobs) => prevJobs.map((job) => (job.id === id ? { ...job, ...updatedJob } : job)));
+              setJobs((prevJobs) => prevJobs.map((job) => String(job.id) === String(id) ? updatedJob : job));
               return;
             }
             updateJobInFirestore(id, updatedJob, user.uid).then(() => {
-              setJobs((prevJobs) => prevJobs.map((job) => (job.id === id ? { ...job, ...updatedJob } : job)));
+              setJobs((prevJobs) => prevJobs.map((job) => String(job.id) === String(id) ? updatedJob : job));
             });
           }} 
         />
@@ -161,6 +162,24 @@ function App() {
     });
     return unsubscribe;
   }, []);
+
+  // Check for guest session on app mount
+  useEffect(() => {
+    const savedGuestMode = sessionStorage.getItem('guestMode');
+    if (!savedGuestMode || user || isGuest) return;
+    if (savedGuestMode === 'true') {
+      handleGuestLogin(); // Restore guest session
+    }
+  }, [user, isGuest]);
+
+  // Store guest state in sessionStorage when guest login occurs
+  useEffect(() => {
+    if (isGuest) {
+      sessionStorage.setItem('guestMode', 'true');
+    } else {
+      sessionStorage.removeItem('guestMode');
+    }
+  }, [isGuest]);
 
   useEffect(() => {
     if (!user) return;
@@ -197,6 +216,13 @@ function App() {
     setIsGuest(true);
   };
 
+  const handleGuestLogout = () => {
+    sessionStorage.removeItem('guestMode');
+    setIsGuest(false);
+    setUser(null);
+    setJobs([]);
+  };
+
   const resetGuestData = () => {
     setJobs(GUEST_MOCK_JOBS);
   };
@@ -228,6 +254,7 @@ function App() {
                   setShowSettings={setShowSettings}
                   handleGuestLogin={handleGuestLogin}
                   resetGuestData={resetGuestData}
+                  onGuestLogout={handleGuestLogout}
                 />
               ) : <Navigate to="/" replace />
             } 
