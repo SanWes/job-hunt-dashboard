@@ -2,81 +2,62 @@
 
 **"Where every opportunity is an entry Committed to the Ledger."**
 
-**THE LEDGER** is a production-ready job application registry built with **React**, **Vite**, and **Firebase Firestore**. It transforms the chaos of a job search into a structured, real-time intelligence operation.
+**THE LEDGER** is a high-performance, production-ready job application registry. Built with **React**, **Vite**, and **Firebase**, it transforms the fragmented chaos of a job search into a structured, real-time intelligence operation. 
 
 🌐 **Live Terminal:** [https://job-ledger.netlify.app/](https://job-ledger.netlify.app/)  
 📦 **Repository:** [https://github.com/SanWes/job-hunt-dashboard](https://github.com/SanWes/job-hunt-dashboard)
 
 ---
 
-## 🧭 Project Overview
+## 🎯 The Mission
+In a high-volume job market, signal-to-noise ratio is everything. **The Ledger** provides a centralized "Command Center" for professionals to track applications, manage interview intelligence, and monitor their career pipeline with zero latency.
 
-THE LEDGER enables users to:
-
-- Maintain a centralized **Manifest** of job applications  
-- Track each **Entity** (Company) and **Function** (Role)  
-- Record structured **Strategic Observations** (interview notes, compensation, technical benchmarks)  
-- Update application lifecycle status in real time  
-- Filter and isolate opportunities instantly  
-
-This project demonstrates real-world full-stack architecture, Firestore integration, state-driven UI updates, and production deployment practices.
+### **Key Operational Features**
+* **Zero-Barrier Guest Mode:** Full CRUD capability and data persistence for guest users via `sessionStorage`. Recruiters can test the entire system without creating an account.
+* **Secure Authentication:** Integrated **Firebase Auth** with personalized dossiers ("{User}'s Ledger") for registered agents.
+* **Real-Time Sync:** Bi-directional synchronization between local React state and **Firestore** NoSQL cloud storage.
+* **Responsive Tactical UI:** A mobile-first header with a custom hamburger menu and high-contrast search visibility for field use.
+* **Strategic Observations:** Expanded detail views for technical benchmarks, compensation data, and culture intel.
 
 ---
 
 ## 🛠️ Tech Stack
 
-### Frontend
-- **React:** Functional components & hooks (useState, useEffect).
-- **Vite:** Modern build tooling for high-speed development.
-- **Custom CSS:** Modular, tactical styling with advanced layout logic.
+### **Frontend**
+- **React (Vite):** Functional components utilizing Hooks (`useState`, `useEffect`, `useRef`) for optimized renders.
+- **React Router:** Declarative routing with **SPA Redirect** handling for production stability.
+- **Custom CSS:** Modular, tactical styling using advanced Flexbox/Grid logic and `@keyframes` for haptic feedback.
 
-### Backend / Cloud
-- **Firebase Firestore:** NoSQL cloud database for real-time data persistence.
-- **Security:** Environment variable configuration and defensive error handling.
+### **Backend / Cloud**
+- **Firebase Firestore:** Real-time NoSQL database management.
+- **Firebase Auth:** User-scoped data isolation and secure session handling.
 
-### Deployment
-- **Netlify:** CI/CD workflow + hosting via automated builds.
-
----
-
-## 🧱 Architecture Highlights & Challenges
-
-### **High-Performance Architecture**
-* **Persistence Layer:** Integrated **Google Firestore** for real-time data persistence, utilizing asynchronous `getDocs` and `addDoc` methods to maintain a live cloud-synced manifest.
-* **State Management:** Local React state acts as a buffer for the Firestore data, ensuring zero-latency UI updates while background synchronization completes.
-* **Environment Security:** Secured sensitive API keys and database credentials via Vite-specific environment variables (`.env`) to prevent exposure in version control.
-
-
-
-### **🛠️ Technical Challenges Overcome**
-* **The "Unbreakable String" Problem (UI Integrity):** Long continuous strings (specifically Job URLs) were bypassing standard CSS wrapping rules, causing flex containers to overflow. I engineered a **Defensive UI Layout** using `min-width: 0` and `word-break: break-all` to ensure the "Ledger" grid maintains its structural integrity regardless of input length.
-* **Tactical Feedback Systems:** To avoid immersion-breaking standard browser alerts, I developed a custom **Haptic UI Feedback** system. This includes the `@keyframes stamp-in` animation for successful commits and a "System Shiver" effect for data destruction (Shredding), reinforcing the terminal’s analog aesthetic.
+### **Deployment**
+- **Netlify:** Automated CI/CD pipeline with custom `_redirects` configuration to manage Single Page Application (SPA) routing on refresh.
 
 ---
 
-## 🎯 Operational Features
+## 🧱 Technical Architecture & Engineering Wins
 
-### 🏢 Entity & Function Tracking
-Each entry captures the **Entity** (Company) and **Function** (Role), mapped directly to the application’s lifecycle state for immediate situational awareness.
+### **1. Persistence & State Synchronization**
+Implemented a dual-layer persistence strategy. For registered users, data is synced to **Firestore**; for guest users, the system utilizes a **State-to-SessionStorage** bridge. This ensures that a browser refresh never results in data loss, maintaining a seamless "Production-Grade" feel.
 
-### 🔎 Signal Filtering
-Real-time search filtering logic allows users to isolate specific registry nodes instantly based on alphanumeric input, filtering through the Manifest without page refreshes.
+### **2. Defensive UI Engineering (The "Unbreakable String")**
+Solved overflow issues caused by long continuous strings (e.g., Job URLs) by engineering a **Defensive Layout** using `min-width: 0` and `word-break: break-all`. This ensures structural integrity across all device sizes.
 
-### 📝 Strategic Observations
-An expandable detail view designed for deep-dive intelligence gathering, supporting:
-* **Interview Notes & Compensation:** Tracking high-level financial and logistical data.
-* **Technical Benchmarks:** Documentation of required tech stacks and assessment results.
-* **General Observations:** Free-form intel on company culture and contact points.
+### **3. Surgical State Management**
+Refined update logic using the **Spread Operator** (`{ ...job, ...updatedJob }`) to prevent data regression. This ensures metadata like the `dateAdded` remains immutable while allowing specific fields to be updated surgically.
 
-### 🛡️ System Integrity Controls
-Integrated validation logic acts as a "Pre-Commit" check, ensuring that all required parameters are strictly enforced before data is authorized for the Ledger.
+### **4. Production Routing (The 404 Fix)**
+Configured custom server-side redirects (`_redirects`) to intercept 404 errors on Netlify, ensuring that deep-linked paths (like `/dashboard`) correctly hand off to the React Router client-side engine.
+
 ---
 
 ## 🏁 System Initialization (Local Setup)
 
 ### 1️⃣ Clone the Repository
 ```bash
-git clone [https://github.com/SanWes/job-hunt-dashboard.git](https://github.com/SanWes/job-hunt-dashboard.git)
+git clone https://github.com/SanWes/job-hunt-dashboard.git
 cd job-hunt-dashboard
 ```
 
@@ -111,49 +92,21 @@ VITE_FIREBASE_APP_ID=your_app_id
 npm run dev
 ```
 
-Visit:
-
-```
-http://localhost:5173
-```
-
----
-
-## 📄 Operational Usage
-
-- **Initialize Entry**  
-  Use the `INITIATE REGISTRY` header to open the intake form.
-
-- **Commit Data**  
-  Execute `COMMIT TO LEDGER` to finalize a record in the Manifest.
-
-- **Manage Records**  
-  Expand registry nodes to review Strategic Observations or “Shred” entries.
-
-- **Monitor Status**  
-  Track lifecycle transitions from `Filed` → `Active` → `Secured` → `Archived`.
-
 ---
 
 ## 🧠 Engineering Skills Demonstrated
 
-- Cloud database integration (Firestore)
-- Environment-based configuration management
-- Asynchronous state handling
-- Controlled form architecture
-- Real-time filtering logic
-- Defensive validation and UI feedback systems
-- Production deployment workflow
-- Clean Git version control practices
+- Full-Stack Integration: Seamlessly connecting a React frontend to a Firebase backend.
+- Asynchronous Flow: Handling complex API calls with robust error boundaries.
+- UX Empathy: Implementing smooth-scroll, confirmation guards, and high-contrast accessibility.
+- Clean Code Practices: Modular component architecture and descriptive Git version control.
 
 ---
 
 ## 🚀 Future Directives
 
-- 🔐 **Deep Auth Integration**: Transitioning from global manifest access to **Row-Level Security (RLS)**. Utilizing **Firebase Auth UIDs** to architect isolated, user-scoped dossiers.
-- 📊 **Data Portability**: Implementation of a **CSV Export Engine** to allow users to extract Manifest data for external auditing and physical backup.
-- 🗂️ **Advanced Signal Processing**: Integration of multi-parameter filtering and relational sorting to manage high-volume opportunity pipelines.
-- 📱 **Mobile Field Access**: Optimization of the tactical UI for handheld devices, ensuring the Ledger remains responsive for real-time updates during on-site "interviews."
+- 📊 **Data Portability**: Implementation of a **CSV/JSON Export Engine** to allow users to extract Manifest data for external auditing and physical backup.
+- 📱 **Focus Mode**: CSS Scroll Snapping for one-at-a-time entry review on mobile.
 
 ---
 
