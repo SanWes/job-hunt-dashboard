@@ -32,6 +32,7 @@ const AuthenticatedLayout = ({ user, isGuest, jobs, setJobs, statusFilter, setSt
       isGuest={isGuest}
       onSettingsOpen={() => setShowSettings(true)}
       onGuestLogout={onGuestLogout}
+      onResetDemo={resetGuestData}
     />
 
     <StatusDashboard jobs={jobs} setStatusFilter={setStatusFilter} user={user} />
@@ -232,8 +233,18 @@ function App() {
   };
 
   const resetGuestData = () => {
+    const confirmReset = window.confirm("Are you sure? This will revert the Ledger to the original demo data.");
+  
+  if (confirmReset) {
     setJobs(GUEST_MOCK_JOBS);
-  };
+    
+    // 2. Existing scroll logic
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
+};
 
   return (
     <ErrorBoundary>

@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 import OneLogo from "/assets/LedgerLogo.png";
 
-const Header = ({ searchTerm, setSearchTerm, onGuestLogin, user, isGuest, onSettingsOpen, onGuestLogout }) => {
+const Header = ({ searchTerm, setSearchTerm, onGuestLogin, user, isGuest, onSettingsOpen, onGuestLogout, onResetDemo }) => {
   const navigate = useNavigate();
   
   // 1. Create a reference to checkbox
@@ -90,7 +90,7 @@ const Header = ({ searchTerm, setSearchTerm, onGuestLogin, user, isGuest, onSett
             )}
             
             {isGuest && (
-              <button className="reset-demo-btn" onClick={onGuestLogin}>
+              <button className="reset-demo-btn" onClick={() => { closeMenu(); onResetDemo(); }}>
                 Reset Demo
               </button>
             )}
@@ -99,7 +99,7 @@ const Header = ({ searchTerm, setSearchTerm, onGuestLogin, user, isGuest, onSett
           {/* Welcome message in desktop nav */}
           {!isGuest && user && (
             <div className="welcome-message">
-              Welcome, {displayName}
+              Welcome, {displayName}!
             </div>
           )}
           
