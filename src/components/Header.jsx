@@ -99,7 +99,7 @@ const Header = ({ searchTerm, setSearchTerm, onGuestLogin, user, isGuest, onSett
           {/* Welcome message in desktop nav */}
           {!isGuest && user && (
             <div className="welcome-message">
-              Welcome, {displayName}!
+              {displayName}'s Ledger
             </div>
           )}
           

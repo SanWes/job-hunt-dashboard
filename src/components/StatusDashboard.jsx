@@ -26,7 +26,7 @@ const StatusDashboard = ({ jobs, setStatusFilter, activeFilter, user }) => {
       <div className="dashboard-label">Strategic Intelligence Overview</div>
       {jobs.length > 0 && (
         <div className="welcome-subtitle">
-          Welcome, {displayName}
+          Welcome, {displayName} !
         </div>
       )}
       <div className="status-dashboard">
