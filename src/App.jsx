@@ -217,7 +217,7 @@ function App() {
     setUser({
       uid: 'guest-user',
       email: 'guest@theledger.com',
-      displayName: 'Guest Ledger'
+      displayName: 'Ledger Demo'
     });
     setJobs(jobsToLoad);
     setIsGuest(true);
