@@ -23,7 +23,7 @@ export const GUEST_MOCK_JOBS = [
     id: "guest-3",
     company: "Palantir",
     position: "Forward Deployed Engineer",
-    status: "Applied",
+    status: "Filed",
     dateAdded: "Mar 10, 2026",
     jobLink: "https://palantir.com/careers",
     notes: ["High interest in Foundry integration.", "Reviewing Gotham documentation."]
